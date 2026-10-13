@@ -25,7 +25,7 @@ export class Deribit {
     idleTimeoutMs = 60_000,
     fetch: fetchImpl = globalThis.fetch,
     WebSocket: WebSocketImpl,
-    clientName = { client_name: 'deribit-mcp-client', client_version: '0.1.0' },
+    clientName = { client_name: 'deribit-client-js', client_version: '0.1.0' },
   } = {}) {
     const host = HOSTS[env];
     if (!host) throw new Error(`env must be one of ${Object.keys(HOSTS).join(', ')}`);

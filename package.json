@@ -1,8 +1,20 @@
 {
-  "name": "@deribit-mcp/client",
+  "name": "deribit-client-js",
   "version": "0.1.0",
-  "private": true,
-  "description": "Deribit JSON-RPC client generated from Deribit's published OpenAPI and AsyncAPI specs",
+  "private": false,
+  "description": "Deribit JSON-RPC client for JavaScript/TypeScript, generated from Deribit's published OpenAPI and AsyncAPI specs",
+  "keywords": [
+    "deribit",
+    "crypto",
+    "options",
+    "json-rpc",
+    "websocket",
+    "openapi"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azhang/deribit-client-js.git"
+  },
   "type": "module",
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -12,7 +24,9 @@
       "default": "./src/index.js"
     }
   },
-  "files": ["src"],
+  "files": [
+    "src"
+  ],
   "engines": {
     "node": ">=22"
   },

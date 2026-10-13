@@ -1,18 +1,28 @@
-# @deribit-mcp/client (prototype)
+# deribit-client-js
 
 A Deribit JSON-RPC client generated from Deribit's published specs:
 
 - [`deribit_openapi.json`](https://docs.deribit.com/specifications/deribit_openapi.json): 186 methods (48 public, 138 private)
 - [`deribit_asyncapi.json`](https://docs.deribit.com/specifications/deribit_asyncapi.json): 43 subscription channels
 
-Copies are kept in `spec/`, and `npm run check-spec` reports when the published versions change.
+Copies are kept in `spec/`. A weekly CI job checks the published versions and opens a PR when they change.
+
+## Install
+
+From GitHub (no npm registry needed):
+
+```bash
+npm i github:azhang/deribit-client-js#v0.1.0
+```
+
+Or copy `src/` into your project. Everything generated is committed, so there's no build step.
 
 The package has no runtime dependencies. It uses the global `fetch` and `WebSocket`, so it runs on Node 22+, Cloudflare Workers, Deno and Bun.
 
 ## Use
 
 ```js
-import { Deribit } from '@deribit-mcp/client';
+import { Deribit } from 'deribit-client-js';
 
 const d = new Deribit();                                   // production, public only
 const t = await d.public.ticker({ instrument_name: 'BTC-PERPETUAL' });
