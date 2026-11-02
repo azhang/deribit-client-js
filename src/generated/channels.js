@@ -20,7 +20,7 @@ export const channels = {
   "summary": "Real-time notifications for Block RFQs (Request for Quotes) that are available for the subscribed maker to respond to.",
   "params": {
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -42,7 +42,7 @@ export const channels = {
   "summary": "Get notifications about the state of your Block RFQ quotes.",
   "params": {
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -64,7 +64,7 @@ export const channels = {
   "summary": "Get notifications about the state of your Block RFQ.",
   "params": {
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -86,7 +86,7 @@ export const channels = {
   "summary": "Get notifications about recent Block RFQ trades.",
   "params": {
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -118,7 +118,7 @@ export const channels = {
   "summary": "Provides notifications regarding block trade approval.",
   "params": {
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -140,10 +140,10 @@ export const channels = {
   "summary": "Aggregated order book updates for a specific instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "group": {
-    "description": "Group prices (by rounding). Use `none` for no grouping. For ETH cryptocurrency, the real `group` is divided by `100.0`. Example: a value of `5` means using `0.05`. Allowed values: - BTC: `none`, `1`, `2`, `5`, `10` - ETH: `none`, `5`, `10`, `25`, `100`, `250` **Allowed values:** `none`, `1`, `2`, `5`, `10`, `25`, `100`, `250`",
+    "description": "Group prices (by rounding). Use `none` for no grouping. For ETH cryptocurrency, the real `group` is divided by `100.0`. Example: a value of `5` means using `0.05`. Allowed values: - BTC: `none`, `1`, `2`, `5`, `10` - ETH: `none`, `5`, `10`, `25`, `100`, `250`",
     "enum": [
      "none",
      "1",
@@ -156,7 +156,7 @@ export const channels = {
     ]
    },
    "depth": {
-    "description": "Number of price levels to be included **Allowed values:** `1`, `10`, `20`",
+    "description": "Number of price levels to be included.",
     "enum": [
      "1",
      "10",
@@ -164,9 +164,8 @@ export const channels = {
     ]
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Frequency of notifications. Events will be aggregated over this interval. Allowed values: `100ms`, `agg2`. The `raw` interval is not supported on this channel. For raw order book updates, use `book.{instrument_name}.raw` instead.",
     "enum": [
-     "raw",
      "100ms",
      "agg2"
     ]
@@ -183,10 +182,10 @@ export const channels = {
   "summary": "Real-time order book updates for a specific instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)**",
     "enum": [
      "raw",
      "100ms",
@@ -204,10 +203,10 @@ export const channels = {
   "summary": "Publicly available market data used to generate a TradingView trade candle chart.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "resolution": {
-    "description": "Chart bars resolution given in full minutes or keyword `1D` (only some specific resolutions are supported) **Allowed values:** `1`, `3`, `5`, `10`, `15`, ... (total 12 values)",
+    "description": "Chart bars resolution in minutes, or `1D` / `D` for daily bars.",
     "enum": [
      "1",
      "3",
@@ -220,7 +219,8 @@ export const channels = {
      "180",
      "360",
      "720",
-     "1D"
+     "1D",
+     "D"
     ]
    }
   }
@@ -234,7 +234,7 @@ export const channels = {
   "summary": "Deribit index price updates for the given `index_name` (current index value).",
   "params": {
    "index_name": {
-    "description": "Index identifier, matches (base) cryptocurrency with quote currency **Allowed values:** `btc_usd`, `eth_usd`, `ada_usdc`, `algo_usdc`, `avax_usdc`, ... (total 47 values)",
+    "description": "Index identifier, matches (base) cryptocurrency with quote currency",
     "enum": [
      "btc_usd",
      "eth_usd",
@@ -251,6 +251,7 @@ export const channels = {
      "eurr_usdc",
      "eth_usdc",
      "ethdvol_usdc",
+     "hype_usdc",
      "link_usdc",
      "ltc_usdc",
      "near_usdc",
@@ -296,7 +297,7 @@ export const channels = {
   "summary": "Price ranking updates for the component exchanges used to calculate the Deribit index.",
   "params": {
    "index_name": {
-    "description": "Index identifier, matches (base) cryptocurrency with quote currency **Allowed values:** `btc_usd`, `eth_usd`, `ada_usdc`, `algo_usdc`, `avax_usdc`, ... (total 47 values)",
+    "description": "Index identifier, matches (base) cryptocurrency with quote currency",
     "enum": [
      "btc_usd",
      "eth_usd",
@@ -313,6 +314,7 @@ export const channels = {
      "eurr_usdc",
      "eth_usdc",
      "ethdvol_usdc",
+     "hype_usdc",
      "link_usdc",
      "ltc_usdc",
      "near_usdc",
@@ -358,7 +360,7 @@ export const channels = {
   "summary": "Basic statistics for the Deribit index.",
   "params": {
    "index_name": {
-    "description": "Index identifier, matches (base) cryptocurrency with quote currency **Allowed values:** `btc_usd`, `eth_usd`, `ada_usdc`, `algo_usdc`, `avax_usdc`, ... (total 47 values)",
+    "description": "Index identifier, matches (base) cryptocurrency with quote currency",
     "enum": [
      "btc_usd",
      "eth_usd",
@@ -375,6 +377,7 @@ export const channels = {
      "eurr_usdc",
      "eth_usdc",
      "ethdvol_usdc",
+     "hype_usdc",
      "link_usdc",
      "ltc_usdc",
      "near_usdc",
@@ -420,55 +423,10 @@ export const channels = {
   "summary": "Volatility index updates for the given `index_name`.",
   "params": {
    "index_name": {
-    "description": "Index identifier, matches (base) cryptocurrency with quote currency **Allowed values:** `btc_usd`, `eth_usd`, `ada_usdc`, `algo_usdc`, `avax_usdc`, ... (total 47 values)",
+    "description": "Index identifier supported for DVOL",
     "enum": [
      "btc_usd",
-     "eth_usd",
-     "ada_usdc",
-     "algo_usdc",
-     "avax_usdc",
-     "bch_usdc",
-     "bnb_usdc",
-     "btc_usdc",
-     "btcdvol_usdc",
-     "buidl_usdc",
-     "doge_usdc",
-     "dot_usdc",
-     "eurr_usdc",
-     "eth_usdc",
-     "ethdvol_usdc",
-     "link_usdc",
-     "ltc_usdc",
-     "near_usdc",
-     "paxg_usdc",
-     "shib_usdc",
-     "sol_usdc",
-     "steth_usdc",
-     "ton_usdc",
-     "trump_usdc",
-     "trx_usdc",
-     "uni_usdc",
-     "usde_usdc",
-     "usyc_usdc",
-     "xrp_usdc",
-     "btc_usdt",
-     "eth_usdt",
-     "eurr_usdt",
-     "sol_usdt",
-     "steth_usdt",
-     "usdc_usdt",
-     "usde_usdt",
-     "btc_eurr",
-     "btc_usde",
-     "btc_usyc",
-     "eth_btc",
-     "eth_eurr",
-     "eth_usde",
-     "eth_usyc",
-     "steth_eth",
-     "paxg_btc",
-     "drbfix-btc_usdc",
-     "drbfix-eth_usdc"
+     "eth_usd"
     ]
    }
   }
@@ -482,7 +440,7 @@ export const channels = {
   "summary": "Estimated expiration (delivery) price updates for the given `index_name`.",
   "params": {
    "index_name": {
-    "description": "Index identifier, matches (base) cryptocurrency with quote currency **Allowed values:** `btc_usd`, `eth_usd`, `ada_usdc`, `algo_usdc`, `avax_usdc`, ... (total 47 values)",
+    "description": "Index identifier, matches (base) cryptocurrency with quote currency",
     "enum": [
      "btc_usd",
      "eth_usd",
@@ -499,6 +457,7 @@ export const channels = {
      "eurr_usdc",
      "eth_usdc",
      "ethdvol_usdc",
+     "hype_usdc",
      "link_usdc",
      "ltc_usdc",
      "near_usdc",
@@ -544,7 +503,7 @@ export const channels = {
   "summary": "Real-time ticker updates for an instrument, delivered as a snapshot followed by incremental updates.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    }
   }
  },
@@ -557,17 +516,18 @@ export const channels = {
   "summary": "Notification published once when an instrument is created, carrying full instrument data in the same format as `public/get_instruments`.",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Instrument kind or `\"any\"` for all",
     "enum": [
      "future",
      "option",
      "spot",
      "future_combo",
-     "option_combo"
+     "option_combo",
+     "any"
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -588,17 +548,18 @@ export const channels = {
   "summary": "Notifications about new or terminated instruments of a given kind in a given currency.",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Instrument kind or `\"any\"` for all",
     "enum": [
      "future",
      "option",
      "spot",
      "future_combo",
-     "option_combo"
+     "option_combo",
+     "any"
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -619,7 +580,7 @@ export const channels = {
   "summary": "Options mark price updates for the given `index_name`.",
   "params": {
    "index_name": {
-    "description": "Index identifier, matches (base) cryptocurrency with quote currency **Allowed values:** `btc_usd`, `eth_usd`, `ada_usdc`, `algo_usdc`, `avax_usdc`, ... (total 47 values)",
+    "description": "Index identifier, matches (base) cryptocurrency with quote currency",
     "enum": [
      "btc_usd",
      "eth_usd",
@@ -636,6 +597,7 @@ export const channels = {
      "eurr_usdc",
      "eth_usdc",
      "ethdvol_usdc",
+     "hype_usdc",
      "link_usdc",
      "ltc_usdc",
      "near_usdc",
@@ -681,14 +643,14 @@ export const channels = {
   "summary": "Provide current interest rate - but only for **perpetual** instruments.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -720,7 +682,7 @@ export const channels = {
   "summary": "Best bid/ask price and size for a specific instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    }
   }
  },
@@ -733,14 +695,14 @@ export const channels = {
   "summary": "Real-time ticker data providing comprehensive market information for the specified instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -755,14 +717,14 @@ export const channels = {
   "summary": "Trade notifications for a specific instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -777,7 +739,7 @@ export const channels = {
   "summary": "Trade notifications across all instruments for a given kind and currency.",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Instrument kind, `\"future\"` or `\"option\"`",
     "enum": [
      "future",
      "option",
@@ -787,7 +749,7 @@ export const channels = {
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -798,11 +760,11 @@ export const channels = {
     ]
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -827,14 +789,14 @@ export const channels = {
   "summary": "User change stream (orders, trades, and related updates) for a specific instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -849,17 +811,19 @@ export const channels = {
   "summary": "User change stream (orders, trades, and related updates) across all instruments for a given kind and currency.",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Instrument kind, `\"combo\"` for any combo or `\"any\"` for all",
     "enum": [
      "future",
      "option",
      "spot",
      "future_combo",
-     "option_combo"
+     "option_combo",
+     "combo",
+     "any"
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -870,11 +834,11 @@ export const channels = {
     ]
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -890,14 +854,14 @@ export const channels = {
   "summary": "User trade notifications for a specific combo instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -913,17 +877,15 @@ export const channels = {
   "summary": "User trade notifications across all combo instruments for a given kind and currency.",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Combo instrument kind, `\"combo\"` for any combo",
     "enum": [
-     "future",
-     "option",
-     "spot",
      "future_combo",
-     "option_combo"
+     "option_combo",
+     "combo"
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -934,11 +896,11 @@ export const channels = {
     ]
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -996,55 +958,38 @@ export const channels = {
   "summary": "Real-time notifications for Market Maker Protection (MMP) triggers.",
   "params": {
    "index_name": {
-    "description": "Index identifier, matches (base) cryptocurrency with quote currency **Allowed values:** `btc_usd`, `eth_usd`, `ada_usdc`, `algo_usdc`, `avax_usdc`, ... (total 47 values)",
+    "description": "Index identifier of derivative instrument on the platform",
     "enum": [
      "btc_usd",
      "eth_usd",
+     "btc_usdc",
+     "eth_usdc",
      "ada_usdc",
      "algo_usdc",
      "avax_usdc",
      "bch_usdc",
      "bnb_usdc",
-     "btc_usdc",
-     "btcdvol_usdc",
-     "buidl_usdc",
      "doge_usdc",
      "dot_usdc",
-     "eurr_usdc",
-     "eth_usdc",
-     "ethdvol_usdc",
+     "hype_usdc",
      "link_usdc",
      "ltc_usdc",
      "near_usdc",
      "paxg_usdc",
      "shib_usdc",
      "sol_usdc",
-     "steth_usdc",
      "ton_usdc",
-     "trump_usdc",
      "trx_usdc",
+     "trump_usdc",
      "uni_usdc",
-     "usde_usdc",
-     "usyc_usdc",
      "xrp_usdc",
+     "usde_usdc",
+     "buidl_usdc",
+     "btcdvol_usdc",
+     "ethdvol_usdc",
      "btc_usdt",
      "eth_usdt",
-     "eurr_usdt",
-     "sol_usdt",
-     "steth_usdt",
-     "usdc_usdt",
-     "usde_usdt",
-     "btc_eurr",
-     "btc_usde",
-     "btc_usyc",
-     "eth_btc",
-     "eth_eurr",
-     "eth_usde",
-     "eth_usyc",
-     "steth_eth",
-     "paxg_btc",
-     "drbfix-btc_usdc",
-     "drbfix-eth_usdc"
+     "all"
     ]
    }
   }
@@ -1060,12 +1005,11 @@ export const channels = {
   "summary": "User order updates for a specific instrument (aggregated).",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Frequency of notifications. Events will be aggregated over this interval.",
     "enum": [
-     "raw",
      "100ms",
      "agg2"
     ]
@@ -1083,7 +1027,7 @@ export const channels = {
   "summary": "User order updates for a specific instrument (raw stream).",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    }
   }
  },
@@ -1098,17 +1042,19 @@ export const channels = {
   "summary": "User order updates across all instruments for a given kind and currency (aggregated).",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Instrument kind, `\"combo\"` for any combo or `\"any\"` for all",
     "enum": [
      "future",
      "option",
      "spot",
      "future_combo",
-     "option_combo"
+     "option_combo",
+     "combo",
+     "any"
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -1119,9 +1065,8 @@ export const channels = {
     ]
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Frequency of notifications. Events will be aggregated over this interval.",
     "enum": [
-     "raw",
      "100ms",
      "agg2"
     ]
@@ -1139,17 +1084,19 @@ export const channels = {
   "summary": "User order updates across all instruments for a given kind and currency (raw stream).",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Instrument kind, `\"combo\"` for any combo or `\"any\"` for all",
     "enum": [
      "future",
      "option",
      "spot",
      "future_combo",
-     "option_combo"
+     "option_combo",
+     "combo",
+     "any"
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -1172,7 +1119,7 @@ export const channels = {
   "summary": "Real-time notifications for user portfolio information.",
   "params": {
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -1195,14 +1142,14 @@ export const channels = {
   "summary": "User trade notifications for a specific instrument.",
   "params": {
    "instrument_name": {
-    "description": "The name of the instrument"
+    "description": "Instrument name"
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }
@@ -1218,17 +1165,19 @@ export const channels = {
   "summary": "User trade notifications across all instruments for a given kind and currency.",
   "params": {
    "kind": {
-    "description": "Instrument kind **Allowed values:** `future`, `option`, `spot`, `future_combo`, `option_combo`",
+    "description": "Instrument kind, `\"combo\"` for any combo or `\"any\"` for all",
     "enum": [
      "future",
      "option",
      "spot",
      "future_combo",
-     "option_combo"
+     "option_combo",
+     "combo",
+     "any"
     ]
    },
    "currency": {
-    "description": "Currency code or `any` for all **Allowed values:** `BTC`, `ETH`, `USDC`, `USDT`, `EURR`, `any`",
+    "description": "The currency symbol or `\"any\"` for all. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)",
     "enum": [
      "BTC",
      "ETH",
@@ -1239,11 +1188,11 @@ export const channels = {
     ]
    },
    "interval": {
-    "description": "Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** **Allowed values:** `raw`, `100ms`, `agg2`",
+    "description": "Notification interval. The raw interval selects unaggregated updates and is available only to authorized users.",
     "enum": [
-     "raw",
+     "agg2",
      "100ms",
-     "agg2"
+     "raw"
     ]
    }
   }

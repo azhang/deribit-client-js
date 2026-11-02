@@ -161,7 +161,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -340,7 +340,7 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency (Only for limit and stop_limit orders) When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "Order price in the instrument's price units (quote currency for futures and spot). Required for limit, stop_limit and take_limit; not used for market-like types. When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "time_in_force": {
     "type": "string",
@@ -354,11 +354,11 @@ export const methods = {
    },
    "display_amount": {
     "type": "number",
-    "description": "Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
+    "description": "Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the spread. Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the spread. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reject_post_only": {
     "type": "boolean",
@@ -374,7 +374,7 @@ export const methods = {
    },
    "trigger_offset": {
     "type": "number",
-    "description": "The maximum deviation from the price peak beyond which the order will be triggered"
+    "description": "Positive deviation from the price peak at which the order triggers; required for trailing_stop."
    },
    "trigger": {
     "type": "string",
@@ -424,7 +424,7 @@ export const methods = {
     "items": {
      "type": "object"
     },
-    "description": "List of secondary orders to place or cancel when the primary order is filled. Each entry in the array defines one secondary order. `amount` and `direction` are required; all other fields are optional."
+    "description": "List of secondary orders. Each requires positive `amount` and `direction`. Non-market types (including `take_limit`) require `price`. Stop/take orders require `trigger` and `trigger_price`; trailing-stop orders require `trigger` and positive `trigger_offset`."
    }
   },
   "required": [
@@ -1092,7 +1092,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Changes the margin model for the authenticated account or a specified subaccount.",
-  "description": "Changes the margin model for the authenticated account or a specified subaccount. Margin models determine how margin requirements are calculated (e.g., Standard Margin vs. Portfolio Margin). Changing the margin model may affect margin requirements, available funds, and trading capabilities. Use the `dry_run` parameter to preview the impact of the change before applying it. **📖 Related Article:** [Margin types and usage](https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_margin_model)",
+  "description": "Changes the margin model for the authenticated account or a specified subaccount. Margin models determine how margin requirements are calculated (e.g., Standard Margin vs. Portfolio Margin). Changing the margin model may affect margin requirements, available funds, and trading capabilities. Use the `dry_run` parameter to preview the impact of the change before applying it. A dry run runs the same checks as the actual change. Returns an error if a currency would be left with negative equity, an unfunded long option position, or insufficient funds. **📖 Related Article:** [Margin types and usage](https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_margin_model)",
   "deprecated": false,
   "params": {
    "user_id": {
@@ -1368,7 +1368,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "label": {
     "type": "string",
@@ -1479,7 +1479,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Disable Cancel On Disconnect for the connection.",
-  "description": "Disable Cancel On Disconnect for the connection. When change is applied for the account, then every newly opened connection will start with **inactive** Cancel on Disconnect. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fdisable_cancel_on_disconnect)",
+  "description": "Disable Cancel On Disconnect for the connection. When change is applied for the account, then every newly opened connection will start with **inactive** Cancel on Disconnect. **Scope & transport:** - `scope=connection` (the default) applies to the current WebSocket connection only and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`. - `scope=account` changes the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read_write` scope. Connection scope only requires an authenticated connection. **Scope:** `account:read_write` (only for `scope=account`) [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fdisable_cancel_on_disconnect)",
   "deprecated": false,
   "params": {
    "scope": {
@@ -1518,11 +1518,11 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency. When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "The order price in the instrument's price units (quote currency for futures and spot). When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Omitted means unchanged. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reduce_only": {
     "type": "boolean",
@@ -1546,7 +1546,7 @@ export const methods = {
    },
    "trigger_offset": {
     "type": "number",
-    "description": "The maximum deviation from the price peak beyond which the order will be triggered"
+    "description": "Positive deviation from the price peak at which the order triggers; required for trailing_stop."
    },
    "mmp": {
     "type": "boolean",
@@ -1558,7 +1558,7 @@ export const methods = {
    },
    "display_amount": {
     "type": "number",
-    "description": "Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
+    "description": "Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
    }
   },
   "required": [
@@ -1694,11 +1694,11 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency. When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "The order price in the instrument's price units (quote currency for futures and spot). When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Omitted means unchanged. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reduce_only": {
     "type": "boolean",
@@ -1771,7 +1771,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Enable Cancel On Disconnect for the connection.",
-  "description": "Enable Cancel On Disconnect for the connection. After enabling, all orders created via this connection will be automatically cancelled when the connection is closed. Cancel is triggered in the following cases: when the TCP connection is properly terminated, when the connection is closed due to 10 minutes of inactivity, or when a heartbeat detects a disconnection. To reduce the inactivity timeout, consider using [public/set_heartbeat](https://docs.deribit.com/api-reference/session-management/public-set_heartbeat). **Note:** If the connection is gracefully closed using [private/logout](https://docs.deribit.com/api-reference/authentication/private-logout), cancel-on-disconnect will **not** be triggered. **Notice:** Cancel-on-Disconnect does not affect orders created by other connections - they will remain active! When change is applied on the `account` scope, then every newly opened connection will start with **active** Cancel on Disconnect. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fenable_cancel_on_disconnect)",
+  "description": "Enable Cancel On Disconnect for the connection. After enabling, all orders created via this connection will be automatically cancelled when the connection is closed. Cancel is triggered in the following cases: when the TCP connection is properly terminated, when the connection is closed due to 10 minutes of inactivity, or when a heartbeat detects a disconnection. To reduce the inactivity timeout, consider using [public/set_heartbeat](https://docs.deribit.com/api-reference/session-management/public-set_heartbeat). **Note:** If the connection is gracefully closed using [private/logout](https://docs.deribit.com/api-reference/authentication/private-logout), cancel-on-disconnect will **not** be triggered. **Notice:** Cancel-on-Disconnect does not affect orders created by other connections - they will remain active! When change is applied on the `account` scope, then every newly opened connection will start with **active** Cancel on Disconnect. **Scope & transport:** - `scope=connection` (the default) applies to the current WebSocket connection only and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`. - `scope=account` changes the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read_write` scope. Connection scope only requires an authenticated connection. **Restrictions:** Not available for retail broker main accounts or their subaccounts: error `14021` (`not_allowed_for_retail_brokers`) is returned for both scopes. **Scope:** `account:read_write` (only for `scope=account`) [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fenable_cancel_on_disconnect)",
   "deprecated": false,
   "params": {
    "scope": {
@@ -2269,8 +2269,8 @@ export const methods = {
    "Session Management",
    "Private"
   ],
-  "summary": "Read current Cancel On Disconnect configuration for the account.",
-  "description": "Read current Cancel On Disconnect configuration for the account. **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_cancel_on_disconnect)",
+  "summary": "Read the current Cancel On Disconnect configuration.",
+  "description": "Read the current Cancel On Disconnect configuration. - `scope=connection` (the default) returns the state for the current WebSocket connection and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`. - `scope=account` returns the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read` scope. **Scope:** `account:read` (only for `scope=account`) [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_cancel_on_disconnect)",
   "deprecated": false,
   "params": {
    "scope": {
@@ -2319,7 +2319,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    }
   },
   "required": [
@@ -2668,7 +2668,11 @@ export const methods = {
      "take_limit",
      "take_market",
      "trailing_all",
-     "trailing_stop"
+     "trailing_stop",
+     "one_triggers_one_cancels_other",
+     "one_triggers_other",
+     "one_cancels_other",
+     "one_cancels_or_triggers_other"
     ],
     "description": "Order type, default - `all`"
    }
@@ -2720,7 +2724,11 @@ export const methods = {
      "take_limit",
      "take_market",
      "trailing_all",
-     "trailing_stop"
+     "trailing_stop",
+     "one_triggers_one_cancels_other",
+     "one_triggers_other",
+     "one_cancels_other",
+     "one_cancels_or_triggers_other"
     ],
     "description": "Order type, default - `all`"
    }
@@ -2756,7 +2764,11 @@ export const methods = {
      "take_limit",
      "take_market",
      "trailing_all",
-     "trailing_stop"
+     "trailing_stop",
+     "one_triggers_one_cancels_other",
+     "one_triggers_other",
+     "one_cancels_other",
+     "one_cancels_or_triggers_other"
     ],
     "description": "Order type, default - `all`"
    }
@@ -3378,11 +3390,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "sorting": {
     "type": "string",
@@ -3391,7 +3403,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3442,11 +3454,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -3459,7 +3471,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3471,9 +3483,7 @@ export const methods = {
    }
   },
   "required": [
-   "currency",
-   "start_timestamp",
-   "end_timestamp"
+   "currency"
   ]
  },
  "private/get_user_trades_by_instrument": {
@@ -3492,11 +3502,11 @@ export const methods = {
    },
    "start_seq": {
     "type": "integer",
-    "description": "The sequence number of the first trade to be returned"
+    "description": "Inclusive sequence number of the first trade to return; cannot be combined with start_timestamp."
    },
    "end_seq": {
     "type": "integer",
-    "description": "The sequence number of the last trade to be returned"
+    "description": "Inclusive sequence number of the last trade to return; cannot be combined with end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -3504,11 +3514,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "historical": {
     "type": "boolean",
@@ -3521,7 +3531,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "subaccount_id": {
     "type": "integer",
@@ -3548,11 +3558,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -3565,7 +3575,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3577,9 +3587,7 @@ export const methods = {
    }
   },
   "required": [
-   "instrument_name",
-   "start_timestamp",
-   "end_timestamp"
+   "instrument_name"
   ]
  },
  "private/get_user_trades_by_order": {
@@ -3603,7 +3611,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3801,12 +3809,12 @@ export const methods = {
    "Private"
   ],
   "summary": "Gracefully terminate the current WebSocket connection and optionally invalidate all tokens associated with the session.",
-  "description": "Gracefully terminate the current WebSocket connection and optionally invalidate all tokens associated with the session. This method provides a clean way to close WebSocket connections while preserving active orders when [**Cancel On Disconnect (COD)**](https://docs.deribit.com/api-reference/session-management/private-enable_cancel_on_disconnect) is enabled. **Use Cases:** - **Clean Shutdown:** Properly close WebSocket connections during application shutdown or restart - **Order Preservation:** Close connections without triggering order cancellations when COD is enabled - **Session Management:** Invalidate tokens to ensure security when closing connections - **Maintenance Operations:** Temporarily disconnect for system maintenance without affecting trading positions **Cancel On Disconnect (COD) Behavior:** When Cancel On Disconnect is enabled for your connection, this method provides a safe way to close the connection without triggering automatic order cancellations. This is different from other disconnection scenarios: - **Graceful logout** (this method): Orders are **NOT cancelled**, even if COD is enabled - **Unexpected disconnection:** Orders are **cancelled** if COD is enabled - **Inactivity timeout:** Orders are **cancelled** if COD is enabled - **Heartbeat failure:** Orders are **cancelled** if COD is enabled This distinction allows you to perform planned disconnections (e.g., for maintenance, updates, or reconnection) while preserving your active orders. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in a 400 error response. **Note:** This method has no response. The WebSocket connection is closed immediately after the request is processed. [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Flogout)",
+  "description": "Gracefully terminate the current WebSocket connection and optionally invalidate all tokens associated with the session. This method provides a clean way to close WebSocket connections while preserving active orders when [**Cancel On Disconnect (COD)**](https://docs.deribit.com/api-reference/session-management/private-enable_cancel_on_disconnect) is enabled. **Use Cases:** - **Clean Shutdown:** Properly close WebSocket connections during application shutdown or restart - **Order Preservation:** Close connections without triggering order cancellations when COD is enabled - **Session Management:** Invalidate tokens to ensure security when closing connections - **Maintenance Operations:** Temporarily disconnect for system maintenance without affecting trading positions **Cancel On Disconnect (COD) Behavior:** When Cancel On Disconnect is enabled for your connection, this method provides a safe way to close the connection without triggering automatic order cancellations. This is different from other disconnection scenarios: - **Graceful logout** (this method): Orders are **NOT cancelled**, even if COD is enabled - **Unexpected disconnection:** Orders are **cancelled** if COD is enabled - **Inactivity timeout:** Orders are **cancelled** if COD is enabled - **Heartbeat failure:** Orders are **cancelled** if COD is enabled This distinction allows you to perform planned disconnections (e.g., for maintenance, updates, or reconnection) while preserving your active orders. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in a 400 error response. **Token invalidation:** With `invalidate_token=true` (default) the current token is invalidated. With `false` it stays valid but remains subject to its scope, session and expiry: a `connection` scope token stays bound to the connection it was issued on and cannot be used on a new connection; use a `session` scope token (or authenticate again) to continue after reconnecting. **Note:** This method has no response. The WebSocket connection is closed immediately after the request is processed. [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Flogout)",
   "deprecated": false,
   "params": {
    "invalidate_token": {
     "type": "boolean",
-    "description": "Token Invalidation: By default, all tokens created during the current session are invalidated when you call this method. You can control this behavior using this parameter: invalidate_token=true (default): All session tokens are invalidated, requiring re-authentication for new connections invalidate_token=false : Tokens remain valid, allowing you to reconnect using the same authentication"
+    "description": "Whether to invalidate session tokens (default true). If false, tokens remain subject to their scope, session and expiry; a connection-scope token cannot be used on a new connection."
    }
   },
   "required": []
@@ -4021,7 +4029,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -4235,7 +4243,7 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency (Only for limit and stop_limit orders) When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "Order price in the instrument's price units (quote currency for futures and spot). Required for limit, stop_limit and take_limit; not used for market-like types. When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "time_in_force": {
     "type": "string",
@@ -4249,11 +4257,11 @@ export const methods = {
    },
    "display_amount": {
     "type": "number",
-    "description": "Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
+    "description": "Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just above the spread. Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just above the spread. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reject_post_only": {
     "type": "boolean",
@@ -4269,7 +4277,7 @@ export const methods = {
    },
    "trigger_offset": {
     "type": "number",
-    "description": "The maximum deviation from the price peak beyond which the order will be triggered"
+    "description": "Positive deviation from the price peak at which the order triggers; required for trailing_stop."
    },
    "trigger": {
     "type": "string",
@@ -4319,7 +4327,7 @@ export const methods = {
     "items": {
      "type": "object"
     },
-    "description": "List of secondary orders to place or cancel when the primary order is filled. Each entry in the array defines one secondary order. `amount` and `direction` are required; all other fields are optional."
+    "description": "List of secondary orders. Each requires positive `amount` and `direction`. Non-market types (including `take_limit`) require `price`. Stop/take orders require `trigger` and `trigger_price`; trailing-stop orders require `trigger` and positive `trigger_offset`."
    }
   },
   "required": [
@@ -4361,7 +4369,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -4775,7 +4783,7 @@ export const methods = {
    },
    "source": {
     "type": "integer",
-    "description": "Id of the source (sub)account. Can be found in `My Account >> Subaccounts` tab. By default, it is the Id of the account which made the request. However, if a different \"source\" is specified, the user must possess the mainaccount scope, and only other subaccounts can be designated as the source."
+    "description": "Source account id, defaulting to the caller. With main-account authorization, either the main account or one of its subaccounts may be the source; a subaccount caller can transfer only from itself to its main account."
    },
    "nonce": {
     "type": "string",
@@ -5011,7 +5019,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -5180,7 +5188,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -5197,11 +5205,12 @@ export const methods = {
      "extreme_high",
      "very_high",
      "high",
+     "normal",
      "mid",
      "low",
      "very_low"
     ],
-    "description": "Withdrawal priority, optional for BTC, default: `high`"
+    "description": "Withdrawal priority, default: `high`. Note: fee priority levels are only configured for BTC; other currencies default to standard ratio 1.0."
    },
    "nonce": {
     "type": "string",
@@ -5220,7 +5229,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieve an OAuth access token, to be used for authentication of 'private' requests.",
-  "description": "Retrieve an OAuth access token, to be used for authentication of 'private' requests. **📖 Related Article:** [Authentication](https://docs.deribit.com/articles/authentication) **Authentication Methods:** Three methods of authentication are supported: - ``client_credentials`` - Using the client id and client secret that can be found on the API page on the website. This is the simplest method, suitable for server-to-server applications and quick setup. - ``client_signature`` - Enhanced security method that uses a cryptographic signature instead of sending the client secret directly. You generate an HMAC-SHA256 signature of a string containing a timestamp, a random nonce, and optional data, using your Client Secret as the key. This method requires `` `client_id` ``, `` `timestamp` `` (current time in milliseconds), `` `nonce` ``, `` `signature` ``, and optionally a `` `data` `` field. Deribit verifies the signature instead of requiring the raw secret. Best for enhanced security, asymmetric key pairs, and avoiding secret transmission. See the [Client Signature (WebSocket) guide](https://docs.deribit.com/articles/authentication#client-signature-websocket) for detailed signature calculation instructions. - ``refresh_token`` - Using a refresh token that was received from an earlier invocation. This allows you to obtain a new access token without re-supplying your Client ID and Client Secret. Best for long-lived sessions, token renewal, and avoiding re-authentication. **Response:** The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fauth)",
+  "description": "Retrieve an OAuth access token, to be used for authentication of 'private' requests. **📖 Related Article:** [Authentication](https://docs.deribit.com/articles/authentication) **Authentication Methods:** Three methods of authentication are supported (selected with `grant_type`): - `client_credentials` - Using the client id and client secret that can be found on the API page on the website. This is the simplest method, suitable for server-to-server applications and quick setup. - `client_signature` - Enhanced security method using a cryptographic signature instead of sending the client secret directly. The signature is calculated over ` \\n \\n ` (the three values joined with line-feed characters, `timestamp` exactly as sent). Keys with a shared secret use an HMAC-SHA256 signature encoded as hexadecimal; asymmetric (RSA / Ed25519) keys use a digital signature over the same string encoded as URL-safe base64 without padding. This method requires `client_id`, `timestamp` and `signature`; `nonce` and `data` are optional (`nonce` is strongly recommended for replay protection). See the [Client Signature (WebSocket) guide](https://docs.deribit.com/articles/authentication#client-signature-websocket) for detailed signature calculation instructions. - `refresh_token` - Using a refresh token that was received from an earlier invocation. This allows you to obtain a new access token without re-supplying your Client ID and Client Secret. Best for long-lived sessions, token renewal, and avoiding re-authentication. **Refresh token behavior:** - Every successful refresh issues a **new** access token **and** a new refresh token, and invalidates the previously issued token pair. Always store the newest `refresh_token`; reusing an older one fails with `-32602` (`invalid token`), which also affects concurrent refreshes with the same token. - The `scope` parameter is ignored for this grant type: the new tokens keep the scope, session and lifetime of the original token. - A token with `connection` scope is bound to the connection it was issued on and cannot be refreshed or used from another connection. **Scope behavior (`client_credentials` and `client_signature`):** - Without a `session:` or `connection` scope item, a WebSocket request gets a `connection` scope token. An HTTP (REST) request gets a `session` scope token with a generated `rest-...` session name, unless `connection` was requested explicitly. - `connection` and `session:name` cannot be combined (`-32602`). - Requested permission scopes (`trade`, `wallet`, `account`, `block_trade`, `block_rfq`) never exceed the permissions of the API key: higher levels are silently reduced to the key's level, and permission scopes that are not requested inherit the key's permissions. This is not reported as an error. **Response:** The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. Over WebSocket, a successful call also authenticates the current connection, so later private requests on it need no `access_token`. **Errors** (JSON-RPC `error.code`): - `13004` `invalid_credentials` - unknown `client_id`, wrong `client_secret`, invalid `signature`, or `client_id` longer than 16 bytes. - `13009` `unauthorized` - `timestamp` outside the allowed window, `nonce` longer than 128 bytes or already used, connecting IP not in the key's IP whitelist (`reason: bad_ip`). - `-32602` `Invalid params` - missing required parameter for the chosen `grant_type`, unknown `grant_type`, invalid `scope`, or an invalid / expired / already-replaced `refresh_token` (including `session_not_found`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fauth)",
   "deprecated": false,
   "params": {
    "grant_type": {
@@ -5234,31 +5243,31 @@ export const methods = {
    },
    "client_id": {
     "type": "string",
-    "description": "Required for grant type `` `client_credentials` `` and `` `client_signature` ``"
+    "description": "Required for grant types `client_credentials` and `client_signature`. Maximum length is 16 bytes."
    },
    "client_secret": {
     "type": "string",
-    "description": "Required for grant type `` `client_credentials` ``"
+    "description": "Required for grant type `client_credentials`."
    },
    "refresh_token": {
     "type": "string",
-    "description": "Required for grant type `` `refresh_token` ``"
+    "description": "Required for grant type `refresh_token`. The token pair it belongs to is replaced by the new tokens returned (see above)."
    },
    "timestamp": {
     "type": "integer",
-    "description": "Required for grant type `` `client_signature` ``. Provides time when request has been generated (milliseconds since the UNIX epoch)."
+    "description": "Required for grant type `client_signature`. Time when the request was generated, in milliseconds since the UNIX epoch. Must be within ±60 seconds (±60,000 ms) of the server time, otherwise the request is rejected with error `13009` (`unauthorized`)."
    },
    "signature": {
     "type": "string",
-    "description": "Required for grant type `` `client_signature` ``. It's a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with `` `SHA256` `` hash algorithm."
+    "description": "Required for grant type `client_signature`. Signature calculated over ` \\n \\n `: - **Shared-secret API keys:** HMAC-SHA256 with the client secret as key, encoded as hexadecimal (letter case is ignored). - **Asymmetric (RSA / Ed25519) API keys:** digital signature made with your private key (SHA-256), encoded as URL-safe base64 without padding. An invalid signature is rejected with error `13004` (`invalid_credentials`)."
    },
    "nonce": {
     "type": "string",
-    "description": "Optional for grant type `` `client_signature` ``. Delivers user generated initialization vector for the server token."
+    "description": "Optional for grant type `client_signature`, but strongly recommended. Defaults to an empty string. User-generated random string, up to 128 bytes. A non-empty nonce can be used only once for the same `client_id` and `timestamp` (a repeat is rejected with `13009`). With an empty or omitted nonce the timestamp window is still enforced but replay detection is not."
    },
    "data": {
     "type": "string",
-    "description": "Optional for grant type `` `client_signature` ``. Contains any user specific value."
+    "description": "Optional for grant type `client_signature`. Defaults to an empty string. Contains any user specific value; it is part of the signed string."
    },
    "state": {
     "type": "string",
@@ -5266,16 +5275,11 @@ export const methods = {
    },
    "scope": {
     "type": "string",
-    "description": "Describes type of the access for assigned token. **Possible values:** - `` `connection` `` - `` `session:name` `` - `` `trade:[read, read_write, none]` `` - `` `wallet:[read, read_write, none]` `` - `` `account:[read, read_write, none]` `` - `` `expires:NUMBER` `` - `` `ip:ADDR` `` Details are elucidated in [Access scope](https://docs.deribit.com/articles/access-scope)"
+    "description": "Describes type of the access for assigned token. Ignored for grant type `refresh_token`. **Possible values:** - `connection` - `session:name` (names longer than 64 bytes are truncated) - `trade:[read, read_write, none]` - `wallet:[read, read_write, none]` - `account:[read, read_write, none]` - `block_trade:[read, read_write, none]` - `block_rfq:[read, read_write, none]` - `expires:NUMBER` - `ip:ADDR` `connection` and `session:name` are mutually exclusive. Permission scopes cannot exceed the permissions of the API key. Details are elucidated in [Access scope](https://docs.deribit.com/articles/access-scope)"
    }
   },
   "required": [
-   "grant_type",
-   "client_id",
-   "client_secret",
-   "refresh_token",
-   "timestamp",
-   "signature"
+   "grant_type"
   ]
  },
  "public/disable_heartbeat": {
@@ -5286,7 +5290,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Stop sending heartbeat messages.",
-  "description": "Stop sending heartbeat messages. This method takes no parameters. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fdisable_heartbeat)",
+  "description": "Stop sending heartbeat messages. This method takes no parameters. It also stops the server-side monitoring of client activity configured by [public/set_heartbeat](https://docs.deribit.com/api-reference/session-management/public-set_heartbeat): after this call the server neither sends `test_request` messages nor closes the connection with code 4000. The regular WebSocket idle timeout (10 minutes without incoming data) still applies. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fdisable_heartbeat)",
   "deprecated": false,
   "params": {},
   "required": []
@@ -5298,7 +5302,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Generates a token for a new subject id.",
-  "description": "Generates a token for a new subject id. This method can be used to switch between subaccounts. **📖 Related Articles:** - [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) - [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fexchange_token)",
+  "description": "Generates a token for a new subject id. This method can be used to switch between subaccounts. **Rules:** - `subject_id` must differ from the subject of the supplied refresh token (otherwise `-32602`) and must identify an active user (otherwise `-32602`). - Regular clients can only switch within their own account family (the main account and its subaccounts). A token issued directly for a subaccount cannot switch to the main account or to sibling subaccounts (`-32602` on `subject_id`). Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`). - Without `scope`, the new token inherits the scope of the supplied refresh token. A supplied `scope` **replaces** it (it is not merged), and cannot exceed the scope of the refresh token (`13403` `scope_exceeded`). If it contains neither `session:` nor `connection`, a session with a generated name is created. - The new access token's lifetime is counted from the issue time of the supplied refresh token. - Over WebSocket, the returned access token is also installed on the current connection, so subsequent private requests act as the new subject. - An invalid, expired or already-replaced refresh token (or one bound to another connection) returns `-32602` on `refresh_token`; `session_not_found` means the session of the token no longer exists. **📖 Related Articles:** - [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) - [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fexchange_token)",
   "deprecated": false,
   "params": {
    "refresh_token": {
@@ -5307,11 +5311,11 @@ export const methods = {
    },
    "subject_id": {
     "type": "integer",
-    "description": "New subject id"
+    "description": "Id of the user (main account or subaccount) to switch to. Must differ from the current subject."
    },
    "scope": {
     "type": "string",
-    "description": "Optional scope override for the new session. Cannot exceed caller's permissions. Supports `session` scope for direct session creation during token exchange."
+    "description": "Optional scope for the new token. Replaces (does not merge with) the scope of the refresh token and cannot exceed it (`13403` `scope_exceeded`). Supports `session:name` for direct session creation. If omitted, the scope of the refresh token is kept."
    }
   },
   "required": [
@@ -5326,7 +5330,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Generates a token for a new named session.",
-  "description": "Generates a token for a new named session. This method can be used only with session scoped tokens. **📖 More Details:** [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ffork_token)",
+  "description": "Generates a token for a new named session. This method can be used only with session scoped tokens. **Rules:** - The refresh token must have `session` scope; a `connection` scope refresh token is rejected with `-32602` on `refresh_token`. - `session_name` longer than 64 bytes is truncated (not rejected). The truncated name must differ from the current session name, otherwise the call fails with `-32602` on `session_name`. - The forked session keeps the scope of the original token with only the session name replaced, and receives a fresh access token and refresh token. - Unlike `public/auth` and `public/exchange_token`, the forked access token is **not** installed on the current WebSocket connection: the connection keeps its current authentication until you authenticate it with the new token. - An invalid, expired or already-replaced refresh token returns `-32602` on `refresh_token`; `session_not_found` means the session of the token no longer exists. **📖 More Details:** [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ffork_token)",
   "deprecated": false,
   "params": {
    "refresh_token": {
@@ -5335,7 +5339,7 @@ export const methods = {
    },
    "session_name": {
     "type": "string",
-    "description": "New session name"
+    "description": "Name of the new session (truncated to 64 bytes). Must differ from the current session name."
    }
   },
   "required": [
@@ -5625,7 +5629,7 @@ export const methods = {
    "Market Data"
   ],
   "summary": "Retrieves historical delivery prices for a given index.",
-  "description": "Retrieves historical delivery prices for a given index. Delivery prices are the settlement prices used when futures or options contracts expire and are settled. Results can be paginated using the `offset` and `count` parameters. This method is useful for analyzing historical settlement prices and understanding how contracts have been settled over time. **📖 Related Article:** [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_delivery_prices)",
+  "description": "Retrieves historical delivery prices for a given index. Delivery prices are the settlement prices used when futures or options contracts expire and are settled. Results can be paginated using the `offset` and `count` parameters. Optionally, results can be limited to a date range using `start_timestamp` and `end_timestamp` — each is mapped to the UTC calendar date of the delivery and both bounds are inclusive; `records_total` reflects the filtered set. This method is useful for analyzing historical settlement prices and understanding how contracts have been settled over time. **📖 Related Article:** [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_delivery_prices)",
   "deprecated": false,
   "params": {
    "index_name": {
@@ -5689,6 +5693,14 @@ export const methods = {
    "count": {
     "type": "integer",
     "description": "Number of requested items, default - `10`, maximum - `1000`"
+   },
+   "start_timestamp": {
+    "type": "integer",
+    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch)"
+   },
+   "end_timestamp": {
+    "type": "integer",
+    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch)"
    }
   },
   "required": [
@@ -6090,7 +6102,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves trading instruments, filtered by `currency` and optional `kind`.",
-  "description": "Retrieves trading instruments, filtered by `currency` and optional `kind`. Responses are cached for about 1 minute and can be stale relative to live book state. **Note - This method has distinct API rate limiting requirements:** Sustained rate: 1 request/second. To avoid rate limits, we recommend using either the REST requests for server-cached data or the WebSocket subscription to [instrument_state.{kind}.{currency}](https://docs.deribit.com/subscriptions/market-data/instrumentstatekindcurrency) for real-time updates. For more information, see [Rate Limits](https://docs.deribit.com/articles/rate-limits). With `expired=false` (default) the list is not limited to tradable books. It includes visible instruments (`open`, `settlement`, `locked`, `halted`) plus inactive non-combo instruments. Inactive combos are omitted; combo kinds (`future_combo`, `option_combo`) return only visible books. `is_active` can therefore be `false` on this default list. Only `state` `open` accepts new orders. With `expired=true` the list is instruments still in the live table with `state` `delivered` — recently expired, not archivized. Older expired or archivized names are looked up with `public/get_instrument`, not this method. `currency` matches derivatives by settlement currency: inverse (reversed) contracts settle in the base coin (`BTC` for BTC-PERPETUAL), linear contracts typically settle in the quote coin (`USDC` for BTC_USDC-PERPETUAL). `currency=any` returns every settlement currency. Spot matching is different. A spot's settlement field is the pair symbol (for example `BTC_USDC`), not `BTC` or `USDC`. When `expired=false` and `kind` is omitted/`any` for a specific currency, the response unions (1) derivatives with that settlement currency and (2) spots whose base or quote is that currency. `kind=spot` with a specific currency matches spots on either side of the pair. `expired=true` does not apply that extra spot union, so recently delivered spots are not returned under `currency=BTC`. Results are sorted with perpetuals first, then by expiration. Each instrument includes `underlying_type`. Spot routed to Coinbase Exchange includes `is_cbe_routed` / `is_csr`. Set `extended=true` for extra commission and (on futures) margin/perpetual fields that `public/get_instrument` does not return. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_instruments)",
+  "description": "Retrieves trading instruments, filtered by `currency` and optional `kind`. Responses are cached for about 1 minute and can be stale relative to live book state. **Note - This method has distinct API rate limiting requirements:** Sustained rate: 1 request/second. To avoid rate limits, we recommend using either the REST requests for server-cached data or the WebSocket subscription to [instrument_state.{kind}.{currency}](https://docs.deribit.com/subscriptions/market-data/instrumentstatekindcurrency) for real-time updates. For more information, see [Rate Limits](https://docs.deribit.com/articles/rate-limits). With `expired=false` (default) the list is not limited to tradable books. It includes visible instruments (`open`, `settlement`, `locked`, `halted`) plus inactive non-combo instruments. Inactive combos are omitted; combo kinds (`future_combo`, `option_combo`) return only visible books. `is_active` can therefore be `false` on this default list. Only `state` `open` accepts new orders. With `expired=true` the list is instruments still in the live table with `state` `delivered` — recently expired, not archivized. Older expired or archivized names are looked up with `public/get_instrument`, not this method. `currency` matches derivatives by settlement currency: inverse (reversed) contracts settle in the base coin (`BTC` for BTC-PERPETUAL), linear contracts typically settle in the quote coin (`USDC` for BTC_USDC-PERPETUAL). `currency=any` returns every settlement currency. Spot matching is different. A spot's settlement field is the pair symbol (for example `BTC_USDC`), not `BTC` or `USDC`. When `expired=false` and `kind` is omitted/`any` for a specific currency, the response unions (1) derivatives with that settlement currency and (2) spots whose base or quote is that currency. `kind=spot` with a specific currency matches spots on either side of the pair. `expired=true` does not apply that extra spot union, so recently delivered spots are not returned under `currency=BTC`. Results are sorted with perpetuals first, then by expiration. Each instrument includes `underlying_type`. Spot routed to Coinbase Exchange includes `is_cbe_routed` / `is_csr`. Set `extended=true` for extra commission and (on futures) trading bandwidth/perpetual fields that `public/get_instrument` does not return. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_instruments)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -6123,7 +6135,7 @@ export const methods = {
    },
    "extended": {
     "type": "boolean",
-    "description": "When `true`, each instrument also includes `maker_max_commission`, `taker_max_commission`, `liquidation_max_commission`, and `settlement_max_commission`. Futures additionally include `margin_params` and `trading_bandwidth_fraction`; perpetuals also include `perpetual_dempener` and `perpetual_max_funding`. Default `false`. `public/get_instrument` does not accept this parameter."
+    "description": "When `true`, each instrument also includes `maker_max_commission`, `taker_max_commission`, `liquidation_max_commission`, and `settlement_max_commission`. Futures additionally include `trading_bandwidth_fraction`; perpetuals also include `perpetual_dempener` and `perpetual_max_funding`. Default `false`. `public/get_instrument` does not accept this parameter."
    }
   },
   "required": [
@@ -6261,11 +6273,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "count": {
     "type": "integer",
@@ -6278,7 +6290,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
@@ -6321,11 +6333,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -6338,13 +6350,11 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
-   "currency",
-   "start_timestamp",
-   "end_timestamp"
+   "currency"
   ]
  },
  "public/get_last_trades_by_instrument": {
@@ -6363,19 +6373,19 @@ export const methods = {
    },
    "start_seq": {
     "type": "integer",
-    "description": "The sequence number of the first trade to be returned"
+    "description": "Inclusive sequence number of the first trade to return; cannot be combined with start_timestamp."
    },
    "end_seq": {
     "type": "integer",
-    "description": "The sequence number of the last trade to be returned"
+    "description": "Inclusive sequence number of the last trade to return; cannot be combined with end_timestamp."
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "count": {
     "type": "integer",
@@ -6388,7 +6398,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
@@ -6411,11 +6421,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -6428,13 +6438,11 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
-   "instrument_name",
-   "start_timestamp",
-   "end_timestamp"
+   "instrument_name"
   ]
  },
  "public/get_mark_price_history": {
@@ -6609,20 +6617,21 @@ export const methods = {
    "resolution": {
     "type": "string",
     "enum": [
-     1,
-     3,
-     5,
-     10,
-     15,
-     30,
-     60,
-     120,
-     180,
-     360,
-     720,
-     "1D"
+     "1",
+     "3",
+     "5",
+     "10",
+     "15",
+     "30",
+     "60",
+     "120",
+     "180",
+     "360",
+     "720",
+     "1D",
+     "D"
     ],
-    "description": "Chart bars resolution given in full minutes or keyword `1D` (only some specific resolutions are supported)"
+    "description": "Chart bars resolution in minutes, or `1D` / `D` for daily bars."
    }
   },
   "required": [
@@ -6688,7 +6697,7 @@ export const methods = {
    "WebSocket Only"
   ],
   "summary": "Method used to introduce the client software connected to Deribit platform over websocket.",
-  "description": "Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fhello)",
+  "description": "Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself. This method is available only over WebSocket; calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fhello)",
   "deprecated": false,
   "params": {
    "client_name": {
@@ -6713,12 +6722,12 @@ export const methods = {
    "WebSocket Only"
   ],
   "summary": "Signals the WebSocket connection to send and request heartbeats.",
-  "description": "Signals the WebSocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fset_heartbeat)",
+  "description": "Signals the WebSocket connection to send and request heartbeats. Heartbeats are used to detect stale or broken connections. **Heartbeat & Disconnect Lifecycle:** - When no message has been sent to the client for `interval` seconds, the server sends a `heartbeat` notification (`\"params\": {\"type\": \"heartbeat\"}`). - When no message has been received from the client for `interval` seconds (plus 500 ms), the server sends a `heartbeat` notification with `\"params\": {\"type\": \"test_request\"}`. Respond by sending a `/api/v2/public/test` request. - Any JSON text message from the client counts as activity and restarts this timer; WebSocket-level ping/pong frames and the plain-text `ping` / `PING` messages do not. - If the connection stays silent until `(2 * interval) + 500 ms` after the last client message, the server closes the WebSocket with **close code 4000** (`heartbeat close`). - If Cancel on Disconnect is enabled for the connection (connection or account scope), orders created over this connection are cancelled when it is closed. - Calling this method again replaces the previous interval. **Validation:** `interval` must be an integer between 10 and 300 seconds inclusive. Any other value (including fractional numbers) returns JSON-RPC error `-32602`. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fset_heartbeat)",
   "deprecated": false,
   "params": {
    "interval": {
-    "type": "number",
-    "description": "The heartbeat interval in seconds, but not less than 10"
+    "type": "integer",
+    "description": "The heartbeat interval in seconds (allowed range: 10 to 300)"
    }
   },
   "required": [
@@ -6767,7 +6776,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Tests the connection to the API server, and returns its version.",
-  "description": "Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ftest)",
+  "description": "Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version. With `expected_result` set to `exception` the server returns error `11094` (`internal_server_error`) instead of the version, for example: ```json {\"jsonrpc\": \"2.0\", \"id\": 8213, \"error\": {\"message\": \"internal_server_error\", \"code\": 11094}} ``` [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ftest)",
   "deprecated": false,
   "params": {
    "expected_result": {
@@ -6775,7 +6784,7 @@ export const methods = {
     "enum": [
      "exception"
     ],
-    "description": "The value \"exception\" will trigger an error response. This may be useful for testing wrapper libraries."
+    "description": "The value \"exception\" will trigger an error response with code `11094` (`internal_server_error`). This may be useful for testing wrapper libraries."
    }
   },
   "required": []
