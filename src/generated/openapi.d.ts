@@ -34,7 +34,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetCurrenciesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetCurrenciesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -85,7 +93,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetPositionsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetPositionsResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -130,7 +146,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetPositionResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetPositionResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -187,7 +211,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateAccountResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateAccountResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -235,7 +267,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateAccountSummariesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateAccountSummariesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -287,7 +327,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivatePmeSimulateResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivatePmeSimulateResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -339,7 +387,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSimulatePortfolioResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSimulatePortfolioResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -385,7 +441,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetAccessLogResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetAccessLogResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -428,7 +492,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetAffiliateProgramInfoResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetAffiliateProgramInfoResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -471,7 +543,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -492,7 +572,9 @@ export interface paths {
         /**
          * @description Changes the margin model for the authenticated account or a specified subaccount. Margin models determine how margin requirements are calculated (e.g., Standard Margin vs. Portfolio Margin).
          *
-         *     Changing the margin model may affect margin requirements, available funds, and trading capabilities. Use the `dry_run` parameter to preview the impact of the change before applying it.
+         *     Changing the margin model may affect margin requirements, available funds, and trading capabilities. Use the `dry_run` parameter to preview the impact of the change before applying it. A dry run runs the same checks as the actual change.
+         *
+         *     Returns an error if a currency would be left with negative equity, an unfunded long option position, or insufficient funds.
          *
          *     **📖 Related Article:** [Margin types and usage](https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage)
          *
@@ -521,7 +603,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateChangeMarginModelResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateChangeMarginModelResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -564,7 +654,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetUserLocksResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetUserLocksResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -614,7 +712,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -657,7 +763,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -705,7 +819,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateApiKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateApiKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -749,7 +871,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateApiKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateApiKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -811,7 +941,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateApiKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateApiKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -867,7 +1005,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateApiKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateApiKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -913,7 +1059,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateApiKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateApiKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -953,7 +1107,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["PublicListApiKeysResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicListApiKeysResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -999,7 +1161,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateApiKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateApiKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1045,7 +1215,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1109,7 +1287,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateApiKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateApiKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1153,7 +1339,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetAnnouncementsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetAnnouncementsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1194,7 +1388,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetAnnouncementsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetAnnouncementsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1238,7 +1440,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1277,7 +1487,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetEmailLanguageResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetEmailLanguageResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1320,7 +1538,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCreateSubaccountResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCreateSubaccountResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1368,7 +1594,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1412,7 +1646,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1462,7 +1704,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1512,7 +1762,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1562,7 +1820,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1610,7 +1876,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetSubaccountsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetSubaccountsResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -1663,7 +1937,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetSubaccountsDetailsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetSubaccountsDetailsResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -1712,7 +1994,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1759,7 +2049,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetMembersResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetMembersResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1819,7 +2117,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSetMemberResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSetMemberResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -1867,7 +2173,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateDeleteMemberResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateDeleteMemberResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2016,7 +2330,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetTransactionLogResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetTransactionLogResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2064,7 +2386,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["GetlistCustodyAccounts200response"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["GetlistCustodyAccounts200response"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2089,19 +2419,35 @@ export interface paths {
          *
          *     **Authentication Methods:**
          *
-         *     Three methods of authentication are supported:
+         *     Three methods of authentication are supported (selected with `grant_type`):
          *
+         *     - `client_credentials` - Using the client id and client secret that can be found on the API page on the website. This is the simplest method, suitable for server-to-server applications and quick setup.
          *
-         *     - ``client_credentials`` - Using the client id and client secret that can be found on the API page on the website. This is the simplest method, suitable for server-to-server applications and quick setup.
+         *     - `client_signature` - Enhanced security method using a cryptographic signature instead of sending the client secret directly. The signature is calculated over `<timestamp>\n<nonce>\n<data>` (the three values joined with line-feed characters, `timestamp` exactly as sent). Keys with a shared secret use an HMAC-SHA256 signature encoded as hexadecimal; asymmetric (RSA / Ed25519) keys use a digital signature over the same string encoded as URL-safe base64 without padding. This method requires `client_id`, `timestamp` and `signature`; `nonce` and `data` are optional (`nonce` is strongly recommended for replay protection). See the [Client Signature (WebSocket) guide](https://docs.deribit.com/articles/authentication#client-signature-websocket) for detailed signature calculation instructions.
          *
-         *     - ``client_signature`` - Enhanced security method that uses a cryptographic signature instead of sending the client secret directly. You generate an HMAC-SHA256 signature of a string containing a timestamp, a random nonce, and optional data, using your Client Secret as the key. This method requires `` `client_id` ``, `` `timestamp` `` (current time in milliseconds), `` `nonce` ``, `` `signature` ``, and optionally a `` `data` `` field. Deribit verifies the signature instead of requiring the raw secret. Best for enhanced security, asymmetric key pairs, and avoiding secret transmission. See the [Client Signature (WebSocket) guide](https://docs.deribit.com/articles/authentication#client-signature-websocket) for detailed signature calculation instructions.
+         *     - `refresh_token` - Using a refresh token that was received from an earlier invocation. This allows you to obtain a new access token without re-supplying your Client ID and Client Secret. Best for long-lived sessions, token renewal, and avoiding re-authentication.
          *
-         *     - ``refresh_token`` - Using a refresh token that was received from an earlier invocation. This allows you to obtain a new access token without re-supplying your Client ID and Client Secret. Best for long-lived sessions, token renewal, and avoiding re-authentication.
+         *     **Refresh token behavior:**
          *
+         *     - Every successful refresh issues a **new** access token **and** a new refresh token, and invalidates the previously issued token pair. Always store the newest `refresh_token`; reusing an older one fails with `-32602` (`invalid token`), which also affects concurrent refreshes with the same token.
+         *     - The `scope` parameter is ignored for this grant type: the new tokens keep the scope, session and lifetime of the original token.
+         *     - A token with `connection` scope is bound to the connection it was issued on and cannot be refreshed or used from another connection.
+         *
+         *     **Scope behavior (`client_credentials` and `client_signature`):**
+         *
+         *     - Without a `session:` or `connection` scope item, a WebSocket request gets a `connection` scope token. An HTTP (REST) request gets a `session` scope token with a generated `rest-...` session name, unless `connection` was requested explicitly.
+         *     - `connection` and `session:name` cannot be combined (`-32602`).
+         *     - Requested permission scopes (`trade`, `wallet`, `account`, `block_trade`, `block_rfq`) never exceed the permissions of the API key: higher levels are silently reduced to the key's level, and permission scopes that are not requested inherit the key's permissions. This is not reported as an error.
          *
          *     **Response:**
          *
-         *     The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens.
+         *     The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. Over WebSocket, a successful call also authenticates the current connection, so later private requests on it need no `access_token`.
+         *
+         *     **Errors** (JSON-RPC `error.code`):
+         *
+         *     - `13004` `invalid_credentials` - unknown `client_id`, wrong `client_secret`, invalid `signature`, or `client_id` longer than 16 bytes.
+         *     - `13009` `unauthorized` - `timestamp` outside the allowed window, `nonce` longer than 128 bytes or already used, connecting IP not in the key's IP whitelist (`reason: bad_ip`).
+         *     - `-32602` `Invalid params` - missing required parameter for the chosen `grant_type`, unknown `grant_type`, invalid `scope`, or an invalid / expired / already-replaced `refresh_token` (including `session_not_found`).
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fauth)
          */
@@ -2110,51 +2456,60 @@ export interface paths {
                 query: {
                     /** @description Method of authentication */
                     grant_type: "client_credentials" | "client_signature" | "refresh_token";
-                    /** @description Required for grant type `` `client_credentials` `` and `` `client_signature` `` */
-                    client_id: string;
-                    /** @description Required for grant type `` `client_credentials` `` */
-                    client_secret: string;
-                    /** @description Required for grant type `` `refresh_token` `` */
-                    refresh_token: string;
+                    /** @description Required for grant types `client_credentials` and `client_signature`. Maximum length is 16 bytes. */
+                    client_id?: string;
+                    /** @description Required for grant type `client_credentials`. */
+                    client_secret?: string;
+                    /** @description Required for grant type `refresh_token`. The token pair it belongs to is replaced by the new tokens returned (see above). */
+                    refresh_token?: string;
                     /**
-                     * @description Required for grant type `` `client_signature` ``.
+                     * @description Required for grant type `client_signature`.
                      *
-                     *     Provides time when request has been generated (milliseconds since the UNIX epoch).
+                     *     Time when the request was generated, in milliseconds since the UNIX epoch. Must be within ±60 seconds (±60,000 ms) of the server time, otherwise the request is rejected with error `13009` (`unauthorized`).
                      */
-                    timestamp: number;
+                    timestamp?: number;
                     /**
-                     * @description Required for grant type `` `client_signature` ``.
+                     * @description Required for grant type `client_signature`.
                      *
-                     *     It's a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with `` `SHA256` `` hash algorithm.
+                     *     Signature calculated over `<timestamp>\n<nonce>\n<data>`:
+                     *     - **Shared-secret API keys:** HMAC-SHA256 with the client secret as key, encoded as hexadecimal (letter case is ignored).
+                     *     - **Asymmetric (RSA / Ed25519) API keys:** digital signature made with your private key (SHA-256), encoded as URL-safe base64 without padding.
+                     *
+                     *     An invalid signature is rejected with error `13004` (`invalid_credentials`).
                      */
-                    signature: string;
+                    signature?: string;
                     /**
-                     * @description Optional for grant type `` `client_signature` ``.
+                     * @description Optional for grant type `client_signature`, but strongly recommended. Defaults to an empty string.
                      *
-                     *     Delivers user generated initialization vector for the server token.
+                     *     User-generated random string, up to 128 bytes. A non-empty nonce can be used only once for the same `client_id` and `timestamp` (a repeat is rejected with `13009`). With an empty or omitted nonce the timestamp window is still enforced but replay detection is not.
                      */
                     nonce?: string;
                     /**
-                     * @description Optional for grant type `` `client_signature` ``.
+                     * @description Optional for grant type `client_signature`. Defaults to an empty string.
                      *
-                     *     Contains any user specific value.
+                     *     Contains any user specific value; it is part of the signed string.
                      */
                     data?: string;
                     /** @description Will be passed back in the response. */
                     state?: string;
                     /**
-                     * @description Describes type of the access for assigned token.
+                     * @description Describes type of the access for assigned token. Ignored for grant type `refresh_token`.
                      *
                      *
                      *     **Possible values:**
                      *
-                     *     - `` `connection` ``
-                     *     - `` `session:name` ``
-                     *     - `` `trade:[read, read_write, none]` ``
-                     *     - `` `wallet:[read, read_write, none]` ``
-                     *     - `` `account:[read, read_write, none]` ``
-                     *     - `` `expires:NUMBER` ``
-                     *     - `` `ip:ADDR` ``
+                     *     - `connection`
+                     *     - `session:name` (names longer than 64 bytes are truncated)
+                     *     - `trade:[read, read_write, none]`
+                     *     - `wallet:[read, read_write, none]`
+                     *     - `account:[read, read_write, none]`
+                     *     - `block_trade:[read, read_write, none]`
+                     *     - `block_rfq:[read, read_write, none]`
+                     *     - `expires:NUMBER`
+                     *     - `ip:ADDR`
+                     *
+                     *
+                     *     `connection` and `session:name` are mutually exclusive. Permission scopes cannot exceed the permissions of the API key.
                      *
                      *
                      *     Details are elucidated in [Access scope](https://docs.deribit.com/articles/access-scope)
@@ -2172,7 +2527,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicAuthResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicAuthResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2193,6 +2556,15 @@ export interface paths {
         /**
          * @description Generates a token for a new subject id. This method can be used to switch between subaccounts.
          *
+         *     **Rules:**
+         *
+         *     - `subject_id` must differ from the subject of the supplied refresh token (otherwise `-32602`) and must identify an active user (otherwise `-32602`).
+         *     - Regular clients can only switch within their own account family (the main account and its subaccounts). A token issued directly for a subaccount cannot switch to the main account or to sibling subaccounts (`-32602` on `subject_id`). Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`).
+         *     - Without `scope`, the new token inherits the scope of the supplied refresh token. A supplied `scope` **replaces** it (it is not merged), and cannot exceed the scope of the refresh token (`13403` `scope_exceeded`). If it contains neither `session:` nor `connection`, a session with a generated name is created.
+         *     - The new access token's lifetime is counted from the issue time of the supplied refresh token.
+         *     - Over WebSocket, the returned access token is also installed on the current connection, so subsequent private requests act as the new subject.
+         *     - An invalid, expired or already-replaced refresh token (or one bound to another connection) returns `-32602` on `refresh_token`; `session_not_found` means the session of the token no longer exists.
+         *
          *     **📖 Related Articles:**
          *     - [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens)
          *     - [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)
@@ -2204,9 +2576,9 @@ export interface paths {
                 query: {
                     /** @description Refresh token */
                     refresh_token: string;
-                    /** @description New subject id */
+                    /** @description Id of the user (main account or subaccount) to switch to. Must differ from the current subject. */
                     subject_id: number;
-                    /** @description Optional scope override for the new session. Cannot exceed caller's permissions. Supports `session` scope for direct session creation during token exchange. */
+                    /** @description Optional scope for the new token. Replaces (does not merge with) the scope of the refresh token and cannot exceed it (`13403` `scope_exceeded`). Supports `session:name` for direct session creation. If omitted, the scope of the refresh token is kept. */
                     scope?: string;
                 };
                 header?: never;
@@ -2220,7 +2592,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTokenResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTokenResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2241,6 +2621,14 @@ export interface paths {
         /**
          * @description Generates a token for a new named session. This method can be used only with session scoped tokens.
          *
+         *     **Rules:**
+         *
+         *     - The refresh token must have `session` scope; a `connection` scope refresh token is rejected with `-32602` on `refresh_token`.
+         *     - `session_name` longer than 64 bytes is truncated (not rejected). The truncated name must differ from the current session name, otherwise the call fails with `-32602` on `session_name`.
+         *     - The forked session keeps the scope of the original token with only the session name replaced, and receives a fresh access token and refresh token.
+         *     - Unlike `public/auth` and `public/exchange_token`, the forked access token is **not** installed on the current WebSocket connection: the connection keeps its current authentication until you authenticate it with the new token.
+         *     - An invalid, expired or already-replaced refresh token returns `-32602` on `refresh_token`; `session_not_found` means the session of the token no longer exists.
+         *
          *     **📖 More Details:** [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens)
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ffork_token)
@@ -2250,7 +2638,7 @@ export interface paths {
                 query: {
                     /** @description Refresh token */
                     refresh_token: string;
-                    /** @description New session name */
+                    /** @description Name of the new session (truncated to 64 bytes). Must differ from the current session name. */
                     session_name: string;
                 };
                 header?: never;
@@ -2264,7 +2652,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTokenResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTokenResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2309,6 +2705,8 @@ export interface paths {
          *
          *     This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in a 400 error response.
          *
+         *     **Token invalidation:** With `invalidate_token=true` (default) the current token is invalidated. With `false` it stays valid but remains subject to its scope, session and expiry: a `connection` scope token stays bound to the connection it was issued on and cannot be used on a new connection; use a `session` scope token (or authenticate again) to continue after reconnecting.
+         *
          *     **Note:** This method has no response. The WebSocket connection is closed immediately after the request is processed.
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Flogout)
@@ -2316,7 +2714,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    /** @description <b>Token Invalidation:</b> By default, all tokens created during the current session are invalidated when you call this method. You can control this behavior using this parameter: <ul><li><b>invalidate_token=true</b> (default): All session tokens are invalidated, requiring re-authentication for new connections</li><li><b>invalidate_token=false</b>: Tokens remain valid, allowing you to reconnect using the same authentication</li></ul> */
+                    /** @description Whether to invalidate session tokens (default true). If false, tokens remain subject to their scope, session and expiry; a connection-scope token cannot be used on a new connection. */
                     invalidate_token?: boolean;
                 };
                 header?: never;
@@ -2394,7 +2792,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockRfqsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockRfqsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2471,7 +2877,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCreateBlockRfqResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCreateBlockRfqResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2519,7 +2933,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelBlockRfqResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelBlockRfqResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2588,7 +3010,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateAcceptBlockRfqResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateAcceptBlockRfqResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2636,7 +3066,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelBlockRfqTriggerResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelBlockRfqTriggerResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2688,7 +3126,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockRfqQuotesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockRfqQuotesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2761,7 +3207,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateAddBlockRfqQuoteResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateAddBlockRfqQuoteResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2830,7 +3284,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateEditBlockRfqQuoteResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateEditBlockRfqQuoteResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2885,7 +3347,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelBlockRfqQuoteResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelBlockRfqQuoteResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2941,7 +3411,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelAllBlockRfqQuotesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelAllBlockRfqQuotesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -2984,7 +3462,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockRfqMakersResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockRfqMakersResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3036,7 +3522,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetBlockRfqTradesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetBlockRfqTradesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3079,7 +3573,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockRfqUserInfoResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockRfqUserInfoResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3134,7 +3636,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSimulateBlockTradeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSimulateBlockTradeResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3195,7 +3705,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateVerifyBlockTradeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateVerifyBlockTradeResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3262,7 +3780,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockTradeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockTradeResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3306,7 +3832,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3350,7 +3884,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockTradeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockTradeResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3404,7 +3946,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockTradesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockTradesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3452,7 +4002,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBlockTradeRequestsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBlockTradeRequestsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3504,7 +4062,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3556,7 +4122,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3611,7 +4185,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBrokerClientsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBrokerClientsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3659,7 +4241,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBrokerTradesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBrokerTradesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3698,7 +4288,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetBrokerTradeRequestsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetBrokerTradeRequestsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3750,7 +4348,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetCombosResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetCombosResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3802,7 +4408,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetComboIdsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetComboIdsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3848,7 +4462,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetComboDetailsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetComboDetailsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3896,7 +4518,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCreateComboResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCreateComboResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3949,7 +4579,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetLegPricesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetLegPricesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -3994,7 +4632,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetLspParticipantConfigResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetLspParticipantConfigResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -4043,7 +4689,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetLspParticipantsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetLspParticipantsResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -4089,7 +4743,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetLspUsageResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetLspUsageResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -4138,7 +4800,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetLspParticipantsUsageResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetLspParticipantsUsageResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -4183,7 +4853,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetOrderBookResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetOrderBookResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4222,7 +4900,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["PublicGetOrderBookResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetOrderBookResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4280,7 +4966,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicSettlementResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicSettlementResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4334,7 +5028,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetBookSummaryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetBookSummaryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4376,7 +5078,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetBookSummaryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetBookSummaryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4430,7 +5140,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicSettlementResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicSettlementResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4471,7 +5189,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["PublicGetContractSizeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetContractSizeResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4514,7 +5240,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["PublicGetTradesVolumesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetTradesVolumesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4551,7 +5285,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["PublicGetIndexPriceResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetIndexPriceResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4593,7 +5335,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetIndexPriceNamesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetIndexPriceNamesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4630,7 +5380,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["PublicGetIndexPriceNamesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetIndexPriceNamesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4672,7 +5430,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetBasketIndexCompositionResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetBasketIndexCompositionResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4703,7 +5469,7 @@ export interface paths {
          *
          *     Spot matching is different. A spot's settlement field is the pair symbol (for example `BTC_USDC`), not `BTC` or `USDC`. When `expired=false` and `kind` is omitted/`any` for a specific currency, the response unions (1) derivatives with that settlement currency and (2) spots whose base or quote is that currency. `kind=spot` with a specific currency matches spots on either side of the pair. `expired=true` does not apply that extra spot union, so recently delivered spots are not returned under `currency=BTC`.
          *
-         *     Results are sorted with perpetuals first, then by expiration. Each instrument includes `underlying_type`. Spot routed to Coinbase Exchange includes `is_cbe_routed` / `is_csr`. Set `extended=true` for extra commission and (on futures) margin/perpetual fields that `public/get_instrument` does not return.
+         *     Results are sorted with perpetuals first, then by expiration. Each instrument includes `underlying_type`. Spot routed to Coinbase Exchange includes `is_cbe_routed` / `is_csr`. Set `extended=true` for extra commission and (on futures) trading bandwidth/perpetual fields that `public/get_instrument` does not return.
          *
          *     **📖 Related Articles:**
          *     - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
@@ -4729,7 +5495,7 @@ export interface paths {
                     kind?: components["schemas"]["kind_with_any"];
                     /** @description When `false` (default), return visible instruments plus inactive non-combo instruments. When `true`, return only instruments still in the live table with `state` `delivered` (recently expired, not archivized). Does not include the extra spot union used for a named `currency` when `expired=false`. */
                     expired?: boolean;
-                    /** @description When `true`, each instrument also includes `maker_max_commission`, `taker_max_commission`, `liquidation_max_commission`, and `settlement_max_commission`. Futures additionally include `margin_params` and `trading_bandwidth_fraction`; perpetuals also include `perpetual_dempener` and `perpetual_max_funding`. Default `false`. `public/get_instrument` does not accept this parameter. */
+                    /** @description When `true`, each instrument also includes `maker_max_commission`, `taker_max_commission`, `liquidation_max_commission`, and `settlement_max_commission`. Futures additionally include `trading_bandwidth_fraction`; perpetuals also include `perpetual_dempener` and `perpetual_max_funding`. Default `false`. `public/get_instrument` does not accept this parameter. */
                     extended?: boolean;
                 };
                 header?: never;
@@ -4743,7 +5509,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetInstrumentsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetInstrumentsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4791,7 +5565,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetInstrumentResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetInstrumentResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4839,7 +5621,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetHistoricalVolatilityResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetHistoricalVolatilityResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4885,7 +5675,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetFundingRateHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetFundingRateHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4931,7 +5729,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetFundingRateValueResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetFundingRateValueResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -4975,7 +5781,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetIndexChartDataResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetIndexChartDataResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5021,7 +5835,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetMarkPriceHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetMarkPriceHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5080,7 +5902,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetExpirationsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetExpirationsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5128,7 +5958,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetAprHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetAprHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5162,17 +6000,17 @@ export interface paths {
                 query: {
                     /** @description Instrument name */
                     instrument_name: components["schemas"]["instrument_name"];
-                    /** @description The sequence number of the first trade to be returned */
+                    /** @description Inclusive sequence number of the first trade to return; cannot be combined with start_timestamp. */
                     start_seq?: number;
-                    /** @description The sequence number of the last trade to be returned */
+                    /** @description Inclusive sequence number of the last trade to return; cannot be combined with end_timestamp. */
                     end_seq?: number;
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound. */
                     start_timestamp?: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). */
                     end_timestamp?: components["schemas"]["timestamp"];
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                 };
                 header?: never;
@@ -5186,7 +6024,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5220,13 +6066,13 @@ export interface paths {
                 query: {
                     /** @description Instrument name */
                     instrument_name: components["schemas"]["instrument_name"];
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
-                    start_timestamp: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
-                    end_timestamp: components["schemas"]["timestamp"];
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    start_timestamp?: components["schemas"]["timestamp"];
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    end_timestamp?: components["schemas"]["timestamp"];
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                 };
                 header?: never;
@@ -5240,7 +6086,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5286,13 +6140,13 @@ export interface paths {
                     start_id?: components["schemas"]["trade_id"];
                     /** @description The ID of the last trade to be returned. Number for BTC trades, or hyphen name in ex. `"ETH-15"` # `"ETH_USDC-16"` */
                     end_id?: components["schemas"]["trade_id"];
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound. */
                     start_timestamp?: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). */
                     end_timestamp?: components["schemas"]["timestamp"];
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                 };
                 header?: never;
@@ -5306,7 +6160,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5350,13 +6212,13 @@ export interface paths {
                     currency: components["schemas"]["currency"];
                     /** @description Instrument kind, `"combo"` for any combo or `"any"` for all. If not provided instruments of all kinds are considered */
                     kind?: components["schemas"]["kind_with_combo_all"];
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
-                    start_timestamp: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
-                    end_timestamp: components["schemas"]["timestamp"];
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    start_timestamp?: components["schemas"]["timestamp"];
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    end_timestamp?: components["schemas"]["timestamp"];
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                 };
                 header?: never;
@@ -5370,7 +6232,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5411,7 +6281,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetCurrenciesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetCurrenciesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5450,7 +6328,15 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["PublicGetFundingChartDataResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetFundingChartDataResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5488,8 +6374,8 @@ export interface paths {
                     start_timestamp: components["schemas"]["timestamp"];
                     /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch) */
                     end_timestamp: components["schemas"]["timestamp"];
-                    /** @description Chart bars resolution given in full minutes or keyword `1D` (only some specific resolutions are supported) */
-                    resolution: 1 | 3 | 5 | 10 | 15 | 30 | 60 | 120 | 180 | 360 | 720 | "1D";
+                    /** @description Chart bars resolution in minutes, or `1D` / `D` for daily bars. */
+                    resolution: "1" | "3" | "5" | "10" | "15" | "30" | "60" | "120" | "180" | "360" | "720" | "1D" | "D";
                 };
                 header?: never;
                 path?: never;
@@ -5502,7 +6388,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetTradingviewChartDataResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetTradingviewChartDataResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5556,7 +6450,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetVolatilityIndexDataResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetVolatilityIndexDataResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5604,7 +6506,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTickerResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTickerResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5625,7 +6535,7 @@ export interface paths {
         /**
          * @description Retrieves historical delivery prices for a given index. Delivery prices are the settlement prices used when futures or options contracts expire and are settled.
          *
-         *     Results can be paginated using the `offset` and `count` parameters. This method is useful for analyzing historical settlement prices and understanding how contracts have been settled over time.
+         *     Results can be paginated using the `offset` and `count` parameters. Optionally, results can be limited to a date range using `start_timestamp` and `end_timestamp` — each is mapped to the UTC calendar date of the delivery and both bounds are inclusive; `records_total` reflects the filtered set. This method is useful for analyzing historical settlement prices and understanding how contracts have been settled over time.
          *
          *     **📖 Related Article:** [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices)
          *
@@ -5640,6 +6550,10 @@ export interface paths {
                     offset?: number;
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
+                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch) */
+                    start_timestamp?: components["schemas"]["timestamp"];
+                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch) */
+                    end_timestamp?: components["schemas"]["timestamp"];
                 };
                 header?: never;
                 path?: never;
@@ -5652,7 +6566,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetDeliveryPricesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetDeliveryPricesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5671,18 +6593,27 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Signals the WebSocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections.
+         * @description Signals the WebSocket connection to send and request heartbeats. Heartbeats are used to detect stale or broken connections.
          *
-         *     When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
+         *     **Heartbeat & Disconnect Lifecycle:**
          *
-         *     **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response.
+         *     - When no message has been sent to the client for `interval` seconds, the server sends a `heartbeat` notification (`"params": {"type": "heartbeat"}`).
+         *     - When no message has been received from the client for `interval` seconds (plus 500 ms), the server sends a `heartbeat` notification with `"params": {"type": "test_request"}`. Respond by sending a `/api/v2/public/test` request.
+         *     - Any JSON text message from the client counts as activity and restarts this timer; WebSocket-level ping/pong frames and the plain-text `ping` / `PING` messages do not.
+         *     - If the connection stays silent until `(2 * interval) + 500 ms` after the last client message, the server closes the WebSocket with **close code 4000** (`heartbeat close`).
+         *     - If Cancel on Disconnect is enabled for the connection (connection or account scope), orders created over this connection are cancelled when it is closed.
+         *     - Calling this method again replaces the previous interval.
+         *
+         *     **Validation:** `interval` must be an integer between 10 and 300 seconds inclusive. Any other value (including fractional numbers) returns JSON-RPC error `-32602`.
+         *
+         *     **WebSocket Only:** This method is designed exclusively for WebSocket connections. Calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`).
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fset_heartbeat)
          */
         get: {
             parameters: {
                 query: {
-                    /** @description The heartbeat interval in seconds, but not less than 10 */
+                    /** @description The heartbeat interval in seconds (allowed range: 10 to 300) */
                     interval: number;
                 };
                 header?: never;
@@ -5696,7 +6627,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5717,7 +6656,9 @@ export interface paths {
         /**
          * @description Stop sending heartbeat messages. This method takes no parameters.
          *
-         *     **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response.
+         *     It also stops the server-side monitoring of client activity configured by [public/set_heartbeat](https://docs.deribit.com/api-reference/session-management/public-set_heartbeat): after this call the server neither sends `test_request` messages nor closes the connection with code 4000. The regular WebSocket idle timeout (10 minutes without incoming data) still applies.
+         *
+         *     **WebSocket Only:** This method is designed exclusively for WebSocket connections. Calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`).
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fdisable_heartbeat)
          */
@@ -5735,7 +6676,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5762,9 +6711,14 @@ export interface paths {
          *
          *     **Notice:** Cancel-on-Disconnect does not affect orders created by other connections - they will remain active! When change is applied on the `account` scope, then every newly opened connection will start with **active** Cancel on Disconnect.
          *
-         *     **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response.
+         *     **Scope & transport:**
          *
-         *     **Scope:** `account:read_write`
+         *     - `scope=connection` (the default) applies to the current WebSocket connection only and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`.
+         *     - `scope=account` changes the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read_write` scope. Connection scope only requires an authenticated connection.
+         *
+         *     **Restrictions:** Not available for retail broker main accounts or their subaccounts: error `14021` (`not_allowed_for_retail_brokers`) is returned for both scopes.
+         *
+         *     **Scope:** `account:read_write` (only for `scope=account`)
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fenable_cancel_on_disconnect)
          */
@@ -5785,7 +6739,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5808,9 +6770,12 @@ export interface paths {
          *
          *     When change is applied for the account, then every newly opened connection will start with **inactive** Cancel on Disconnect.
          *
-         *     **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response.
+         *     **Scope & transport:**
          *
-         *     **Scope:** `account:read_write`
+         *     - `scope=connection` (the default) applies to the current WebSocket connection only and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`.
+         *     - `scope=account` changes the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read_write` scope. Connection scope only requires an authenticated connection.
+         *
+         *     **Scope:** `account:read_write` (only for `scope=account`)
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fdisable_cancel_on_disconnect)
          */
@@ -5831,7 +6796,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5850,9 +6823,12 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Read current Cancel On Disconnect configuration for the account.
+         * @description Read the current Cancel On Disconnect configuration.
          *
-         *     **Scope:** `account:read`
+         *     - `scope=connection` (the default) returns the state for the current WebSocket connection and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`.
+         *     - `scope=account` returns the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read` scope.
+         *
+         *     **Scope:** `account:read` (only for `scope=account`)
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_cancel_on_disconnect)
          */
@@ -5873,7 +6849,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetCancelOnDisconnectResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetCancelOnDisconnectResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -5921,7 +6905,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSubscribeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSubscribeResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -5966,7 +6958,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["Getunsubscribe200response"];
+                /** @description Successfully unsubscribed from channels */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Getunsubscribe200response"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -6004,7 +7004,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6054,7 +7062,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSubscribeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSubscribeResponse"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -6099,7 +7115,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["Getunsubscribe200response"];
+                /** @description Successfully unsubscribed from channels */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Getunsubscribe200response"];
+                    };
+                };
                 401: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -6137,7 +7161,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6156,7 +7188,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
+         * @description Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself. This method is available only over WebSocket; calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`).
          *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fhello)
          */
@@ -6179,7 +7211,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTestResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTestResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6216,7 +7256,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicStatusResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicStatusResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6237,12 +7285,18 @@ export interface paths {
         /**
          * @description Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
          *
+         *     With `expected_result` set to `exception` the server returns error `11094` (`internal_server_error`) instead of the version, for example:
+         *
+         *     ```json
+         *     {"jsonrpc": "2.0", "id": 8213, "error": {"message": "internal_server_error", "code": 11094}}
+         *     ```
+         *
          *     [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ftest)
          */
         get: {
             parameters: {
                 query?: {
-                    /** @description The value "exception" will trigger an error response. This may be useful for testing wrapper libraries. */
+                    /** @description The value "exception" will trigger an error response with code `11094` (`internal_server_error`). This may be useful for testing wrapper libraries. */
                     expected_result?: "exception";
                 };
                 header?: never;
@@ -6256,7 +7310,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicTestResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicTestResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6293,7 +7355,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PublicGetTimeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PublicGetTimeResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6351,7 +7421,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSettlementResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSettlementResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6405,7 +7483,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSettlementResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSettlementResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6472,7 +7558,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOrderHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOrderHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6545,7 +7639,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOrderHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOrderHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6593,7 +7695,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOrderStateResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOrderStateResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -6648,7 +7758,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOrderStateByLabelResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOrderStateByLabelResponse"];
+                    };
+                };
                 400: components["responses"]["ErrorMessageResponse"];
             };
         };
@@ -6695,7 +7813,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOpenOrdersResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOpenOrdersResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6741,7 +7867,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOpenOrdersResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOpenOrdersResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6795,7 +7929,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOpenOrdersResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOpenOrdersResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6845,7 +7987,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOpenOrdersResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOpenOrdersResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6889,7 +8039,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetOrderMarginByIdsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetOrderMarginByIdsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6943,7 +8101,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetTriggerOrderHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetTriggerOrderHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -6979,15 +8145,15 @@ export interface paths {
                 query: {
                     /** @description Instrument name */
                     instrument_name: components["schemas"]["instrument_name"];
-                    /** @description The sequence number of the first trade to be returned */
+                    /** @description Inclusive sequence number of the first trade to return; cannot be combined with start_timestamp. */
                     start_seq?: number;
-                    /** @description The sequence number of the last trade to be returned */
+                    /** @description Inclusive sequence number of the last trade to return; cannot be combined with end_timestamp. */
                     end_seq?: number;
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound. */
                     start_timestamp?: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). */
                     end_timestamp?: components["schemas"]["timestamp"];
                     /**
                      * @description Determines whether historical trade and order records should be retrieved.
@@ -6998,7 +8164,7 @@ export interface paths {
                      *     **📖 Related Article:** [Accessing Historical Trades and Orders Using API](https://docs.deribit.com/articles/accessing-historical-trades-orders)
                      */
                     historical?: boolean;
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                     /** @description Id of a subaccount */
                     subaccount_id?: number;
@@ -7014,7 +8180,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetUserTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetUserTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7050,13 +8224,13 @@ export interface paths {
                 query: {
                     /** @description Instrument name */
                     instrument_name: components["schemas"]["instrument_name"];
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
-                    start_timestamp: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
-                    end_timestamp: components["schemas"]["timestamp"];
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    start_timestamp?: components["schemas"]["timestamp"];
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    end_timestamp?: components["schemas"]["timestamp"];
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                     /**
                      * @description Determines whether historical trade and order records should be retrieved.
@@ -7081,7 +8255,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetUserTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetUserTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7127,11 +8309,11 @@ export interface paths {
                     end_id?: components["schemas"]["trade_id"];
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound. */
                     start_timestamp?: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). */
                     end_timestamp?: components["schemas"]["timestamp"];
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                     /**
                      * @description Determines whether historical trade and order records should be retrieved.
@@ -7156,7 +8338,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetUserTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetUserTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7198,13 +8388,13 @@ export interface paths {
                     currency: components["schemas"]["currency"];
                     /** @description Instrument kind, `"combo"` for any combo or `"any"` for all. If not provided instruments of all kinds are considered */
                     kind?: components["schemas"]["kind_with_combo_all"];
-                    /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
-                    start_timestamp: components["schemas"]["timestamp"];
-                    /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
-                    end_timestamp: components["schemas"]["timestamp"];
+                    /** @description Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    start_timestamp?: components["schemas"]["timestamp"];
+                    /** @description Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp. */
+                    end_timestamp?: components["schemas"]["timestamp"];
                     /** @description Number of requested items, default - `10`, maximum - `1000` */
                     count?: number;
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                     /**
                      * @description Determines whether historical trade and order records should be retrieved.
@@ -7229,7 +8419,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetUserTradesHistoryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetUserTradesHistoryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7265,7 +8463,7 @@ export interface paths {
                 query: {
                     /** @description The order id */
                     order_id: components["schemas"]["order_id"];
-                    /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
+                    /** @description Result ordering: asc, desc, or the method-specific default. */
                     sorting?: components["schemas"]["sorting"];
                     /**
                      * @description Determines whether historical trade and order records should be retrieved.
@@ -7290,7 +8488,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetUserTradesByOrderResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetUserTradesByOrderResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7352,7 +8558,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelAllResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelAllResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7410,7 +8624,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelAllResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelAllResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7472,7 +8694,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelAllResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelAllResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7530,7 +8760,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelAllResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelAllResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7600,7 +8838,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelAllResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelAllResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7648,7 +8894,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelAllResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelAllResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7728,7 +8982,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelQuotesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelQuotesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7772,7 +9034,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCancelResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCancelResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7824,17 +9094,17 @@ export interface paths {
                     type?: "limit" | "stop_limit" | "take_limit" | "market" | "stop_market" | "take_market" | "market_limit" | "trailing_stop";
                     /** @description user defined label for the order (maximum 64 characters) */
                     label?: string;
-                    /** @description <p>The order price in base currency (Only for limit and stop_limit orders)</p> <p>When adding an order with advanced=usd, the field price should be the option price value in USD.</p> <p>When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
+                    /** @description <p>Order price in the instrument's price units (quote currency for futures and spot). Required for limit, stop_limit and take_limit; not used for market-like types.</p> <p>When adding an order with advanced=usd, the field price should be the option price value in USD.</p> <p>When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
                     price?: number;
                     /** @description <p>Specifies how long the order remains in effect. Default `"good_til_cancelled"`</p> <ul> <li>`"good_til_cancelled"` - unfilled order remains in order book until cancelled</li> <li>`"good_til_day"` - unfilled order remains in order book till the end of the trading session</li> <li>`"fill_or_kill"` - execute a transaction immediately and completely or not at all</li> <li>`"immediate_or_cancel"` - execute a transaction immediately, and any portion of the order that cannot be immediately filled is cancelled</li> </ul> <p>For spot trading, only `"good_til_cancelled"`, `"immediate_or_cancel"` and `"fill_or_kill"` are supported. `"good_til_day"` is not supported and will be rejected.</p> */
                     time_in_force?: "good_til_cancelled" | "good_til_day" | "fill_or_kill" | "immediate_or_cancel";
                     /**
-                     * @description Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well.
+                     * @description Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio.
                      *
                      *     Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments.
                      */
                     display_amount?: number;
-                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the spread.</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
+                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the spread.</p> <p>Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day.</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
                     post_only?: boolean;
                     /** @description <p>If an order is considered post-only and this field is set to true then the order is put to the order book unmodified or the request is rejected.</p> <p>Only valid in combination with `"post_only"` set to true</p> <p>For spot trading routed to Coinbase Exchange, this must be set to true whenever `"post_only"` is true; otherwise the request is rejected with `post_only_not_allowed`.</p> */
                     reject_post_only?: boolean;
@@ -7842,7 +9112,7 @@ export interface paths {
                     reduce_only?: boolean;
                     /** @description Trigger price, required for trigger orders only (Stop-loss or Take-profit orders) */
                     trigger_price?: number;
-                    /** @description The maximum deviation from the price peak beyond which the order will be triggered */
+                    /** @description Positive deviation from the price peak at which the order triggers; required for trailing_stop. */
                     trigger_offset?: number;
                     /** @description <p>Defines the trigger type. Required for `"Stop-Loss"`, `"Take-Profit"` and `"Trailing"` trigger orders</p> <p>For stop-limit orders routed to Coinbase Exchange, only `"last_price"` is allowed.</p> */
                     trigger?: components["schemas"]["trigger"];
@@ -7856,7 +9126,7 @@ export interface paths {
                     linked_order_type?: "one_triggers_other" | "one_cancels_other" | "one_triggers_one_cancels_other";
                     /** @description <p>The fill condition of the linked order (Only for linked order types), default: `first_hit`.</p> <ul> <li>`"first_hit"` - any execution of the primary order will fully cancel/place all secondary orders.</li> <li>`"complete_fill"` - a complete execution (meaning the primary order no longer exists) will cancel/place the secondary orders.</li> <li>`"incremental"` - any fill of the primary order will cause proportional partial cancellation/placement of the secondary order. The amount that will be subtracted/added to the secondary order will be rounded down to the contract size.</li> </ul> */
                     trigger_fill_condition?: "first_hit" | "complete_fill" | "incremental";
-                    /** @description List of secondary orders to place or cancel when the primary order is filled. Each entry in the array defines one secondary order. `amount` and `direction` are required; all other fields are optional. */
+                    /** @description List of secondary orders. Each requires positive `amount` and `direction`. Non-market types (including `take_limit`) require `price`. Stop/take orders require `trigger` and `trigger_price`; trailing-stop orders require `trigger` and positive `trigger_offset`. */
                     otoco_config?: {
                         /** @description **Required.** The secondary order size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
                         amount?: number;
@@ -7917,7 +9187,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateBuyAndSellResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateBuyAndSellResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -7969,17 +9247,17 @@ export interface paths {
                     type?: "limit" | "stop_limit" | "take_limit" | "market" | "stop_market" | "take_market" | "market_limit" | "trailing_stop";
                     /** @description user defined label for the order (maximum 64 characters) */
                     label?: string;
-                    /** @description <p>The order price in base currency (Only for limit and stop_limit orders)</p> <p>When adding an order with advanced=usd, the field price should be the option price value in USD.</p> <p>When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
+                    /** @description <p>Order price in the instrument's price units (quote currency for futures and spot). Required for limit, stop_limit and take_limit; not used for market-like types.</p> <p>When adding an order with advanced=usd, the field price should be the option price value in USD.</p> <p>When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
                     price?: number;
                     /** @description <p>Specifies how long the order remains in effect. Default `"good_til_cancelled"`</p> <ul> <li>`"good_til_cancelled"` - unfilled order remains in order book until cancelled</li> <li>`"good_til_day"` - unfilled order remains in order book till the end of the trading session</li> <li>`"fill_or_kill"` - execute a transaction immediately and completely or not at all</li> <li>`"immediate_or_cancel"` - execute a transaction immediately, and any portion of the order that cannot be immediately filled is cancelled</li> </ul> <p>For spot trading, only `"good_til_cancelled"`, `"immediate_or_cancel"` and `"fill_or_kill"` are supported. `"good_til_day"` is not supported and will be rejected.</p> */
                     time_in_force?: "good_til_cancelled" | "good_til_day" | "fill_or_kill" | "immediate_or_cancel";
                     /**
-                     * @description Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well.
+                     * @description Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio.
                      *
                      *     Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments.
                      */
                     display_amount?: number;
-                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just above the spread.</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
+                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just above the spread.</p> <p>Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day.</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
                     post_only?: boolean;
                     /** @description <p>If an order is considered post-only and this field is set to true then the order is put to the order book unmodified or the request is rejected.</p> <p>Only valid in combination with `"post_only"` set to true</p> <p>For spot trading routed to Coinbase Exchange, this must be set to true whenever `"post_only"` is true; otherwise the request is rejected with `post_only_not_allowed`.</p> */
                     reject_post_only?: boolean;
@@ -7987,7 +9265,7 @@ export interface paths {
                     reduce_only?: boolean;
                     /** @description Trigger price, required for trigger orders only (Stop-loss or Take-profit orders) */
                     trigger_price?: number;
-                    /** @description The maximum deviation from the price peak beyond which the order will be triggered */
+                    /** @description Positive deviation from the price peak at which the order triggers; required for trailing_stop. */
                     trigger_offset?: number;
                     /** @description <p>Defines the trigger type. Required for `"Stop-Loss"`, `"Take-Profit"` and `"Trailing"` trigger orders</p> <p>For stop-limit orders routed to Coinbase Exchange, only `"last_price"` is allowed.</p> */
                     trigger?: components["schemas"]["trigger"];
@@ -8001,7 +9279,7 @@ export interface paths {
                     linked_order_type?: "one_triggers_other" | "one_cancels_other" | "one_triggers_one_cancels_other";
                     /** @description <p>The fill condition of the linked order (Only for linked order types), default: `first_hit`.</p> <ul> <li>`"first_hit"` - any execution of the primary order will fully cancel/place all secondary orders.</li> <li>`"complete_fill"` - a complete execution (meaning the primary order no longer exists) will cancel/place the secondary orders.</li> <li>`"incremental"` - any fill of the primary order will cause proportional partial cancellation/placement of the secondary order. The amount that will be subtracted/added to the secondary order will be rounded down to the contract size.</li> </ul> */
                     trigger_fill_condition?: "first_hit" | "complete_fill" | "incremental";
-                    /** @description List of secondary orders to place or cancel when the primary order is filled. Each entry in the array defines one secondary order. `amount` and `direction` are required; all other fields are optional. */
+                    /** @description List of secondary orders. Each requires positive `amount` and `direction`. Non-market types (including `take_limit`) require `price`. Stop/take orders require `trigger` and `trigger_price`; trailing-stop orders require `trigger` and positive `trigger_offset`. */
                     otoco_config?: {
                         /** @description **Required.** The secondary order size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
                         amount?: number;
@@ -8062,7 +9340,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateBuyAndSellResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateBuyAndSellResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8104,9 +9390,9 @@ export interface paths {
                     amount?: number;
                     /** @description It represents the requested order size in contract units and can be passed instead of `amount`. The `contracts` is a mandatory parameter if `amount` parameter is missing. If both `contracts` and `amount` parameter are passed they must match each other otherwise error is returned. */
                     contracts?: number;
-                    /** @description <p>The order price in base currency.</p> <p>When editing an option order with advanced=usd, the field price should be the option price value in USD.</p> <p>When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
+                    /** @description <p>The order price in the instrument's price units (quote currency for futures and spot).</p> <p>When editing an option order with advanced=usd, the field price should be the option price value in USD.</p> <p>When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
                     price?: number;
-                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type).</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
+                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type).</p> <p>Omitted means unchanged. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day.</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
                     post_only?: boolean;
                     /** @description If `true`, the order is considered reduce-only which is intended to only reduce a current position */
                     reduce_only?: boolean;
@@ -8116,14 +9402,14 @@ export interface paths {
                     advanced?: components["schemas"]["advanced"];
                     /** @description Trigger price, required for trigger orders only (Stop-loss or Take-profit orders) */
                     trigger_price?: number;
-                    /** @description The maximum deviation from the price peak beyond which the order will be triggered */
+                    /** @description Positive deviation from the price peak at which the order triggers; required for trailing_stop. */
                     trigger_offset?: number;
                     /** @description Order MMP flag, only for order_type 'limit' */
                     mmp?: boolean;
                     /** @description Timestamp, when provided server will start processing request in Matching Engine only before given timestamp, in other cases `timed_out` error will be responded. Remember that the given timestamp should be consistent with the server's time, use <a href='#public-get_time'>/public/time</a> method to obtain current server time. */
                     valid_until?: number;
                     /**
-                     * @description Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well.
+                     * @description Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio.
                      *
                      *     Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments.
                      */
@@ -8140,7 +9426,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateEditResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateEditResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8184,9 +9478,9 @@ export interface paths {
                     amount?: number;
                     /** @description It represents the requested order size in contract units and can be passed instead of `amount`. The `contracts` is a mandatory parameter if `amount` parameter is missing. If both `contracts` and `amount` parameter are passed they must match each other otherwise error is returned. */
                     contracts?: number;
-                    /** @description <p>The order price in base currency.</p> <p>When editing an option order with advanced=usd, the field price should be the option price value in USD.</p> <p>When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
+                    /** @description <p>The order price in the instrument's price units (quote currency for futures and spot).</p> <p>When editing an option order with advanced=usd, the field price should be the option price value in USD.</p> <p>When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
                     price?: number;
-                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type).</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
+                    /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type).</p> <p>Omitted means unchanged. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day.</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
                     post_only?: boolean;
                     /** @description If `true`, the order is considered reduce-only which is intended to only reduce a current position */
                     reduce_only?: boolean;
@@ -8212,7 +9506,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateEditResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateEditResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8260,7 +9562,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateBuyAndSellResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateBuyAndSellResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8324,7 +9634,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetMarginsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetMarginsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8384,7 +9702,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetMmpConfigResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetMmpConfigResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8442,7 +9768,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetMmpStatusResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetMmpStatusResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8576,7 +9910,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSetMmpConfigResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSetMmpConfigResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8642,7 +9984,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["OkResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["OkResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8743,7 +10093,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateMassQuoteResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateMassQuoteResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8810,7 +10168,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivatePositionMoveResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivatePositionMoveResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8862,7 +10228,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetDepositsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetDepositsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8912,7 +10286,7 @@ export interface paths {
                      *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
                      */
                     currency: components["schemas"]["currency"];
-                    /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
+                    /** @description Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks. */
                     network?: string;
                     /** @description Label of the deposit address. **Coinbase wallet type only.** */
                     label?: components["schemas"]["address_label"];
@@ -8928,7 +10302,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateDepositAddressResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateDepositAddressResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -8968,7 +10350,7 @@ export interface paths {
                      *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
                      */
                     currency: components["schemas"]["currency"];
-                    /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
+                    /** @description Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks. */
                     network?: string;
                 };
                 header?: never;
@@ -8982,7 +10364,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateDepositAddressResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateDepositAddressResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9040,14 +10430,14 @@ export interface paths {
                     address?: components["schemas"]["currency_address"];
                     /** @description Amount of funds to be withdrawn */
                     amount: number;
-                    /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
+                    /** @description Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks. */
                     network?: string;
                     /** @description Destination tag / memo for networks that support one. **Coinbase wallet type only.** Used together with `address` and `network`; also serves to disambiguate address book entries that share the same address. */
                     tag?: string;
                     /** @description Unique identifier (UUID7) of the address book entry, as returned in the `id` field of `private/get_address_book` results. **Coinbase wallet type only.** Can be used instead of `address` (with `network` and `tag`) to identify the entry. */
                     id?: string;
-                    /** @description Withdrawal priority, optional for BTC, default: `high` */
-                    priority?: "insane" | "extreme_high" | "very_high" | "high" | "mid" | "low" | "very_low";
+                    /** @description Withdrawal priority, default: `high`. Note: fee priority levels are only configured for BTC; other currencies default to standard ratio 1.0. */
+                    priority?: "insane" | "extreme_high" | "very_high" | "high" | "normal" | "mid" | "low" | "very_low";
                     /** @description Optional idempotency nonce. If provided, subsequent requests with the same nonce will return the previously created transaction instead of creating a new one. Must be 8-128 characters. The nonce is persisted on the resulting transaction and returned in the response. */
                     nonce?: components["schemas"]["nonce"];
                 };
@@ -9062,7 +10452,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateWithdrawResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateWithdrawResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9112,7 +10510,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateWithdrawResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateWithdrawResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9164,7 +10570,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetWithdrawalsResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetWithdrawalsResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9214,7 +10628,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateAddressBookResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateAddressBookResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9262,7 +10684,7 @@ export interface paths {
                     type: components["schemas"]["address_book_type"];
                     /** @description Address in currency format. **Required for legacy wallet type.** **Coinbase wallet type:** required when `counterparty_id` is not provided, and must then be used together with `currency` and `network` (and `tag` for networks that require one). For Coinbase wallet type the same value is also stored as the beneficiary address travel rule field. */
                     address?: components["schemas"]["currency_address"];
-                    /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
+                    /** @description Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks. */
                     network?: string;
                     /** @description Destination tag / memo for networks that support one. **Coinbase wallet type only.** Used together with `address` and `network`; also serves to disambiguate address book entries that share the same address. */
                     tag?: string;
@@ -9318,7 +10740,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateAddToAddressBookResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateAddToAddressBookResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9358,7 +10788,7 @@ export interface paths {
                     type: components["schemas"]["address_book_type_without_deposit_source"];
                     /** @description Address in currency format, it must be in address book. **Required for legacy wallet type.** **Coinbase wallet type:** required when `id` is not provided; use `network` and `tag` to disambiguate entries sharing the same address. */
                     address?: components["schemas"]["currency_address"];
-                    /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
+                    /** @description Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks. */
                     network?: string;
                     /** @description Destination tag / memo for networks that support one. **Coinbase wallet type only.** Used together with `address` and `network`; also serves to disambiguate address book entries that share the same address. */
                     tag?: string;
@@ -9376,7 +10806,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateRemoveFromAddressBookResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateRemoveFromAddressBookResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9422,7 +10860,7 @@ export interface paths {
                     type: components["schemas"]["address_book_type"];
                     /** @description Address in currency format, it must be in address book. **Required for legacy wallet type.** **Coinbase wallet type:** required when `id` is not provided; use `network` and `tag` to disambiguate entries sharing the same address. For Coinbase wallet type the same value is also stored as the beneficiary address travel rule field. */
                     address?: components["schemas"]["currency_address"];
-                    /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
+                    /** @description Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks. */
                     network?: string;
                     /** @description Destination tag / memo for networks that support one. **Coinbase wallet type only.** Used together with `address` and `network`; also serves to disambiguate address book entries that share the same address. */
                     tag?: string;
@@ -9476,7 +10914,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateUpdateInAddressBookResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateUpdateInAddressBookResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9516,7 +10962,7 @@ export interface paths {
                     type: components["schemas"]["address_book_type_without_deposit_source"];
                     /** @description Address in currency format, it must be in address book. **Required for legacy wallet type.** **Coinbase wallet type:** required when `id` is not provided; use `network` and `tag` to disambiguate entries sharing the same address. */
                     address?: components["schemas"]["currency_address"];
-                    /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
+                    /** @description Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks. */
                     network?: string;
                     /** @description Destination tag / memo for networks that support one. **Coinbase wallet type only.** Used together with `address` and `network`; also serves to disambiguate address book entries that share the same address. */
                     tag?: string;
@@ -9536,7 +10982,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSetAddressRequiresSecurityKeyResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSetAddressRequiresSecurityKeyResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9584,7 +11038,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateCoinbaseEstimateWithdrawalFeeResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateCoinbaseEstimateWithdrawalFeeResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9628,7 +11090,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSetCoinbaseSubaccountWithdrawalsAllowedResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSetCoinbaseSubaccountWithdrawalsAllowedResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9700,7 +11170,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSaveAddressBeneficiaryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSaveAddressBeneficiaryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9752,7 +11230,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetAddressBeneficiaryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetAddressBeneficiaryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9804,7 +11290,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateDeleteAddressBeneficiaryResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateDeleteAddressBeneficiaryResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9874,7 +11368,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateListAddressBeneficiariesResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateListAddressBeneficiariesResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9926,7 +11428,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSubmitTransferResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSubmitTransferResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -9966,7 +11476,7 @@ export interface paths {
                     amount: number;
                     /** @description Id of destination subaccount. Can be found in `My Account >> Subaccounts` tab */
                     destination: number;
-                    /** @description Id of the source (sub)account. Can be found in `My Account >> Subaccounts` tab. By default, it is the Id of the account which made the request. However, if a different "source" is specified, the user must possess the mainaccount scope, and only other subaccounts can be designated as the source. */
+                    /** @description Source account id, defaulting to the caller. With main-account authorization, either the main account or one of its subaccounts may be the source; a subaccount caller can transfer only from itself to its main account. */
                     source?: number;
                     /** @description Optional idempotency nonce. If provided, subsequent requests with the same nonce will return the previously created transaction instead of creating a new one. Must be 8-128 characters. The nonce is persisted on the resulting transaction and returned in the response. */
                     nonce?: components["schemas"]["nonce"];
@@ -9982,7 +11492,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSubmitTransferResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSubmitTransferResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -10034,7 +11552,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSubmitTransferResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSubmitTransferResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -10086,7 +11612,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetTransfersResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetTransfersResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -10136,7 +11670,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateSubmitTransferResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateSubmitTransferResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -10177,7 +11719,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["PrivateGetRewardEligibilityResponse"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["PrivateGetRewardEligibilityResponse"];
+                    };
+                };
             };
         };
         put?: never;
@@ -10221,7 +11771,15 @@ export interface paths {
                 };
             };
             responses: {
-                200: components["responses"]["deposit"];
+                /** @description Success response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["deposit"];
+                    };
+                };
             };
         };
         put?: never;
@@ -10258,33 +11816,18 @@ export interface components {
             /** @description Address that can be used for deposits */
             deposit_address?: string;
         };
-        /** @description Custody log */
-        custody_log: {
-            currency: components["schemas"]["currency"];
-            /** @description Request ID */
-            request_id: string;
-            /**
-             * @description Request type
-             * @enum {string}
-             */
-            request: "add_funds" | "remove_funds" | "deposit_funds" | "withdraw_funds";
-            /** @description When request was successful set to `true` */
-            success: boolean;
-            timestamp: components["schemas"]["timestamp"];
-            amount?: components["schemas"]["currency_amount"];
-        };
         book_summary: {
             instrument_name: components["schemas"]["instrument_name"];
             /**
              * @description Price of the 24h highest trade
              * @example 7022.89
              */
-            high: number;
+            high: number | null;
             /**
              * @description Price of the 24h lowest trade, `null` if there weren't any trades
              * @example 7022.89
              */
-            low: number;
+            low: number | null;
             /**
              * @description Base currency
              * @example ETH
@@ -10304,17 +11847,17 @@ export interface components {
              * @description The current best bid price, `null` if there aren't any bids
              * @example 7022.89
              */
-            bid_price: number;
+            bid_price: number | null;
             /**
              * @description The current best ask price, `null` if there aren't any asks
              * @example 7022.89
              */
-            ask_price: number;
+            ask_price: number | null;
             /**
              * @description The average of the best bid and ask, `null` if there aren't any asks or bids
              * @example 7022.89
              */
-            mid_price: number;
+            mid_price: number | null;
             /**
              * @description The current instrument market price
              * @example 7022.89
@@ -10324,12 +11867,12 @@ export interface components {
              * @description The price of the latest trade, `null` if there weren't any trades
              * @example 7022.89
              */
-            last: number;
+            last: number | null;
             /**
              * @description Optional (only for derivatives). The total amount of outstanding contracts in the corresponding amount units. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin.
              * @example 0.5
              */
-            open_interest: number;
+            open_interest?: number;
             creation_timestamp: components["schemas"]["timestamp"];
             /**
              * @description Optional (only for derivatives). Estimated delivery price for the market.
@@ -10367,7 +11910,7 @@ export interface components {
              * @description 24-hour price change expressed as a percentage, `null` if there weren't any trades
              * @example 10.23
              */
-            price_change?: number;
+            price_change?: number | null;
         };
         position: {
             instrument_name: components["schemas"]["instrument_name"];
@@ -10431,6 +11974,10 @@ export interface components {
             state: components["schemas"]["transfer_state"];
             direction?: components["schemas"]["transfer_direction"];
             updated_timestamp: components["schemas"]["timestamp"];
+            /** @description Source account id; present for subaccount transfer submissions. */
+            source?: number;
+            /** @description Transfer note (empty string if unset). */
+            note?: string;
             /** @description Optional idempotency nonce if provided in the request */
             nonce?: string;
         };
@@ -10560,20 +12107,6 @@ export interface components {
             created: components["schemas"]["timestamp"];
             updated: components["schemas"]["timestamp"];
         };
-        address_ownership_item: {
-            owner_vasp_did: components["schemas"]["did"];
-            address: components["schemas"]["currency_address"];
-            address_type: components["schemas"]["currency_address_type"];
-            asset: components["schemas"]["currency"];
-            source: components["schemas"]["source"];
-        };
-        vasp_item: {
-            did?: components["schemas"]["did"];
-            /** @description Unique identifier of the VASP. Present for Coinbase wallet type accounts (Coinbase bridge VASP directory) instead of `did` */
-            uuid?: string;
-            jurisdictions?: components["schemas"]["jurisdictions"];
-            name: components["schemas"]["vasp_name"];
-        };
         withdrawal: {
             address: components["schemas"]["currency_address"];
             amount: components["schemas"]["currency_amount"];
@@ -10600,6 +12133,13 @@ export interface components {
             updated_timestamp: components["schemas"]["timestamp"];
             /** @description Optional idempotency nonce if provided in the request */
             nonce?: string;
+            /** @description Withdrawal note. */
+            note?: string;
+            /** @description Number of completed withdrawals to this address. */
+            completed?: number;
+            /** @description Execution timestamp in milliseconds since the Unix epoch; present only when set and state is confirmed. */
+            execution_timestamp?: number;
+            clearance_state?: components["schemas"]["clearance_state"];
         };
         /** @description Result of a withdrawal for a Coinbase wallet type account. Returned instead of `withdrawal` for Coinbase wallet type users. Fields that are not set are omitted from the response. */
         coinbase_withdrawal_result: {
@@ -10673,8 +12213,9 @@ export interface components {
             clearance_state?: components["schemas"]["clearance_state"];
             refund_transaction_id?: components["schemas"]["currency_transaction_id"];
         };
+        /** @description Portfolio entries keyed by lowercase currency code. */
         portfolio: {
-            "btc(example)"?: components["schemas"]["currency_portfolio"];
+            [key: string]: components["schemas"]["currency_portfolio"];
         };
         trades_volumes: {
             currency: components["schemas"]["currency"];
@@ -10742,11 +12283,8 @@ export interface components {
         currency_portfolio: {
             /** @description The account's margin balance. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index. */
             margin_balance: number;
-            /**
-             * @description The selected currency
-             * @enum {string}
-             */
-            currency: "btc" | "eth";
+            /** @description The selected currency */
+            currency: string;
             /** @description The maintenance margin. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index. */
             maintenance_margin: number;
             /** @description The account's initial margin. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index. */
@@ -10776,14 +12314,6 @@ export interface components {
             enabled_features?: components["schemas"]["api_key_features"];
             /** @description List of IP addresses whitelisted for a selected key */
             ip_whitelist?: unknown[];
-        };
-        security_key: {
-            id: components["schemas"]["security_key_id"];
-            name: components["schemas"]["security_key_name"];
-            type: components["schemas"]["security_key_type"];
-            assignments: components["schemas"]["security_key_assignments"];
-            timestamp: components["schemas"]["security_key_timestamp"];
-            last_used: components["schemas"]["security_key_last_used"];
         };
         access_log: {
             id: components["schemas"]["id"];
@@ -11043,7 +12573,7 @@ export interface components {
              */
             liquidation?: "M" | "T" | "MT";
             /** @description Mark Price at the moment of trade */
-            mark_price: number;
+            mark_price: number | null;
             block_trade_id?: components["schemas"]["block_trade_id_in_result"];
             block_trade_leg_count?: components["schemas"]["block_trade_leg_count"];
             /** @description Optional field containing combo instrument name if the trade is a combo trade */
@@ -11054,6 +12584,8 @@ export interface components {
             starbase_match_id?: number;
             /** @description ID of the Block RFQ - when trade was part of the Block RFQ */
             block_rfq_id?: number;
+            /** @description Leg trades, present when querying only combo trades. */
+            legs?: components["schemas"]["public_trade"][];
         };
         user_trade: {
             trade_id: components["schemas"]["trade_id"];
@@ -11081,10 +12613,10 @@ export interface components {
              */
             advanced?: "usd" | "implv";
             /** @description Id of the user order (maker or taker), i.e. subscriber's order id that took part in the trade */
-            order_id: string;
-            /** @description Always `null` */
-            matching_id: string;
-            /** @description Trade direction of the taker */
+            order_id: string | null;
+            /** @description Matched order id for self-trades; null otherwise. */
+            matching_id: string | null;
+            /** @description Trade direction of the user */
             direction: components["schemas"]["direction"];
             tick_direction: components["schemas"]["tick_direction"];
             /** @description Index Price at the moment of trade */
@@ -11120,10 +12652,10 @@ export interface components {
             block_rfq_id?: number;
             /** @description ID of the Block RFQ quote - when trade was part of the Block RFQ */
             block_rfq_quote_id?: number;
-            /** @description `true` if user order is reduce-only */
-            reduce_only?: string;
+            /** @description `true` if user order is reduce-only; omitted for spot trades. */
+            reduce_only?: boolean;
             /** @description `true` if user order is post-only */
-            post_only?: string;
+            post_only?: boolean;
             /** @description `true` if user order is MMP */
             mmp?: boolean;
             /** @description `true` if user order is marked by the platform as a risk reducing order (can apply only to orders placed by PM users) */
@@ -11132,7 +12664,7 @@ export interface components {
             api?: boolean;
             profit_loss?: components["schemas"]["profit_loss"];
             /** @description Mark Price at the moment of trade */
-            mark_price: number;
+            mark_price: number | null;
             /** @description Optional field containing leg trades if trade is a combo trade (present when querying for **only** combo trades and in `combo_trades` events). Each leg trade has the same fields as a top-level user trade, including `starbase_match_id`, `starbase_order_id`, and `starbase_timestamp` when matched in Starbase, and `starbase_client_order_id` for orders submitted via [Starbase](https://docs.deribit.com/starbase/overview) direct access. */
             legs?: unknown[];
             /** @description Optional field containing combo instrument name if the trade is a combo trade */
@@ -11341,14 +12873,6 @@ export interface components {
             liquidation_max_commission?: number;
             /** @description Optional. Maximum settlement commission. Returned only when `extended=true` on `public/get_instruments`. */
             settlement_max_commission?: number;
-            /** @description Optional (futures only). Formatted margin parameters. Returned only when `extended=true` on `public/get_instruments`. */
-            margin_params?: {
-                i_inc?: number;
-                m_fee?: number;
-                m_inc?: number;
-                m_init?: number;
-                m_pow?: number;
-            };
             /** @description Optional (futures only). Trading bandwidth fraction used in mark-price logic. Returned only when `extended=true` on `public/get_instruments`. */
             trading_bandwidth_fraction?: number;
             /** @description Optional (perpetual futures only). Perpetual funding dampener. Returned only when `extended=true` on `public/get_instruments`. The JSON field name is spelled `dempener`. */
@@ -11371,7 +12895,7 @@ export interface components {
              */
             block_trade_min_trade_amount?: number;
             /**
-             * @description Maximal leverage for the default risk profile. Present on futures. Also present on some USDC spot pairs when spot margin loans are enabled (borrowable base, USDC quote); other spots omit the field. Not present on options.
+             * @description Maximal leverage for the default risk profile (futures). For spot, present only on cross pairs when spot margin loans are enabled: derived from the loan initial-margin rate for borrowable USDC-quoted pairs, otherwise 1. Omitted on other spots and options.
              * @example 100
              */
             max_leverage?: number;
@@ -11495,12 +13019,6 @@ export interface components {
             initial_margin: number;
             /** @description Currency of initial margin */
             initial_margin_currency?: string;
-        };
-        user_change: {
-            instrument_name?: components["schemas"]["instrument_name"];
-            trades?: components["schemas"]["user_trade"][];
-            orders?: components["schemas"]["order"][];
-            position?: components["schemas"]["position"][];
         };
         block_trade: {
             id: components["schemas"]["block_trade_id"];
@@ -11658,44 +13176,6 @@ export interface components {
                 cooldown_end: number | null;
             };
         };
-        get_balance: {
-            currency: components["schemas"]["currency"];
-            /** @description Equity of the main account */
-            equity: number;
-            /** @description Funds available for withdrawal */
-            available_withdrawal_funds: number;
-            /** @description Equity of the main account + subaccounts */
-            total_equity: number;
-            /** @description Custody balance */
-            custody: number;
-            /** @description Profit net loss of the user (total_equity - custody) */
-            pnl: number;
-            /** @description The encrypted result json in base64 format. It can be used to verify that values are generated by Deribit. */
-            encrypted?: number;
-        };
-        get_custody_balance: {
-            currency: components["schemas"]["currency"];
-            /** @description Equity of the main account */
-            equity: number;
-            /** @description Funds available for withdrawal */
-            available_withdrawal_funds: number;
-            /** @description Equity of the main account + subaccounts. Takes into account external equity. */
-            total_equity: number;
-            /** @description Custody balance */
-            custody: number;
-            /** @description Profit net loss of the user (total_equity - custody) */
-            pnl: number;
-            /** @description The encrypted result json in base64 format. It can be used to verify that values are generated by Deribit. */
-            encrypted?: number;
-        };
-        /**
-         * @description Withdrawal Policy mode, i.e. `"manual"`, `"automated"`, `"suspended"`
-         * @enum {string}
-         */
-        withdrawal_policy_mode: "manual" | "automated" | "suspended";
-        withdrawal_policy_limits: {
-            h24: components["schemas"]["withdrawal_policy_limit_buckets"];
-        };
         /**
          * @description Expiration labels for futures and options. Not Unix timestamps. Each value is a string such as `21SEP24` or `PERPETUAL`.
          *
@@ -11716,8 +13196,12 @@ export interface components {
             jsonrpc: "2.0";
             /** @description The id that was sent in the request */
             id?: number;
-            message: string;
-            error: number;
+            error: {
+                code: number;
+                message: string;
+                /** @description Optional error details. */
+                data?: unknown;
+            };
         };
         OkResponse: {
             /**
@@ -11855,32 +13339,6 @@ export interface components {
                 volume?: components["schemas"]["chart_volume"][];
                 /** @description List of cost bars (volume in quote currency, one per candle) */
                 cost?: components["schemas"]["chart_volume"][];
-                /** @description List of prices at open (one per candle) */
-                open?: components["schemas"]["quote_price"][];
-                /** @description List of prices at close (one per candle) */
-                close?: components["schemas"]["quote_price"][];
-                /** @description List of highest price levels (one per candle) */
-                high?: components["schemas"]["quote_price"][];
-                /** @description List of lowest price levels (one per candle) */
-                low?: components["schemas"]["quote_price"][];
-            };
-        };
-        PublicGetMarkpriceChartDataResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /**
-                 * @description Status of the query: `ok` or `no_data`
-                 * @enum {string}
-                 */
-                status?: "ok" | "no_data";
-                /** @description Values of the time axis given in milliseconds since UNIX epoch */
-                ticks?: components["schemas"]["timestamp"][];
                 /** @description List of prices at open (one per candle) */
                 open?: components["schemas"]["quote_price"][];
                 /** @description List of prices at close (one per candle) */
@@ -12045,7 +13503,7 @@ export interface components {
                 token_type: "bearer";
                 /**
                  * @description Token lifetime in seconds
-                 * @example 315360000
+                 * @example 31536000
                  */
                 expires_in: number;
                 /**
@@ -12067,6 +13525,10 @@ export interface components {
                 mandatory_tfa_status?: string;
                 /** @description The access token was acquired by logging in through Google. */
                 google_login?: boolean;
+                /** @description The access token was acquired by logging in through Apple. */
+                apple_login?: boolean;
+                /** @description The access token was acquired by logging in through Coinbase. */
+                coinbase_login?: boolean;
             };
         };
         PublicTokenResponse: {
@@ -12086,8 +13548,8 @@ export interface components {
                  */
                 token_type: "bearer";
                 /**
-                 * @description Token lifetime in seconds
-                 * @example 315360000
+                 * @description Remaining token lifetime in seconds
+                 * @example 900
                  */
                 expires_in: number;
                 /**
@@ -12097,7 +13559,7 @@ export interface components {
                 refresh_token: string;
                 /** @description Type of the access for assigned token */
                 scope: string;
-                /** @description Optional Session id */
+                /** @description Session id (present for session scope tokens) */
                 sid?: string;
             };
         };
@@ -12110,16 +13572,6 @@ export interface components {
             /** @description The id that was sent in the request */
             id?: number;
             result: components["schemas"]["TickerNotification"];
-        };
-        PublicTickersByExpirationResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["TickerNotification"][];
         };
         PublicTradesHistoryResponse: {
             /**
@@ -12376,22 +13828,6 @@ export interface components {
             id?: number;
             result: components["schemas"]["trades_volumes"][];
         };
-        PublicGetSecurityKeysResetDataResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /**
-                 * @description Email of account which Security Keys are about to reset
-                 * @example support@deribit.com
-                 */
-                email: string;
-            };
-        };
         PublicGetCombosResponse: {
             /**
              * @description The JSON-RPC version (2.0)
@@ -12495,9 +13931,16 @@ export interface components {
             jsonrpc: "2.0";
             /** @description The id that was sent in the request */
             id?: number;
+            /**
+             * @description Regular, trigger and OTO/OTOCO results contain `order` and `trades`.
+             *     When a `one_cancels_other` request places two orders, the result contains
+             *     `oco_orders` and `trades` instead. A single regular-order result still uses `order`.
+             */
             result: {
-                order: components["schemas"]["order"];
+                order?: components["schemas"]["order"];
                 trades: components["schemas"]["user_trade"][];
+                /** @description The two orders placed by an OCO request; returned instead of order. */
+                oco_orders?: components["schemas"]["order"][];
             };
         };
         PrivateGetOrderStateResponse: {
@@ -12563,10 +14006,6 @@ export interface components {
                 is_password: boolean;
                 /** @description Margin model */
                 margin_model?: string;
-                /** @description Hashed identifier used in the Proof Of Liability for the subaccount. This identifier allows you to find your entries in the Deribit Proof-Of-Reserves files. IMPORTANT: Keep it secret to not disclose your entries in the Proof-Of-Reserves. */
-                proof_id?: string;
-                /** @description Signature used as a base string for proof_id hash. IMPORTANT: Keep it secret to not disclose your entries in the Proof-Of-Reserves. */
-                proof_id_signature?: string;
                 /** @description Informs whether login to the subaccount is enabled */
                 login_enabled?: boolean;
                 /** @description Only if with_portfolio == true */
@@ -12632,10 +14071,6 @@ export interface components {
                 margin_model: string;
                 /** @description List of disabled trading products */
                 disabled_trading_products: string[];
-                /** @description hashed identifier used in the Proof Of Liability for the subaccount. This identifier allows you to find your entries in the Deribit Proof-Of-Reserves files. IMPORTANT: Keep it secret to not disclose your entries in the Proof-Of-Reserves. */
-                proof_id: string;
-                /** @description signature used as a base string for proof_id hash. IMPORTANT: Keep it secret to not disclose your entries in the Proof-Of-Reserves. */
-                proof_id_signature: string;
                 /** @description Details about trading products availability */
                 trading_products_details: {
                     enabled?: boolean;
@@ -13149,7 +14584,7 @@ export interface components {
                  * @example 1542100802842
                  */
                 creation_timestamp?: number;
-                /** @description Optional field returned with value `true` when user has non block chain equity that is excluded from proof of reserve calculations */
+                /** @description Optional field returned with value `true` when user has non block chain equity */
                 has_non_block_chain_equity?: boolean;
                 /** @description Self trading rejection behavior - `reject_taker` or `cancel_maker` (available when parameter `extended` = `true`) */
                 self_trading_reject_mode?: string;
@@ -13460,7 +14895,7 @@ export interface components {
                      */
                     total_delta_total_usd?: number;
                     limits?: components["schemas"]["api_limits"];
-                    /** @description Optional field returned with value `true` when user has non block chain equity that is excluded from proof of reserve calculations */
+                    /** @description Optional field returned with value `true` when user has non block chain equity */
                     has_non_block_chain_equity?: boolean;
                     /** @description Fee structure for all currency pairs and instrument types related to the currency (available when parameter `extended` = `true` and user has any discounts). Keys are index names (e.g., "btc_usd"), values are objects with instrument types as keys (option, perpetual, future). */
                     fees?: {
@@ -13842,58 +15277,6 @@ export interface components {
                 currency: components["schemas"]["currency"];
             }[];
         };
-        PrivateGetSecurityKeyActivationDataResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @description Activation challenge, needs to be send with activation request */
-                activation_challenge: string;
-                /** @description Email address of current account */
-                account?: string;
-                /** @description Domain name */
-                issuer?: string;
-                type?: components["schemas"]["security_key_type"];
-                /** @description TFA Secret (for tfa type only) */
-                secret?: string;
-                /** @description Data for U2F activation */
-                data?: Record<string, never>;
-            };
-        };
-        PrivateListSecurityKeysResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["security_key"][];
-        };
-        PrivateGetSecurityKeyStatusResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /**
-                 * @description Current Security Keys management mode
-                 * @enum {string}
-                 */
-                mode: "basic" | "advanced";
-                /** @description `true` if there is any assignment to any key made */
-                enabled: boolean;
-                /** @description List of assignments that has Security Key assigned, allowed values: `login`, `account`, `wallet`, `admin` */
-                assignments: ("login" | "account" | "wallet" | "admin")[];
-            };
-        };
         PrivateSetAddressRequiresSecurityKeyResponse: {
             /**
              * @description The JSON-RPC version (2.0)
@@ -13955,8 +15338,8 @@ export interface components {
             /** @description The id that was sent in the request */
             id?: number;
             result: {
-                scope?: components["schemas"]["cod_scope"];
-                enabled?: components["schemas"]["enabled_field"];
+                scope: components["schemas"]["cod_scope"];
+                enabled: components["schemas"]["enabled_field"];
             };
         };
         PrivateGetTransactionLogResponse: {
@@ -14095,36 +15478,6 @@ export interface components {
             /** @description The id that was sent in the request */
             id?: number;
             result: components["schemas"]["pending_block_trade"][];
-        };
-        PrivateChangePasswordResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @example 843SehgeX5n6XxEU4XbABx4Cny5Akai5iHiJePTsvUw7 */
-                access_token: string;
-                /**
-                 * @description Authorization type, allowed value - `bearer`
-                 * @enum {string}
-                 */
-                token_type: "bearer";
-                /**
-                 * @description Token lifetime in seconds
-                 * @example 315360000
-                 */
-                expires_in: number;
-                /**
-                 * @description Can be used to request a new token (with a new lifetime)
-                 * @example 6faf8L36JdaSqsjCEEiwqifPpj6JB18RWwiWHrsGTZ91
-                 */
-                refresh_token: string;
-                /** @description Type of the access for assigned token */
-                scope: string;
-            };
         };
         PrivateGetBlockRfqsResponse: {
             /**
@@ -14358,21 +15711,6 @@ export interface components {
                 };
             };
         };
-        PrivateStatsResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @description Statistics of the user */
-                user?: Record<string, never>;
-                /** @description Statistics of the applications owned by the user */
-                apps?: unknown[];
-            };
-        };
         PrivateSimulatePortfolioResponse: {
             /**
              * @description The JSON-RPC version (2.0)
@@ -14574,252 +15912,6 @@ export interface components {
             id?: number;
             /** @description Simulation details */
             result: Record<string, never>;
-        };
-        PrivatePmeParamsResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            /** @description PM open order restrictions */
-            result: Record<string, never>;
-        };
-        PublicPlaceholderResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            /** @description See example. (type: any) */
-            result: string;
-        };
-        PrivateChatSetNickResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @example user12121212 */
-                nick: string;
-                /** @example www.user12121 */
-                jid_node: string;
-            };
-        };
-        PrivateChatGetAccountSummaryResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @example user12121212 */
-                nick?: string;
-                registered: boolean;
-                /** @example user12121@gmail.com */
-                email?: string;
-                /** @example user1212121 */
-                system_name?: string;
-            };
-        };
-        PrivatePutBalanceResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @description Updated "in custody" balance of the user as seen by the exchange */
-                balance: number;
-            };
-        };
-        PrivateGetBalanceResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["get_custody_balance"];
-        };
-        PrivateGetBalanceSnapshotResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                currency: components["schemas"]["currency"];
-                /** @description Equity of the main account + subaccounts. Takes into account external equity. */
-                total_equity: number;
-                /** @description Custody balance */
-                custody: number;
-                /** @description Profit net loss of the user (total_equity - custody) */
-                pnl: number;
-                /** @description Represents portfolio of main-account and sub-accounts */
-                accounts: {
-                    /** @description The account's available to withdrawal funds */
-                    available_withdrawal_funds: number;
-                    /** @description The account's available funds. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index. */
-                    available_funds: number;
-                    /** @description The account's initial margin. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index. */
-                    initial_margin: number;
-                    /** @description The maintenance margin. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index. */
-                    maintenance_margin: number;
-                    /** @description The account's current equity */
-                    equity: number;
-                    /** @description The account's margin balance. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index. */
-                    margin_balance: number;
-                    /** @description Main account or subaccount */
-                    main: boolean;
-                    /** @description Balance of the (sub)account */
-                    balance: number;
-                    /** @description Id of a (sub)account */
-                    user_id: number;
-                    /** @description Timestamp of the snapshot */
-                    snapshot_timestamp?: number;
-                };
-                /** @description The signature, encode as base64. Signature is generated using RSA SHA256 with 4096bit key. The signature can be verified using the signature_payload and Deribit's public key. */
-                signature?: string;
-                /** @description Serialized JSON string of the result (without the `signature` and `signature_payload` fields). The JSON string is compressed using Gzip and encoded in Base64. To validate the process, the user should first decode the Base64-encoded `signature_payload` and then un-Gzip the decoded payload to retrieve the original JSON string. Next, the user should verify the `signature` by using the decoded JSON string along with the corresponding public key, ensuring that the signature was correctly generated. */
-                signature_payload?: string;
-                /** @description Timestamp of the signature */
-                signed_at?: number;
-            };
-        };
-        PrivateGetAllBalancesSnapshotResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @description User balance in a given currency */
-                balances?: unknown[];
-                /** @description The signature, encode as base64. Signature is generated using RSA SHA256 with 4096bit key. The signature can be verified using the signature_payload and Deribit's public key. */
-                signature?: string;
-                /** @description Serialized JSON string of the result (without the `signature` and `signature_payload` fields). The JSON string is compressed using Gzip and encoded in Base64. To validate the process, the user should first decode the Base64-encoded `signature_payload` and then un-Gzip the decoded payload to retrieve the original JSON string. Next, the user should verify the `signature` by using the decoded JSON string along with the corresponding public key, ensuring that the signature was correctly generated. */
-                signature_payload?: string;
-                /** @description Timestamp of the signature */
-                signed_at?: number;
-            };
-        };
-        PrivateCustodySettlementResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["custody_settlement"];
-        };
-        PrivateGetJwtResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            /** @example eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjQyLCJndWlkIjo0MjQyLCJlbWFpbCI6InRyYWRlckBkZXJpYml0LmNvbSIsImRpc3BsYXlfbmFtZSI6IlRyYWRlciJ9.d-QIJqBr8E1wrG_XIQHD0VPPDP3RJqA0Va8rC2V4VCE */
-            result: string;
-        };
-        MulticastGetPacketResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @description The base64 encoded binary multicast packet */
-                packet?: string;
-            };
-        };
-        MulticastGetPacketsResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: {
-                /** @description The sequence number of the multicast packet */
-                seq: number;
-                /** @description The base64 encoded binary multicast packet */
-                packet: string;
-            }[];
-        };
-        MulticastGetInstrumentDictionaryResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            /** @description Dictionary that maps the names of active instruments into their corresponding integer id's */
-            result: {
-                [key: string]: number;
-            };
-        };
-        AddressOwnershipResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["address_ownership_item"];
-        };
-        VaspsResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["vasp_item"][];
-        };
-        PrivateGetWithdrawalPolicyModeResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["withdrawal_policy_mode"];
-        };
-        PrivateGetWithdrawalPolicyLimitsResponse: {
-            /**
-             * @description The JSON-RPC version (2.0)
-             * @enum {string}
-             */
-            jsonrpc: "2.0";
-            /** @description The id that was sent in the request */
-            id?: number;
-            result: components["schemas"]["withdrawal_policy_limits"];
         };
         PrivateGetBrokerClientsResponse: {
             /**
@@ -15137,14 +16229,16 @@ export interface components {
             /** @description Volume during last 24h in base currency */
             volume: number;
             /** @description Lowest price during 24h */
-            low: number;
+            low: number | null;
             /** @description Highest price during 24h */
-            high: number;
+            high: number | null;
             /**
              * @description 24-hour price change expressed as a percentage, `null` if there weren't any trades
              * @example 10.23
              */
-            price_change?: number;
+            price_change?: number | null;
+            /** @description 24-hour volume in quote currency; omitted when base and quote currencies are equal or for Coinbase-routed spot. */
+            volume_notional?: number;
             volume_usd?: components["schemas"]["volume_usd"];
         };
         /**
@@ -15188,11 +16282,6 @@ export interface components {
          */
         kind_with_combo_all: "future" | "option" | "spot" | "future_combo" | "option_combo" | "combo" | "any";
         /**
-         * @description Instrument kind: `"future_combo"`, `"option_combo"` or `"combo"` for any combo
-         * @enum {string}
-         */
-        only_combo_kind: "future_combo" | "option_combo" | "combo";
-        /**
          * @description Currency, i.e `"BTC"`, `"ETH"`, `"USDC"`
          * @enum {string}
          */
@@ -15218,17 +16307,7 @@ export interface components {
          * @description Currency name or `"any"` if don't care or `"grouped"` if grouped by currencies
          * @enum {string}
          */
-        currency_with_any_and_grouped: "BTC" | "ETH" | "USDC" | "SOL" | "USDT" | "EURR" | "XRP" | "STETH" | "USYC" | "PAXG" | "BNB" | "USDE" | "any" | "grouped";
-        /**
-         * @description Currency name or `"any"` if don't care or `"grouped"` if grouped by currencies
-         * @enum {string}
-         */
         settlement_currency_with_any_and_grouped: "BTC" | "ETH" | "USDC" | "USDT" | "any" | "grouped";
-        /**
-         * @description Currency pair: `"btc_usd"` or `"eth_usd"`
-         * @enum {string}
-         */
-        currency_pair: "btc_usd" | "eth_usd";
         /**
          * @description Unique instrument identifier
          * @example BTC-PERPETUAL
@@ -15319,16 +16398,6 @@ export interface components {
          */
         starbase_timestamp: number;
         /**
-         * @description The timestamp of last change (milliseconds since the Unix epoch)
-         * @example 1536569522277
-         */
-        timestamp_for_book_notifications: number;
-        /**
-         * @description The timestamp of last RFQ (milliseconds since the Unix epoch)
-         * @example 1536569522277
-         */
-        last_rfq_timestamp: number;
-        /**
          * @description Direction: `buy`, or `sell`
          * @enum {string}
          */
@@ -15359,12 +16428,12 @@ export interface components {
          */
         original_order_type: "market" | "market_limit";
         /**
-         * @description Order type: `"all"`, `"limit"`, `"trigger_all"`, `"stop_all"`, `"stop_limit"`, `"stop_market"`, `"take_all"`, `"take_limit"`, `"take_market"`, `"trailing_all"`, `"trailing_stop"`
+         * @description Order-type filter, including regular, trigger and linked-order families.
          * @enum {string}
          */
-        order_type2: "all" | "limit" | "trigger_all" | "stop_all" | "stop_limit" | "stop_market" | "take_all" | "take_limit" | "take_market" | "trailing_all" | "trailing_stop";
+        order_type2: "all" | "limit" | "trigger_all" | "stop_all" | "stop_limit" | "stop_market" | "take_all" | "take_limit" | "take_market" | "trailing_all" | "trailing_stop" | "one_triggers_one_cancels_other" | "one_triggers_other" | "one_cancels_other" | "one_cancels_or_triggers_other";
         /**
-         * @description Order type: `"all"`, `"limit"`, `"stop"`, `"take"`, `"trailing_stop"`, `"trailing_take"`
+         * @description Order type filter: `all`, `limit`, `trigger_all`, `stop`, `take`, or `trailing_stop`.
          * @enum {string}
          */
         simple_order_type: "all" | "limit" | "trigger_all" | "stop" | "take" | "trailing_stop";
@@ -15391,11 +16460,6 @@ export interface components {
          */
         time_in_force: "good_til_cancelled" | "good_til_day" | "fill_or_kill" | "immediate_or_cancel";
         /**
-         * @description Block RFQ time in force: `"fill_or_kill"` or `"good_til_cancelled"`
-         * @enum {string}
-         */
-        block_rfq_time_in_force: "fill_or_kill" | "good_til_cancelled";
-        /**
          * @description Trade trigger state: `"untriggered"` or `"cancelled"`
          * @enum {string}
          */
@@ -15413,9 +16477,9 @@ export interface components {
             /** @description Reason for cancellation, present only when state is cancelled */
             cancel_reason?: string;
         };
-        /** @description Price in base currency */
+        /** @description Price in the instrument's price units (quote currency for futures and spot). */
         price: number;
-        /** @description Price in base currency or "market_price" in case of open trigger market orders */
+        /** @description Price in the instrument's price units (quote currency for futures and spot), or market_price for open trigger market orders. */
         open_order_price: number | "market_price";
         /** @description Price in quote currency */
         quote_price: number;
@@ -15435,8 +16499,6 @@ export interface components {
         mobile: boolean;
         /** @description `true` if created via Deribit frontend (optional) */
         web: boolean;
-        /** @description Deprecated. Maximum amount within an order to be shown to other traders, 0 for invisible order. */
-        max_show: number;
         /** @description The actual display amount of iceberg order. Absent for other types of orders. */
         display_amount: number;
         /** @description The initial display amount of iceberg order. Iceberg order display amount will be refreshed to that value after match consuming actual display amount. Absent for other types of orders */
@@ -15445,8 +16507,6 @@ export interface components {
         amount: number;
         /** @description It represents the order size in contract units. (Optional, may be absent in historical data). */
         contracts: number;
-        /** @description For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
-        log_amount: number;
         /**
          * @description Amount of funds in given currency
          * @example 1
@@ -15458,8 +16518,6 @@ export interface components {
         filled_amount_quote: number;
         /** @description Profit and loss in base currency. */
         profit_loss: number;
-        /** @description The number of contracts to be traded. */
-        quantity: number;
         /** @description Average fill price of the order */
         average_price: number;
         /** @description Commission paid so far (in base currency) */
@@ -15500,12 +16558,6 @@ export interface components {
          * @example 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
          */
         currency_address: string;
-        /**
-         * @description Address type acording to Notabene
-         * @example HOSTED
-         * @enum {string}
-         */
-        currency_address_type: "HOSTED" | "UNHOSTED" | "UNKNOWN";
         /**
          * @description Address book type
          * @enum {string}
@@ -15586,10 +16638,10 @@ export interface components {
          */
         status: "admin_locked" | "waiting" | "confirmed" | "ready";
         /**
-         * @description Timestamp when the address will be ready
-         * @example true
+         * @description Timestamp (milliseconds since the Unix epoch) at which the address becomes usable; present while status is waiting; null for Coinbase deposit addresses.
+         * @example 1720252232860
          */
-        waiting_timestamp: boolean;
+        waiting_timestamp: number | null;
         /**
          * @description If address requires email confirmation for withdrawals
          * @example true
@@ -15601,10 +16653,10 @@ export interface components {
          */
         requires_confirmation_change: boolean;
         /**
-         * @description Deposit state. Allowed values: <li><code>pending</code>: deposit detected on blockchain/system, compliance not yet finished</li> <li><code>completed</code>: compliance check finished successfully</li> <li><code>rejected</code>: deposit failed compliance and must be handled manually</li> <li><code>replaced</code>: deposit transaction was replaced on the blockchain and should have a new transaction hash</li>
+         * @description Deposit state. Allowed values: <li><code>pending</code>: deposit detected on blockchain/system, compliance not yet finished</li> <li><code>completed</code>: compliance check finished successfully</li> <li><code>rejected</code>: deposit failed compliance and must be handled manually</li> <li><code>replaced</code>: deposit transaction was replaced on the blockchain and should have a new transaction hash</li> <li><code>refunded</code>: rejected deposit returned to its sender; refund_transaction_id identifies the refund</li>
          * @enum {string}
          */
-        deposit_state: "pending" | "completed" | "rejected" | "replaced";
+        deposit_state: "pending" | "completed" | "rejected" | "replaced" | "refunded";
         /**
          * @description Withdrawal state, allowed values : `unconfirmed`, `confirmed`, `cancelled`, `completed`, `interrupted`, `rejected`
          * @enum {string}
@@ -15656,11 +16708,11 @@ export interface components {
         trade_seq: number;
         /** @description Address type/purpose, allowed values : `deposit` */
         wallet_address_type: string;
-        /** @description The current best bid price, `null` if there aren't any bids */
+        /** @description The current best bid price, `0` if the bid side is empty */
         best_bid_price: number | null;
         /** @description It represents the requested order size of all best bids */
         best_bid_amount: number | null;
-        /** @description The current best ask price, `null` if there aren't any asks */
+        /** @description The current best ask price, `0` if the ask side is empty */
         best_ask_price: number | null;
         /** @description It represents the requested order size of all best asks */
         best_ask_amount: number | null;
@@ -15719,51 +16771,17 @@ export interface components {
          */
         basket_index_name: string;
         /**
-         * @description Index identifier supported for DVOL
-         * @enum {string}
-         */
-        index_name_for_dvol: "btc_usd" | "eth_usd";
-        /**
          * @description Index identifier of derivative instrument on the platform
          * @enum {string}
          */
         index_name_derivative: "btc_usd" | "eth_usd" | "btc_usdc" | "eth_usdc" | "ada_usdc" | "algo_usdc" | "avax_usdc" | "bch_usdc" | "bnb_usdc" | "doge_usdc" | "dot_usdc" | "hype_usdc" | "link_usdc" | "ltc_usdc" | "near_usdc" | "paxg_usdc" | "shib_usdc" | "sol_usdc" | "ton_usdc" | "trx_usdc" | "trump_usdc" | "uni_usdc" | "xrp_usdc" | "usde_usdc" | "buidl_usdc" | "btcdvol_usdc" | "ethdvol_usdc" | "btc_usdt" | "eth_usdt" | "all";
-        /** @description Value of the corresponding volatility */
-        volatility: number;
-        /** @description Value of the volatility of the underlying instrument */
-        implied_volatility: number;
-        /** @description // todo */
+        /** @description Traded volume within a single candle */
         chart_volume: number;
         /**
          * @description Key identifier
          * @example 1
          */
         key_id: number;
-        /**
-         * @description Security Key Identifier
-         * @example 12
-         */
-        security_key_id: number;
-        /** @description Security Key name */
-        security_key_name: string;
-        /**
-         * @description Security Key type
-         * @enum {string}
-         */
-        security_key_type: "tfa" | "u2f";
-        security_key_assignments: {
-            /**
-             * @description Assignment name
-             * @enum {string}
-             */
-            assignment: "login" | "wallet" | "admin" | "account";
-            /** @description Timestamp when assignment was created (milliseconds since the UNIX epoch) */
-            timestamp: number;
-        }[];
-        /** @description Timestamp when Security Key was created (milliseconds since the UNIX epoch) */
-        security_key_timestamp: number;
-        /** @description Timestamp when Security Key was last used (milliseconds since the UNIX epoch) */
-        security_key_last_used: number;
         /**
          * @description Client identifier used for authentication
          * @example IY2D68DS
@@ -15914,47 +16932,8 @@ export interface components {
          * @example 0.3
          */
         additional_reserve: number;
-        rate_and_burst: {
-            /** @description Number of requests per second allowed for user */
-            rate: number;
-            /** @description Maximal number of requests allowed for user in burst mode */
-            burst: number;
-        };
-        group_rate_and_burst: {
-            total?: {
-                /** @description Number of all requests per second in perpetuals allowed for user */
-                rate?: number;
-                /** @description Maximal number of all requests allowed for user in burst mode */
-                burst?: number;
-            };
-            perpetuals?: {
-                /** @description Number of perpetual requests per second allowed for user */
-                rate?: number;
-                /** @description Maximal number of perpetuals requests allowed for user in burst mode */
-                burst?: number;
-            };
-            futures?: {
-                /** @description Number of futures requests per second allowed for user */
-                rate?: number;
-                /** @description Maximal number of futures requests allowed for user in burst mode */
-                burst?: number;
-            };
-            options?: {
-                /** @description Number of option requests per second allowed for user */
-                rate?: number;
-                /** @description Maximal number of option requests allowed for user in burst mode */
-                burst?: number;
-            };
-        };
         /** @description Returned object is described in [Rate Limits](https://docs.deribit.com/articles/rate-limits). */
         api_limits: Record<string, never>;
-        /** @description The field is only added if the user has it set */
-        scale_down: {
-            /** @description Maintenance Margin multiplier */
-            mm_multiplier: number;
-            /** @description Initial Margin multiplier */
-            im_multiplier: number;
-        };
         /**
          * @description Realized profit and loss accrued in the current trading session (since the last daily settlement). Resets at each daily settlement.
          * @example 0.1
@@ -15965,56 +16944,18 @@ export interface components {
          * @example 0.846863
          */
         upl: number;
-        /**
-         * @description Side - `buy` or `sell`
-         * @example `buy`
-         * @enum {string}
-         */
-        side: "buy" | "sell";
         /** @description The account's fee balance (it can be used to pay for fees) */
         fee_balance: number;
-        /** @description Distributed ID */
-        did: string;
-        /** @description Jurisdictions a VASP belongs to */
-        jurisdictions: string[];
-        /** @description VASP name */
-        vasp_name: string;
-        /** @description Blockchain address source */
-        source: string;
-        /** @description JSON web token */
-        jwt: string;
         /**
          * @description User ID in external systems
          * @example 4b4cee3d-2dfc-4402-a9ae-f8f9785fa966
          */
         external_id: string;
         /**
-         * @description Registration number of the company
-         * @example 2021/135466541/07
-         */
-        business_registration_number: string;
-        /**
          * @description <p>The fill condition of the linked order (Only for linked order types), default: `first_hit`.</p> <ul> <li>`"first_hit"` - any execution of the primary order will fully cancel/place all secondary orders.</li> <li>`"complete_fill"` - a complete execution (meaning the primary order no longer exists) will cancel/place the secondary orders.</li> <li>`"incremental"` - any fill of the primary order will cause proportional partial cancellation/placement of the secondary order. The amount that will be subtracted/added to the secondary order will be rounded down to the contract size.</li> </ul>
          * @enum {string}
          */
         trigger_fill_condition: "first_hit" | "complete_fill" | "incremental";
-        /**
-         * @description Withdrawal Policy limit bucket, i.e. `"h24"`
-         * @enum {string}
-         */
-        withdrawal_policy_limit_bucket: "h24";
-        /**
-         * @description Withdrawal Policy category, i.e. `"small"`, `"secure"`
-         * @enum {string}
-         */
-        withdrawal_policy_category: "small" | "secure";
-        /** @description Withdrawal Policy limit bucket */
-        withdrawal_policy_limit_buckets: {
-            small?: components["schemas"]["amount"];
-            secure?: components["schemas"]["amount"];
-        };
-        /** @description A positive float as limit */
-        withdrawal_policy_amount: number;
         /** @description Unique reference that identifies a one_cancels_others (OCO) pair. */
         oco_ref: string;
         /** @description `true` if the order is an order that can be triggered by another order, otherwise not present. */
@@ -16135,59 +17076,6 @@ export interface components {
             /** @description List of allocations for Block RFQ pre-allocation. Allows to split amount between different (sub)accounts. The taker can also allocate to himself. Visible only to the taker. */
             trade_allocations?: components["schemas"]["trade_allocations"];
         };
-        block_rfq_for_maker: {
-            /**
-             * @description The timestamp when Block RFQ was created (milliseconds since the Unix epoch)
-             * @example 1536569522277
-             */
-            creation_timestamp?: number;
-            /**
-             * @description The timestamp when the Block RFQ will expire (milliseconds since the UNIX epoch)
-             * @example 1536569522277
-             */
-            expiration_timestamp?: number;
-            /** @description ID of the Block RFQ */
-            block_rfq_id?: number;
-            /**
-             * @description Role of the user in Block RFQ
-             * @enum {string}
-             */
-            role?: "taker" | "maker";
-            /**
-             * @description State of the Block RFQ
-             * @enum {string}
-             */
-            state?: "open" | "filled" | "cancelled" | "expired";
-            /** @description Rating of the taker */
-            taker_rating?: string;
-            /** @description This value multiplied by the ratio of a leg gives trade size on that leg. */
-            amount?: number;
-            /** @description Minimum amount for trading */
-            min_trade_amount?: number;
-            legs?: components["schemas"]["block_rfq_legs"];
-            hedge?: components["schemas"]["block_rfq_hedge_leg"];
-            combo_id?: components["schemas"]["combo_id"];
-            /** @description Indicates whether the RFQ was created as non-anonymous, meaning taker and maker aliases are visible to counterparties. */
-            disclosed?: boolean;
-            /**
-             * @description Taker alias. Present only when `disclosed` is `true`.
-             * @example TAKER1
-             */
-            taker?: string;
-            index_prices?: number[];
-            /** @description Indicates whether the RFQ is included in the taker's rating calculation. Present only for closed RFQs created by the requesting taker. */
-            included_in_taker_rating?: boolean;
-            trades?: {
-                direction?: components["schemas"]["direction"];
-                price?: components["schemas"]["price"];
-                /** @description Trade amount. For options, linear futures, linear perpetuals and spots the amount is denominated in the underlying base currency coin. The inverse perpetuals and inverse futures are denominated in USD units. */
-                amount?: number;
-                /** @description Alias of the maker (optional) */
-                maker?: string;
-                /** @description Amount of the hedge leg. For linear futures, linear perpetuals and spots the amount is denominated in the underlying base currency coin. The inverse perpetuals and inverse futures are denominated in USD units. */
-                hedge_amount?: number;
-            }[];
-        };
         block_rfq_quote: {
             /**
              * @description The timestamp when quote was created (milliseconds since the Unix epoch)
@@ -16283,115 +17171,6 @@ export interface components {
             expires_at?: number;
         }[];
         /**
-         * @description Execution instruction of the quote. Default - `any_part_of`
-         *
-         *     - `"all_or_none (AON)"` - The quote can only be filled entirely or not at all, ensuring that its amount matches the amount specified in the Block RFQ. Additionally, 'all_or_none' quotes have priority over 'any_part_of' quotes at the same price level.
-         *     - `"any_part_of (APO)"` - The quote can be filled either partially or fully, with the filled amount potentially being less than the Block RFQ amount.
-         * @enum {string}
-         */
-        execution_instruction: "any_part_of" | "all_or_none";
-        custody_settlement: {
-            /** @description Unique identifier of the settlement instance */
-            id?: string;
-            /**
-             * @description Status of the settlement
-             * @example completed
-             * @enum {string}
-             */
-            status?: "completed" | "completed_partially" | "failed" | "in_progress";
-            /**
-             * @description The timestamp when the settlement was created (milliseconds since the Unix epoch)
-             * @example 1736712919000
-             */
-            created_at?: number;
-            /**
-             * @description Timestamp of the last update of the settlement (milliseconds since the Unix epoch)
-             * @example 1736713920000
-             */
-            updated_at?: number;
-            /**
-             * @description Timestamp (in milliseconds since the Unix epoch) when the settlement or settlement instruction failed. Present only if the status is `failed`.
-             * @example 1736713950000
-             */
-            failed_at?: number;
-            /**
-             * @description Timestamp of when the settlement was completed (if applicable)
-             * @example 1736714000000
-             */
-            completed_at?: number;
-            /** @description Settlement currency instructions */
-            instructions?: {
-                /** @description The currency supported by custodian and exchange */
-                currency?: string;
-                /**
-                 * @description <ul><li>Positive value means that since the previous settlement, the client has earned/bought the asset in the exchange and settlement direction is from exchange to the client.</li><li>Negative value means, since the previous settlement, the client has lost/sold the asset in the exchange and settlement direction is from client to deribit.</li>
-                 * @example 1.3141
-                 */
-                amount?: number;
-                /**
-                 * @description Custody balance of the user at the time of initiating the settlement
-                 * @example 2.341
-                 */
-                custody_balance?: number;
-                /**
-                 * @description Total equity of the client between all main and sub accounts, at the time of initialising the settlement.
-                 * @example 3.452
-                 */
-                total_equity?: number;
-                /**
-                 * @description The status of settlement instruction. Default is `pending_review`.
-                 * @example completed
-                 * @enum {string}
-                 */
-                status?: "pending_review" | "pending_execution" | "completed" | "rejected" | "failed" | "skipped";
-                /**
-                 * @description The id of the settlement instance
-                 * @example dec42708-2ec6-4cdd-8f9d-d49bbe94d0aa
-                 */
-                settlement_id?: string;
-                /**
-                 * @description Timestamp of when the instruction was created (milliseconds since the Unix epoch)
-                 * @example 1736712919000
-                 */
-                created_at?: number;
-                /**
-                 * @description Timestamp of the last update of the instruction (milliseconds since the Unix epoch)
-                 * @example 1736713920000
-                 */
-                updated_at?: number;
-                /**
-                 * @description Timestamp (in milliseconds since the Unix epoch) when the settlement or settlement instruction failed. Present only if the status is `failed`.
-                 * @example 1736713950000
-                 */
-                failed_at?: number;
-                /**
-                 * @description Timestamp (in milliseconds since the Unix epoch) when the custodian reviewed the settlement instruction. Present only after a review action has been taken.
-                 * @example 1736713986000
-                 */
-                reviewed_at?: number;
-                /**
-                 * @description Timestamp (in milliseconds since the Unix epoch) when the settlement or settlement instruction was completed. Only present if the status is `completed`.
-                 * @example 1736714000000
-                 */
-                completed_at?: number;
-                /**
-                 * @description Optional reason provided by the custodian when rejecting or ignoring a settlement instruction.
-                 * @example Custody balance mismatch
-                 */
-                review_reason?: string;
-                /**
-                 * @description Outcome of the custodian's review. Present only after the review has been completed. Values match the `action` taken: `confirm`, `ignore`, or `reject`.
-                 * @example confirm
-                 */
-                review_result?: string;
-            }[];
-            /**
-             * @description Additional note related to the settlement
-             * @example Settlement processed successfully
-             */
-            note?: string;
-        };
-        /**
          * @description Indicates if the address belongs to an unhosted wallet
          * @example false
          */
@@ -16459,18 +17238,6 @@ export interface components {
              */
             is_direct_access_allowed: boolean;
         };
-        responses: unknown;
-        /** @description Generic error response for broken references */
-        ErrorResponse: {
-            /** @enum {string} */
-            jsonrpc: "2.0";
-            error: {
-                /** @description Error code */
-                code: number;
-                /** @description Error message */
-                message: string;
-            };
-        };
         Getunsubscribe200response: {
             /** @example 2.0 */
             jsonrpc?: string;
@@ -16484,7 +17251,11 @@ export interface components {
              */
             result?: string[];
         };
-        GetlistCustodyAccounts200response: components["schemas"]["ErrorResponse"] & {
+        GetlistCustodyAccounts200response: {
+            /** @enum {string} */
+            jsonrpc: "2.0";
+            id?: number;
+        } & {
             result?: components["schemas"]["custody_account"][];
         };
     };
@@ -16498,2171 +17269,8 @@ export interface components {
                 "application/json": components["schemas"]["ErrorMessageResponse"];
             };
         };
-        /** @description Success response */
-        OkResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["OkResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetTimeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetTimeResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetInstrumentsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetInstrumentsResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetInstrumentResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetInstrumentResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetExpirationsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetExpirationsResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetFundingRateHistoryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetFundingRateHistoryResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetFundingRateValueResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetFundingRateValueResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetFundingChartDataResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetFundingChartDataResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetTradingviewChartDataResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetTradingviewChartDataResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetMarkpriceChartDataResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetMarkpriceChartDataResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetVolatilityIndexDataResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetVolatilityIndexDataResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetMarkPriceHistoryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetMarkPriceHistoryResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetIndexChartDataResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetIndexChartDataResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetCurrenciesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetCurrenciesResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetHistoricalVolatilityResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetHistoricalVolatilityResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetDeliveryPricesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetDeliveryPricesResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetContractSizeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetContractSizeResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetAprHistoryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetAprHistoryResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicAuthResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicAuthResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicTokenResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicTokenResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicTickerResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicTickerResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicTickersByExpirationResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicTickersByExpirationResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicTradesHistoryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicTradesHistoryResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicTestResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicTestResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicStatusResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicStatusResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicSettlementResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicSettlementResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetAnnouncementsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetAnnouncementsResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetOrderBookResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetOrderBookResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetBookSummaryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetBookSummaryResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetIndexPriceResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetIndexPriceResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetIndexPriceNamesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetIndexPriceNamesResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetBasketIndexCompositionResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetBasketIndexCompositionResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetTradesVolumesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetTradesVolumesResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetSecurityKeysResetDataResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetSecurityKeysResetDataResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetCombosResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetCombosResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetComboIdsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetComboIdsResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetComboDetailsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetComboDetailsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCreateComboResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCreateComboResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetLegPricesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetLegPricesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetPositionResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetPositionResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetPositionsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetPositionsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSubscribeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSubscribeResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetOrderMarginByIdsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetOrderMarginByIdsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateBuyAndSellResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateBuyAndSellResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetOrderStateResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetOrderStateResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetOrderStateByLabelResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetOrderStateByLabelResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetTriggerOrderHistoryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetTriggerOrderHistoryResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetSubaccountsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetSubaccountsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetSubaccountsDetailsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetSubaccountsDetailsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCreateSubaccountResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCreateSubaccountResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetMembersResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetMembersResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSetMemberResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSetMemberResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateDeleteMemberResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateDeleteMemberResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetUserTradesByOrderResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetUserTradesByOrderResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetUserTradesHistoryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetUserTradesHistoryResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetCurrenciesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetCurrenciesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetDepositsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetDepositsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateWithdrawResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateWithdrawResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetWithdrawalsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetWithdrawalsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateDepositAddressResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateDepositAddressResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateAddressBookResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateAddressBookResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateAddToAddressBookResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateAddToAddressBookResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateRemoveFromAddressBookResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateRemoveFromAddressBookResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateUpdateInAddressBookResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateUpdateInAddressBookResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSaveAddressBeneficiaryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSaveAddressBeneficiaryResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetAddressBeneficiaryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetAddressBeneficiaryResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateDeleteAddressBeneficiaryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateDeleteAddressBeneficiaryResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateListAddressBeneficiariesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateListAddressBeneficiariesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetTransfersResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetTransfersResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSubmitTransferResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSubmitTransferResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetRewardEligibilityResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetRewardEligibilityResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateAccountResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateAccountResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateAccountSummariesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateAccountSummariesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCancelResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCancelResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCancelAllResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCancelAllResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetEmailLanguageResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetEmailLanguageResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateEditResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateEditResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetOrderHistoryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetOrderHistoryResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetOpenOrdersResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetOpenOrdersResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSettlementResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSettlementResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetMarginsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetMarginsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateApiKeyResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateApiKeyResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCancelQuotesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCancelQuotesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateMassQuoteResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateMassQuoteResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetMmpConfigResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetMmpConfigResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetMmpStatusResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetMmpStatusResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSetMmpConfigResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSetMmpConfigResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetAccessLogResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetAccessLogResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateChangeMarginModelResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateChangeMarginModelResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetSecurityKeyActivationDataResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetSecurityKeyActivationDataResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateListSecurityKeysResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateListSecurityKeysResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetSecurityKeyStatusResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetSecurityKeyStatusResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSetAddressRequiresSecurityKeyResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSetAddressRequiresSecurityKeyResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCoinbaseEstimateWithdrawalFeeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCoinbaseEstimateWithdrawalFeeResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSetCoinbaseSubaccountWithdrawalsAllowedResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSetCoinbaseSubaccountWithdrawalsAllowedResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetCancelOnDisconnectResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetCancelOnDisconnectResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetTransactionLogResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetTransactionLogResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetLspParticipantConfigResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetLspParticipantConfigResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetLspParticipantsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetLspParticipantsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetLspUsageResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetLspUsageResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetLspParticipantsUsageResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetLspParticipantsUsageResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBlockTradeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBlockTradeResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivatePositionMoveResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivatePositionMoveResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBlockTradesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBlockTradesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSimulateBlockTradeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSimulateBlockTradeResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateVerifyBlockTradeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateVerifyBlockTradeResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBlockTradeRequestsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBlockTradeRequestsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateChangePasswordResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateChangePasswordResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBlockRfqsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBlockRfqsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCreateBlockRfqResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCreateBlockRfqResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCancelBlockRfqResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCancelBlockRfqResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateAcceptBlockRfqResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateAcceptBlockRfqResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCancelBlockRfqTriggerResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCancelBlockRfqTriggerResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBlockRfqQuotesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBlockRfqQuotesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateAddBlockRfqQuoteResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateAddBlockRfqQuoteResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateEditBlockRfqQuoteResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateEditBlockRfqQuoteResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCancelBlockRfqQuoteResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCancelBlockRfqQuoteResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCancelAllBlockRfqQuotesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCancelAllBlockRfqQuotesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBlockRfqMakersResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBlockRfqMakersResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicGetBlockRfqTradesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicGetBlockRfqTradesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBlockRfqUserInfoResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBlockRfqUserInfoResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicListApiKeysResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicListApiKeysResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetUserLocksResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetUserLocksResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetAffiliateProgramInfoResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetAffiliateProgramInfoResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateStatsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateStatsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateSimulatePortfolioResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateSimulatePortfolioResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivatePmeSimulateResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivatePmeSimulateResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivatePmeParamsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivatePmeParamsResponse"];
-            };
-        };
-        /** @description Success response */
-        PublicPlaceholderResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PublicPlaceholderResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateChatSetNickResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateChatSetNickResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateChatGetAccountSummaryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateChatGetAccountSummaryResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivatePutBalanceResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivatePutBalanceResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBalanceResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBalanceResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBalanceSnapshotResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBalanceSnapshotResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetAllBalancesSnapshotResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetAllBalancesSnapshotResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateCustodySettlementResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateCustodySettlementResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetJwtResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetJwtResponse"];
-            };
-        };
-        /** @description Success response */
-        MulticastGetPacketResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["MulticastGetPacketResponse"];
-            };
-        };
-        /** @description Success response */
-        MulticastGetPacketsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["MulticastGetPacketsResponse"];
-            };
-        };
-        /** @description Success response */
-        MulticastGetInstrumentDictionaryResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["MulticastGetInstrumentDictionaryResponse"];
-            };
-        };
-        /** @description Success response */
-        AddressOwnershipResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["AddressOwnershipResponse"];
-            };
-        };
-        /** @description Success response */
-        VaspsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["VaspsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetWithdrawalPolicyModeResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetWithdrawalPolicyModeResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetWithdrawalPolicyLimitsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetWithdrawalPolicyLimitsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBrokerClientsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBrokerClientsResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBrokerTradesResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBrokerTradesResponse"];
-            };
-        };
-        /** @description Success response */
-        PrivateGetBrokerTradeRequestsResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["PrivateGetBrokerTradeRequestsResponse"];
-            };
-        };
-        /** @description Error response */
-        ErrorResponse: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["ErrorResponse"];
-            };
-        };
-        /** @description Success response */
-        deposit: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["deposit"];
-            };
-        };
-        /** @description Successfully unsubscribed from channels */
-        Getunsubscribe200response: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["Getunsubscribe200response"];
-            };
-        };
-        /** @description Success response */
-        GetlistCustodyAccounts200response: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["GetlistCustodyAccounts200response"];
-            };
-        };
     };
-    parameters: {
-        /** @description Continuation token for pagination */
-        continuation: string;
-        /** @description Continuation token for pagination */
-        continuation_as_integer: number;
-        /** @description Instrument name */
-        instrument_name: components["schemas"]["instrument_name"];
-        /** @description Combo ID (same string as the combo instrument name, for example `BTC-FS-31DEC21-PERP`). Malformed values fail with `wrong format`. */
-        combo_id: components["schemas"]["combo_id"];
-        /** @description List of trades used to create a combo */
-        combo_trades: {
-            instrument_name?: components["schemas"]["instrument_name"];
-            amount?: components["schemas"]["amount"];
-            direction?: components["schemas"]["direction"];
-        }[];
-        /** @description Index identifier, matches (base) cryptocurrency with quote currency */
-        index_name: components["schemas"]["index_name"];
-        /** @description Basket index identifier. Case-insensitive. Currently `COIN50` is the only supported value. */
-        basket_index_name: components["schemas"]["basket_index_name"];
-        /** @description Index identifier supported for DVOL */
-        index_name_for_dvol: components["schemas"]["index_name_for_dvol"];
-        /** @description Index identifier of derivative instrument on the platform */
-        index_name_derivative: components["schemas"]["index_name_derivative"];
-        /** @description Index identifier of derivative instrument on the platform; skipping this parameter will return all configurations */
-        index_name_derivative_optional: components["schemas"]["index_name_derivative"];
-        /** @description Type of a cryptocurrency price index */
-        type_of_supported_index: "all" | "spot" | "derivative";
-        /** @description Frequency of notifications. Events will be aggregated over this interval. The value `raw` selects the finest granularity - events are aggregated over a 1 millisecond interval **(Please note that `raw` interval is only available to authorized users)** */
-        subscription_interval: "agg2" | "100ms" | "raw";
-        /** @description Frequency of notifications. Events will be aggregated over this interval. */
-        subscription_interval_non_raw: "100ms" | "agg2";
-        /** @description Instrument name */
-        optional_instrument_name: components["schemas"]["instrument_name"];
-        /** @description Instrument name - options only */
-        instrument_name_options_only: components["schemas"]["instrument_name"];
-        /**
-         * @description The currency symbol.
-         *
-         *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
-         */
-        currency: components["schemas"]["currency"];
-        /**
-         * @description The currency symbol.
-         *
-         *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
-         */
-        wallet_currency: components["schemas"]["wallet_currency"];
-        /** @description The currency pair symbol */
-        currency_pair: components["schemas"]["index_name"];
-        /** @description The currency pair symbol */
-        currency_pair_optional: components["schemas"]["index_name"];
-        /** @description The timestamp of expiration (milliseconds since the Unix epoch) */
-        expiration: components["schemas"]["timestamp"];
-        /**
-         * @description The currency symbol or `"any"` for all.
-         *
-         *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
-         */
-        currency_with_any: components["schemas"]["currency_with_any"];
-        /**
-         * @description The currency symbol, list of currency symbols or `"any"` for all.
-         *
-         *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
-         */
-        currency_with_any_and_list: components["schemas"]["currency_with_any_and_list"];
-        /**
-         * @description The currency symbol or `"any"` for all or `"grouped"` for all grouped by currency.
-         *
-         *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
-         */
-        currency_with_any_and_grouped: components["schemas"]["currency_with_any_and_grouped"];
-        /**
-         * @description The currency symbol or `"any"` for all or `"grouped"` for all grouped by currency. Optional; if omitted, `currency_pair` is used (default: all pairs).
-         *
-         *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
-         */
-        settlement_currency_with_any_and_grouped: components["schemas"]["settlement_currency_with_any_and_grouped"];
-        /** @description Instrument kind or `"any"` for all */
-        kind_with_any: components["schemas"]["kind_with_any"];
-        /** @description Instrument kind, `"future"` or `"option"` */
-        kind_strict: components["schemas"]["kind"];
-        /** @description Instrument kind, `"future"` or `"option"` or `"any"` for both. If omitted, `"any"` is used. Spots and combos are not returned. */
-        kind_future_or_option_with_any: components["schemas"]["kind_future_or_option_with_any"];
-        /** @description The currency symbol */
-        optional_currency: components["schemas"]["currency"];
-        /** @description The currency symbol */
-        optional_currency_block_rfq: components["schemas"]["block_rfq_currency"];
-        /** @description Instrument kind, if not provided instruments of all kinds are considered */
-        optional_kind: components["schemas"]["kind"];
-        /**
-         * @description Instrument kind. Omit the parameter or pass `"any"` for every kind.
-         *
-         *     Combos are selected with `"future_combo"` or `"option_combo"`. `"combo"` (all combos) is not accepted here.
-         */
-        optional_kind_with_any: components["schemas"]["kind_with_any"];
-        /** @description Instrument kind, `"combo"` for any combo or `"any"` for all */
-        kind_with_combo_all: components["schemas"]["kind_with_combo_all"];
-        /** @description Combo instrument kind, `"combo"` for any combo */
-        only_combo_kind: components["schemas"]["only_combo_kind"];
-        /** @description Instrument kind, `"combo"` for any combo or `"any"` for all. If not provided instruments of all kinds are considered */
-        optional_kind_with_combo_all: components["schemas"]["kind_with_combo_all"];
-        /** @description Combo state filter. If omitted, `"any"` (active and inactive, excluding closed). */
-        optional_combo_state: components["schemas"]["combo_state_filter"];
-        /** @description Order type, default - `all` */
-        optional_order_type: components["schemas"]["order_type2"];
-        /** @description Order type - `limit`, `stop`, `take`, `trigger_all` or `all`, default - `all` */
-        optional_simple_order_type: components["schemas"]["simple_order_type"];
-        /**
-         * @description When `detailed` is set to `true`, the output format is changed to include a list of all cancelled orders.
-         *
-         *     **📖 Related Article:** [Detailed Response for Cancel Methods](https://docs.deribit.com/articles/json-rpc-overview#detailed-response-for-cancel-methods)
-         *
-         *     Default: `false`
-         */
-        detailed_bool_for_cancel_all: boolean;
-        /** @description When set to `true` orders in combo instruments affecting a given position will also be cancelled. Default: `false` */
-        include_combos_for_cancel_all: boolean;
-        /** @description Whether or not to reject incoming quotes for 1 second after cancelling (`false` by default). Related to `private/mass_quote` request. */
-        freeze_quotes: boolean;
-        /**
-         * @description When set to `true`, the subaccount's Starbase direct-access open orders are also cancelled, and the number cancelled is included in the returned cancelled-order count. Default: `false`.
-         *
-         *     Cannot be combined with `detailed` (doing so returns an `invalid_params` error). Note that `freeze_quotes` is not enforced for Starbase orders.
-         */
-        include_starbase_orders_for_cancel_all: boolean;
-        /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch) */
-        start_timestamp: components["schemas"]["timestamp"];
-        /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
-        trade_start_timestamp: components["schemas"]["timestamp"];
-        /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest */
-        optional_trade_start_timestamp: components["schemas"]["timestamp"];
-        /** @description The earliest timestamp to return result from (milliseconds since the UNIX epoch) */
-        optional_start_timestamp: components["schemas"]["timestamp"];
-        /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch) */
-        end_timestamp: components["schemas"]["timestamp"];
-        /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
-        trade_end_timestamp: components["schemas"]["timestamp"];
-        /** @description The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required */
-        optional_trade_end_timestamp: components["schemas"]["timestamp"];
-        /** @description The ID of the first trade to be returned. Number for BTC trades, or hyphen name in ex. `"ETH-15"` # `"ETH_USDC-16"` */
-        optional_start_trade_id: components["schemas"]["trade_id"];
-        /** @description The ID of the last trade to be returned. Number for BTC trades, or hyphen name in ex. `"ETH-15"` # `"ETH_USDC-16"` */
-        optional_end_trade_id: components["schemas"]["trade_id"];
-        /** @description The sequence number of the first trade to be returned */
-        optional_start_seq: number;
-        /** @description The sequence number of the last trade to be returned */
-        optional_end_seq: number;
-        /** @description Number of requested items, default - `10`, maximum - `1000` */
-        optional_count10: number;
-        /** @description Number of requested items, default - `20`, maximum - `1000` */
-        optional_count20: number;
-        /** @description Number of requested items, default - `100`, maximum - `1000` */
-        optional_count100: number;
-        /** @description Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) */
-        optional_sorting: components["schemas"]["sorting"];
-        /** @description The offset for pagination, default - `0` */
-        optional_offset: number;
-        /** @description Include in result orders older than 2 days, default - `false` */
-        optional_include_old_orders: boolean;
-        /** @description Include in result fully unfilled closed orders, default - `false` */
-        optional_include_unfilled_orders: boolean;
-        /** @description The order id */
-        order_id: components["schemas"]["order_id"];
-        /** @description Block trade id */
-        block_trade_id: components["schemas"]["block_trade_id"];
-        /** @description Response will contain block trades older than the one provided in this field */
-        optional_block_trade_start_id: components["schemas"]["block_trade_id"];
-        /** @description The id of the oldest block trade to be returned, `start_id` is required with `end_id` */
-        optional_block_trade_end_id: components["schemas"]["block_trade_id"];
-        /** @description Timestamp, shared with other party (milliseconds since the UNIX epoch) */
-        block_trade_timestamp: components["schemas"]["timestamp"];
-        /** @description Nonce, shared with other party */
-        block_trade_nonce: components["schemas"]["nonce"];
-        /** @description Optional idempotency nonce. If provided, subsequent requests with the same nonce will return the previously created transaction instead of creating a new one. Must be 8-128 characters. The nonce is persisted on the resulting transaction and returned in the response. */
-        wallet_nonce: components["schemas"]["nonce"];
-        /** @description Describes if user wants to be maker or taker of trades */
-        block_trade_role: components["schemas"]["role"];
-        /** @description Describes if user wants to be maker or taker of trades */
-        block_trade_role_optional: components["schemas"]["role"];
-        /** @description Price for trade */
-        trade_price: number;
-        /** @description Maximum acceptable price for execution */
-        block_rfq_trade_price: number;
-        /** @description Aggregated price used for quoting future spreads. */
-        block_rfq_aggregated_price: number;
-        /** @description Price for trade - if not provided average price of the position is used */
-        position_move_price: number;
-        /** @description It represents the requested trade size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
-        trade_amount: components["schemas"]["amount"];
-        /** @description It represents the requested trade size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
-        trade_amount_required: components["schemas"]["amount"];
-        /** @description It represents the requested trade size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. Amount can't exceed position size. */
-        position_move_amount: number;
-        /** @description Direction of trade from the maker perspective */
-        trade_direction: components["schemas"]["direction"];
-        /** @description Direction of selected leg */
-        leg_direction: components["schemas"]["direction"];
-        /** @description List of trades for block trade */
-        block_trade_trades: {
-            /** @description Instrument name */
-            instrument_name?: components["schemas"]["instrument_name"];
-            /** @description Price for trade */
-            price?: number;
-            /** @description It represents the requested trade size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
-            amount?: components["schemas"]["amount"];
-            /** @description Direction of trade from the maker perspective */
-            direction?: components["schemas"]["direction"];
-        }[];
-        /** @description List of trades for position move */
-        position_move_trades: {
-            /** @description Instrument name */
-            instrument_name?: components["schemas"]["instrument_name"];
-            /** @description Price for trade - if not provided average price of the position is used */
-            price?: number;
-            /** @description It represents the requested trade size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. Amount can't exceed position size. */
-            amount?: number;
-        }[];
-        /** @description Signature of block trade generated by `private/verify_block_trade_method` */
-        block_trade_counterparty_signature: components["schemas"]["block_trade_signature"];
-        /** @description Signature of block trade that will be invalidated */
-        block_trade_signature_to_invalidate: components["schemas"]["block_trade_signature"];
-        /** @description It represents the requested order size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. The `amount` is a mandatory parameter if `contracts` parameter is missing. If both `contracts` and `amount` parameter are passed they must match each other otherwise error is returned. */
-        order_quantity: number;
-        /** @description It represents the requested order size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. For spot instruments the unit is controlled by `amount_type`. */
-        margins_quantity: number;
-        /**
-         * @description How the `amount` parameter is interpreted. Spot instruments only.
-         *
-         *     `base` (the default) reads `amount` as a quantity of the base currency, with fees charged on top of it. `quote` reads `amount` as a total spend in the quote currency, with fees included in it. For every spot order the matching base amounts are returned in `taker_base_amount` and `maker_base_amount`.
-         *
-         *     Because the taker and maker fee rates differ, a fee-inclusive spend buys a slightly different quantity in each role. Both quantities are floored to a whole multiple of the instrument's `min_trade_amount`, so the cost plus the fee never exceeds the requested spend. Where the fee rate is negative (a maker rebate) the cost alone exceeds the spend and the rebate brings the total back within it.
-         *
-         *     In `quote` mode the `buy` field reports the taker notional. The maker notional differs, and the fee-inclusive maker total is in `maker_margin_required`.
-         *
-         *     On the sell side the spend is the gross proceeds: the base amount sold is worth exactly that, and the fee is deducted from what is received. The sell quantity does not depend on the fee role, so it is the same in `taker_base_amount` and `maker_base_amount`.
-         */
-        margins_amount_type: "base" | "quote";
-        /** @description It represents the requested order size in contract units and can be passed instead of `amount`. The `contracts` is a mandatory parameter if `amount` parameter is missing. If both `contracts` and `amount` parameter are passed they must match each other otherwise error is returned. */
-        order_contracts: number;
-        /**
-         * @description The order type, default: `"limit"`
-         *
-         *     `stop_limit`, `stop_market`, `take_limit`, `take_market`, and `trailing_stop` (trigger/algo order types) are not supported for `option` and `option_combo` instruments.
-         *
-         *     For spot trading routed to Coinbase Exchange, only `"market"`, `"limit"` and `"stop_limit"` orders are supported. Other order types will be rejected.
-         */
-        order_type: "limit" | "stop_limit" | "take_limit" | "market" | "stop_market" | "take_market" | "market_limit" | "trailing_stop";
-        /** @description Settlement type */
-        optional_settlement_type: components["schemas"]["settlement_type"];
-        /** @description The latest timestamp to return result from (milliseconds since the UNIX epoch) */
-        optional_settlement_start_timestamp: components["schemas"]["timestamp"];
-        /** @description The order type */
-        simple_order_type_market_limit: "limit" | "market";
-        /** @description user defined label for the order (maximum 64 characters) */
-        order_label: string;
-        /** @description user defined label for the order (maximum 64 characters) */
-        required_order_label: string;
-        /** @description <p>The order price in base currency.</p> <p>When editing an option order with advanced=usd, the field price should be the option price value in USD.</p> <p>When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
-        edit_order_price: number;
-        /** @description <p>The order price in base currency (Only for limit and stop_limit orders)</p> <p>When adding an order with advanced=usd, the field price should be the option price value in USD.</p> <p>When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p> */
-        order_price: number;
-        /** @description <p>The type of the linked order.</p> <ul> <li>`"one_triggers_other"` - Execution of primary order triggers the placement of one or more secondary orders.</li> <li>`"one_cancels_other"` -  The execution of one order in a pair automatically cancels the other, typically used to set a stop-loss and take-profit simultaneously.</li> <li>`"one_triggers_one_cancels_other"` - The execution of a primary order triggers two secondary orders (a stop-loss and take-profit pair), where the execution of one secondary order cancels the other.</li> </ul> */
-        linked_order_type: "one_triggers_other" | "one_cancels_other" | "one_triggers_one_cancels_other";
-        /** @description List of secondary orders to place or cancel when the primary order is filled. Each entry in the array defines one secondary order. `amount` and `direction` are required; all other fields are optional. */
-        otoco_config: {
-            /** @description **Required.** The secondary order size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
-            amount?: number;
-            /**
-             * @description **Required.** Direction of the secondary order.
-             * @enum {string}
-             */
-            direction?: "buy" | "sell";
-            /**
-             * @description The order type, default: `"limit"`
-             * @enum {string}
-             */
-            type?: "limit" | "stop_limit" | "take_limit" | "market" | "stop_market" | "take_market" | "market_limit" | "trailing_stop";
-            /** @description User defined label for the order (maximum 64 characters). */
-            label?: string;
-            /** @description The order price in base currency. Required for limit and stop_limit orders. */
-            price?: number;
-            /**
-             * @description If true, the order is considered reduce-only which is intended to only reduce a current position.
-             * @default false
-             */
-            reduce_only?: boolean;
-            /**
-             * @description Specifies how long the order remains in effect. Default `"good_til_cancelled"`.
-             * @default good_til_cancelled
-             * @enum {string}
-             */
-            time_in_force?: "good_til_cancelled" | "good_til_day" | "fill_or_kill" | "immediate_or_cancel";
-            /**
-             * @description If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (according to the direction of the order).
-             * @default false
-             */
-            post_only?: boolean;
-            /**
-             * @description If an order is considered post-only and this field is set to true then the order is put to the order book unmodified or the request is rejected.
-             * @default false
-             */
-            reject_post_only?: boolean;
-            /** @description Trigger price. Required for trigger orders (stop-loss or take-profit orders). */
-            trigger_price?: number;
-            /** @description The maximum deviation from the price peak beyond which the order will be triggered. Used for trailing stop orders. */
-            trigger_offset?: number;
-            /**
-             * @description Defines the trigger type. Required for stop-loss, take-profit, and trailing stop orders.
-             * @enum {string}
-             */
-            trigger?: "index_price" | "mark_price" | "last_price";
-        }[];
-        /** @description <p>The fill condition of the linked order (Only for linked order types), default: `first_hit`.</p> <ul> <li>`"first_hit"` - any execution of the primary order will fully cancel/place all secondary orders.</li> <li>`"complete_fill"` - a complete execution (meaning the primary order no longer exists) will cancel/place the secondary orders.</li> <li>`"incremental"` - any fill of the primary order will cause proportional partial cancellation/placement of the secondary order. The amount that will be subtracted/added to the secondary order will be rounded down to the contract size.</li> </ul> */
-        trigger_fill_condition: "first_hit" | "complete_fill" | "incremental";
-        /** @description Side - `buy` or `sell` */
-        order_side: components["schemas"]["side"];
-        /** @description <p>Specifies how long the order remains in effect. Default `"good_til_cancelled"`</p> <ul> <li>`"good_til_cancelled"` - unfilled order remains in order book until cancelled</li> <li>`"good_til_day"` - unfilled order remains in order book till the end of the trading session</li> <li>`"fill_or_kill"` - execute a transaction immediately and completely or not at all</li> <li>`"immediate_or_cancel"` - execute a transaction immediately, and any portion of the order that cannot be immediately filled is cancelled</li> </ul> <p>For spot trading, only `"good_til_cancelled"`, `"immediate_or_cancel"` and `"fill_or_kill"` are supported. `"good_til_day"` is not supported and will be rejected.</p> */
-        time_in_force: "good_til_cancelled" | "good_til_day" | "fill_or_kill" | "immediate_or_cancel";
-        /** @description Specifies time period. `8h` - 8 hours, `24h` - 24 hours, `1m` - 1 month */
-        length_for_perpetual_chart: "8h" | "24h" | "1m";
-        /** @description Deprecated. Maximum amount within an order to be shown to other customers, `0` for invisible order */
-        max_show: number;
-        /**
-         * @description Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well.
-         *
-         *     Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments.
-         */
-        display_amount: number;
-        /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the spread.</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
-        post_only_buy: boolean;
-        /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just above the spread.</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
-        post_only_sell: boolean;
-        /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type).</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> <p>For spot trading routed to Coinbase Exchange, the price is never adjusted: `"post_only"` must be combined with `"reject_post_only"` set to true, and the order is rejected if it would be matched instantly.</p> */
-        post_only_edit: boolean;
-        /** @description <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (according to the direction of the order).</p> <p>Only valid in combination with time_in_force=`"good_til_cancelled"`</p> */
-        post_only_secondary: boolean;
-        /** @description <p>If an order is considered post-only and this field is set to true then the order is put to the order book unmodified or the request is rejected.</p> <p>Only valid in combination with `"post_only"` set to true</p> <p>For spot trading routed to Coinbase Exchange, this must be set to true whenever `"post_only"` is true; otherwise the request is rejected with `post_only_not_allowed`.</p> */
-        reject_post_only: boolean;
-        /** @description If `true`, new key is marked as default */
-        optional_default: boolean;
-        /** @description If `true`, the order is considered reduce-only which is intended to only reduce a current position */
-        reduce_only: boolean;
-        /** @description Trigger price, required for trigger orders only (Stop-loss or Take-profit orders) */
-        trigger_price: number;
-        /** @description The maximum deviation from the price peak beyond which the order will be triggered */
-        trigger_offset: number;
-        /** @description Order MMP flag, only for order_type 'limit' */
-        mmp: boolean;
-        /** @description Timestamp, when provided server will start processing request in Matching Engine only before given timestamp, in other cases `timed_out` error will be responded. Remember that the given timestamp should be consistent with the server's time, use <a href='#public-get_time'>/public/time</a> method to obtain current server time. */
-        valid_until: number;
-        /** @description <p>Defines the trigger type. Required for `"Stop-Loss"`, `"Take-Profit"` and `"Trailing"` trigger orders</p> <p>For stop-limit orders routed to Coinbase Exchange, only `"last_price"` is allowed.</p> */
-        trigger: components["schemas"]["trigger"];
-        /** @description Advanced option order type. (Only for options. Advanced USD orders are not supported for linear options.) */
-        advanced_order_type: components["schemas"]["advanced"];
-        /** @description Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options) */
-        edit_advanced_order_type: components["schemas"]["advanced"];
-        /** @description Optional price for limit order. */
-        optional_price: number;
-        /** @description Custody address in currency format */
-        currency_custody_address: string;
-        /** @description Address in currency format, it must be in address book */
-        currency_address_from_address_book: string;
-        /** @description Address in currency format */
-        currency_address: string;
-        /** @description Amount of funds to be transferred */
-        transfer_currency_amount: number;
-        /** @description Amount of funds to be withdrawn */
-        withdrawal_currency_amount: number;
-        /** @description Amount of deposited funds */
-        deposit_currency_amount: number;
-        /** @description Amount */
-        currency_amount: number;
-        /** @description Amount */
-        optional_amount: number;
-        /** @description Withdrawal priority, optional for BTC, default: `high` */
-        withdrawal_priority: "insane" | "extreme_high" | "very_high" | "high" | "mid" | "low" | "very_low";
-        /** @description The withdrawal id */
-        withdrawal_id: number;
-        boolean_state: boolean;
-        boolean_value: boolean;
-        boolean_enabled: boolean;
-        /** @description Address book type */
-        address_book_type: components["schemas"]["address_book_type"];
-        /** @description Address book type */
-        address_book_type_without_deposit_source: components["schemas"]["address_book_type_without_deposit_source"];
-        /** @description Label of the address book entry */
-        address_label: components["schemas"]["address_label"];
-        /** @description Name of beneficiary VASP */
-        beneficiary_vasp_name: components["schemas"]["beneficiary_vasp_name"];
-        /** @description DID of beneficiary VASP */
-        beneficiary_vasp_did: components["schemas"]["beneficiary_vasp_did"];
-        /** @description First name of beneficiary (if beneficiary is a person) */
-        beneficiary_first_name: components["schemas"]["beneficiary_first_name"];
-        /** @description First name of beneficiary (if beneficiary is a person) */
-        beneficiary_last_name: components["schemas"]["beneficiary_last_name"];
-        /** @description Beneficiary company name (if beneficiary is a company) */
-        beneficiary_company_name: components["schemas"]["beneficiary_company_name"];
-        /** @description Geographical address of the beneficiary */
-        beneficiary_address: components["schemas"]["beneficiary_address"];
-        /** @description Website of the beneficiary VASP. Required if the address book entry is associated with a VASP that is not included in the list of known VASPs */
-        beneficiary_vasp_website: components["schemas"]["beneficiary_vasp_website"];
-        /** @description Indicates that the user agreed to shared provided information with 3rd parties */
-        agree_to_share_with_3rd_party: components["schemas"]["agree_to_share_with_3rd_party"];
-        /** @description The user confirms that he provided address belongs to him and he has access to it via an un-hosted wallet software */
-        personal_wallet: components["schemas"]["personal_wallet"];
-        /** @description The user can pass a list of currencies to add the address for. It is currently available ONLY for ERC20 currencies. Without passing this paramater for an ERC20 currency, the address will be added to ALL of the ERC20 currencies. */
-        extra_currencies: components["schemas"]["extra_currencies"];
-        /** @description Direction of transfer */
-        transfer_direction: components["schemas"]["transfer_direction"];
-        /** @description Destination wallet's address taken from address book */
-        transfer_destination_for_user: string;
-        /** @description Id of destination subaccount. Can be found in `My Account >> Subaccounts` tab */
-        transfer_destination_for_subaccount: number;
-        /** @description Id of the source (sub)account. Can be found in `My Account >> Subaccounts` tab. By default, it is the Id of the account which made the request. However, if a different "source" is specified, the user must possess the mainaccount scope, and only other subaccounts can be designated as the source. */
-        transfer_source_for_subaccount: number;
-        /** @description Id of a (sub)account */
-        user_id: number;
-        /** @description Id of a (sub)account - by default current user id is used */
-        optional_user_id: number;
-        /** @description User ID (subaccount or main account) to allocate part of the RFQ amount. */
-        trade_allocation_user_id: number;
-        /** @description ID of a client; available to broker. Represents a group of users under a common name. */
-        trade_allocation_client_id: number;
-        /** @description ID assigned to a single user in a client; available to broker. */
-        trade_allocation_client_link_id: number;
-        /** @description Client allocation info for brokers. */
-        trade_allocation_client_info: string;
-        /** @description Amount allocated to this user or client. */
-        trade_allocation_amount: number;
-        /** @description Whether PM or SM should be enabled - PM while `true`, SM otherwise */
-        pme_enabled: boolean;
-        /** @description If `true` request returns the result without switching the margining model. Default: `false` */
-        dry_run: boolean;
-        /** @description Margin model */
-        margin_model: "cross_pm" | "cross_sm" | "segregated_pm" | "segregated_sm";
-        /** @description Id of source subaccount. Can be found in `My Account >> Subaccounts` tab */
-        position_move_source_uid: number;
-        /** @description Id of target subaccount. Can be found in `My Account >> Subaccounts` tab */
-        position_move_target_uid: number;
-        /** @description Id of transfer */
-        transfer_id: components["schemas"]["transfer_id"];
-        /** @description TFA code, required when TFA is enabled for current account */
-        tfa: string;
-        /** @description Client software name */
-        client_software_name: string;
-        /** @description Client software version */
-        client_software_version: string;
-        /** @description Chart bars resolution given in full minutes or keyword `1D` (only some specific resolutions are supported) */
-        chart_resolution: 1 | 3 | 5 | 10 | 15 | 30 | 60 | 120 | 180 | 360 | 720 | "1D";
-        /** @description Time resolution given in full seconds or keyword `1D` (only some specific resolutions are supported) */
-        vix_resolution: 1 | 60 | 3600 | 43200 | "1D";
-        /** @description API key ID */
-        key_id: number;
-        /** @description Name of key (only letters, numbers and underscores allowed; maximum length - 16 characters) */
-        key_name: string;
-        /** @description Name of key (only letters, numbers and underscores allowed; maximum length - 16 characters) */
-        key_name_required: string;
-        /**
-         * @description Describes maximal access for tokens generated with given key. If scope is not provided, its value is set as none.
-         *
-         *     **📖 Related Article:** [Access Scope](https://docs.deribit.com/articles/access-scope)
-         */
-        key_scope: components["schemas"]["max_scope"];
-        /** @description List of enabled advanced on-key features. Available options:<br> - `restricted_block_trades`: Limit the block_trade read the scope of the API key to block trades that have been made using this specific API key<br> - `block_trade_approval`: Block trades created using this API key require additional user approval. Methods that use `block_rfq` scope are not affected by Block Trade approval feature<br> */
-        key_features: ("restricted_block_trades" | "block_trade_approval")[];
-        /** @description Enables/disables the API key. `true` to enable, `false` to disable */
-        enable_key: boolean;
-        /** @description Whitelist provided IP address on a selected key */
-        whitelist_ip: string[];
-        /** @description ED25519 or RSA PEM Encoded public key that should be used to create asymmetric API Key for signing requests/authentication requests with user's private key.<br></br> **📖 Related Article:** [Asymmetric API keys](https://docs.deribit.com/articles/asymmetric-api-keys) */
-        public_key: string;
-        /**
-         * @description Space-separated keywords used to filter results. An entry must match every keyword. Keywords are case-sensitive.
-         *
-         *     Transaction types:
-         *
-         *     - ``trade`` - trades
-         *     - ``deposit`` - deposits
-         *     - ``withdrawal`` - withdrawals
-         *     - ``transfer`` - transfers between accounts
-         *     - ``reward`` - reward transfers
-         *     - ``mm_lsp_payment`` - market-maker LSP payout transfers
-         *     - ``settlement`` - funding / session settlement (display type `settlement`)
-         *     - ``delivery`` - instrument delivery (display type `delivery`)
-         *     - ``expiry`` - options that expired out of the money
-         *     - ``assignment`` - assigned options
-         *     - ``exercise`` - exercised options
-         *     - ``swap`` - currency swaps
-         *     - ``correction`` - balance corrections
-         *     - ``block_trade`` - block trades
-         *     - ``combo_trade`` - combo trades
-         *     - ``liquidation`` - liquidation trades and liquidation transfers (display type `liquidation transfer`)
-         *     - ``lsp`` - LSP position moves and commissions (display types `LSP transfer` / `LSP commission`)
-         *     - ``adl`` - ADL position moves and commissions (display types `ADL transfer` / `ADL commission`)
-         *     - ``commission`` - LSP/ADL commissions; typically combined with ``lsp`` or ``adl``
-         *     - ``position`` - position moves (display type `position move`); also matches `position move transfer`
-         *     - ``insurance`` - insurance-related transfers
-         *     - ``insurance_transfer`` - insurance transfers
-         *     - ``affiliate`` - affiliate payouts
-         *     - ``partner`` - partner / application fee payouts
-         *     - ``fee_deposit`` - fee balance deposits
-         *     - ``fee_balance_transfer`` - fee balance transfers
-         *     - ``stake_reward`` - staking rewards
-         *     - ``lock_deposit_balance`` - locked deposit balance
-         *     - ``unlock_deposit_balance`` - unlocked deposit balance
-         *     - ``summary`` - settlement summaries
-         *     - ``options_settlement_summary`` - options settlement summaries
-         *     - ``negative_balance_fee`` - negative balance fees
-         *     - ``creation`` - future creation from expired options (display type `future creation`)
-         *     - ``margin_loan`` - margin loan interest, issuance, and repayment
-         *     - ``corporate_action_adjustment`` - stock split, rights offering, and spin-off adjustments
-         *     - ``stock_split`` - stock splits
-         *     - ``rights_offering`` - rights offerings
-         *     - ``spin_off`` - spin-offs
-         *     - ``m_and_a`` - mergers and acquisitions (display type `m&a`)
-         *     - ``rename`` - instrument renames
-         *     - ``custody_settlement_fee`` - custody settlement fees
-         *     - ``sweep_isolated_position`` - isolated position sweeps
-         *     - ``structured_product_spread`` - structured product spread
-         *     - ``usdc_reward`` - USDC rewards
-         *     - ``usdc_reward_received`` - USDC rewards received
-         *     - ``usdc_platform_reward`` - USDC platform rewards
-         *     - ``usdc_reward_payment`` - USDC reward payments
-         *     - ``ethena_reward`` - Ethena rewards
-         *     - ``buidl_reward`` - BUIDL rewards
-         *     - ``socialize_loses`` - socialized losses/refunds (display types `socialized fund` / `socialized refund`)
-         *
-         *     Additional filters:
-         *
-         *     - ``maker`` / ``taker`` - trade role
-         *     - ``open`` / ``close`` - trade kind (`close` also matches deliveries and liquidations)
-         *     - ``buy`` / ``sell`` - direction
-         *     - ``option`` / ``future`` / ``spot`` - instrument kind
-         *     - ``voice_broker`` - voice-broker trades
-         *
-         *     Additional indexed values, depending on type:
-         *
-         *     - deposits — destination address (custody deposits also index custody name and request id)
-         *     - withdrawals — withdrawal `code` or custody request id (not the destination address)
-         *     - transfers — counterparty username
-         */
-        optional_query: string;
-        /** @description Email address of account */
-        email: string;
-        /** @description One time recovery code */
-        recovery_code: string;
-        /** @description The password for the account */
-        password: string;
-        /** @description Specifies if Cancel On Disconnect change should be applied/checked for the current connection or the account (default - `connection`)<br/><br/> **NOTICE:** Scope `connection` can be used only when working via Websocket. */
-        cod_scope: "connection" | "account";
-        /** @description Range of the data to return */
-        range: "1h" | "1d" | "2d" | "1m" | "1y" | "all";
-        /** @description Request for extended statistics. Including also 7 and 30 days volumes (default false) */
-        extended_volume_statistics: boolean;
-        /** @description Custody name */
-        custody_name: components["schemas"]["custody_name"];
-        /** @description API key client_id */
-        client_id: components["schemas"]["client_id"];
-        /** @description Name of security key, only alpha numeric chars allowed with - and _ */
-        security_key_name: string;
-        /** @description Security Key Id */
-        security_key_id: number;
-        /** @description Security Key reset code */
-        security_key_reset_code: string;
-        /** @description <b>Token Invalidation:</b> By default, all tokens created during the current session are invalidated when you call this method. You can control this behavior using this parameter: <ul><li><b>invalidate_token=true</b> (default): All session tokens are invalidated, requiring re-authentication for new connections</li><li><b>invalidate_token=false</b>: Tokens remain valid, allowing you to reconnect using the same authentication</li></ul> */
-        invalidate_token: boolean;
-        /** @description Self trading prevention behavior: `reject_taker` (reject the incoming order), `cancel_maker` (cancel the matched order in the book) */
-        self_trading_mode: "reject_taker" | "cancel_maker";
-        /** @description If value is `true` trading is prevented between subaccounts of given account, otherwise they are treated separately */
-        extended_to_subaccounts: boolean;
-        /** @description When Block RFQ Self Match Prevention is enabled, it ensures that RFQs cannot be executed between accounts that belong to the same legal entity. This setting is independent of the general self-match prevention settings and must be configured separately. */
-        block_rfq_self_match_prevention: boolean;
-        /** @description Request ID */
-        request_id: string;
-        /** @description Current custody balance of the user */
-        balance: number;
-        /** @description Difference between current "in exchange" balance and current custody balance that happened due to the settlement. */
-        difference: number;
-        /** @description Recipient of the token */
-        jwt_recipient: "zendesk";
-        /** @description User ID in the external system. (i.e. in custodian system) */
-        external_id: components["schemas"]["external_id"];
-        /** @description The registration number of the company */
-        business_registration_number: components["schemas"]["business_registration_number"];
-        /** @description List of available trading products. Available products: perpetual, futures, options, future_combos, option_combos, spots */
-        trading_products: ("perpetual" | "futures" | "options" | "future_combos" | "option_combos" | "spots")[];
-        /** @description Withdrawal Policy mode */
-        withdrawal_policy_mode: components["schemas"]["withdrawal_policy_mode"];
-        /** @description Withdrawal Policy limit bucket */
-        withdrawal_policy_limit_bucket: components["schemas"]["withdrawal_policy_limit_bucket"];
-        /** @description Withdrawal Policy category */
-        withdrawal_policy_category: components["schemas"]["withdrawal_policy_category"];
-        /** @description Amount or flag to use default value */
-        withdrawal_policy_amount: components["schemas"]["withdrawal_policy_amount"];
-        /** @description Object with positions in following form: `{InstrumentName1: Position1, InstrumentName2: Position2...}`, for example `{"BTC-PERPETUAL": -1000.0}` (or corresponding URI-encoding for GET). For futures in USD, for options in base currency. */
-        simulated_positions_map: string;
-        /** @description Object with positions in following form: `{InstrumentName1: Position1, InstrumentName2: Position2...}`, for example `{"BTC-PERPETUAL": -1.0}` (or corresponding URI-encoding for GET). Size in base currency. */
-        simulated_positions_map_base: string;
-        /** @description If `true`, adds simulated positions to current positions, otherwise uses only simulated positions. By default `true` */
-        add_positions: boolean;
-        /** @description Ratio of amount between legs */
-        leg_ratio: number;
-        /** @description ID of the Block RFQ */
-        block_rfq_id: number;
-        /** @description ID of the Block RFQ */
-        optional_block_rfq_id: number;
-        /** @description User defined label for the Block RFQ (maximum 64 characters) */
-        block_rfq_label: string;
-        /** @description This value multiplied by the ratio of a leg gives trade size on that leg. */
-        block_rfq_amount: components["schemas"]["amount"];
-        /** @description List of legs used to create Block RFQ */
-        block_rfq_legs: {
-            /** @description Instrument name */
-            instrument_name?: components["schemas"]["instrument_name"];
-            /** @description It represents the requested trade size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
-            amount?: components["schemas"]["amount"];
-            /** @description Direction of selected leg */
-            direction?: components["schemas"]["direction"];
-        }[];
-        /** @description Hedge leg of the Block RFQ. There is only one hedge leg allowed per Block RFQ */
-        block_rfq_hedge_leg: string;
-        /** @description List of legs used to trade Block RFQ */
-        block_rfq_trade_legs: {
-            /** @description Instrument name */
-            instrument_name?: components["schemas"]["instrument_name"];
-            /** @description Direction of selected leg. Must match the direction of the corresponding leg in the Block RFQ */
-            direction?: components["schemas"]["direction"];
-            /** @description Ratio of amount between legs */
-            ratio?: number;
-        }[];
-        /** @description List of legs used for Block RFQ quote */
-        block_rfq_legs_quote: {
-            /** @description Instrument name */
-            instrument_name?: components["schemas"]["instrument_name"];
-            /** @description Price for trade */
-            price?: number;
-            /** @description Ratio of amount between legs */
-            ratio?: number;
-            /** @description Direction of selected leg. Must match the direction of the corresponding leg in the Block RFQ */
-            direction?: components["schemas"]["direction"];
-        }[];
-        /** @description Hedge leg of the Block RFQ. There is only one hedge leg allowed per Block RFQ */
-        block_rfq_hedge_leg_quote: string;
-        /** @description Hedge leg of the Block RFQ. There is only one hedge leg allowed per Block RFQ */
-        block_rfq_hedge_leg_trade: string;
-        /** @description ID of the Block RFQ quote */
-        block_rfq_quote_id: number;
-        /** @description User defined label for the Block RFQ quote (maximum 64 characters). Used to identify quotes of a selected Block RFQ */
-        block_rfq_quote_label: string;
-        /** @description Hedge leg price */
-        hedge_leg_price: number;
-        /** @description List of targeted Block RFQ makers. Only those makers will be notified about created Block RFQ. If the list is empty, all available makers will be targeted. */
-        block_rfq_makers: string[];
-        /** @description <p>Execution instruction of the quote. Default - `any_part_of`</p> <ul> <li>`"all_or_none (AON)"` - The quote can only be filled entirely or not at all, ensuring that its amount matches the amount specified in the Block RFQ. Additionally, 'all_or_none' quotes have priority over 'any_part_of' quotes at the same price level.</li> <li>`"any_part_of (APO)"` - The quote can be filled either partially or fully, with the filled amount potentially being less than the Block RFQ amount.</li> </ul> */
-        execution_instruction: "all_or_none" | "any_part_of";
-        /** @description Count of Block RFQs returned, maximum - `1000` */
-        block_rfq_count: number;
-        /** @description Count of Block Trades returned, maximum - `101` */
-        block_trade_count: number;
-        /** @description Count of transaction log entries returned, default - `100`, maximum - `1000` */
-        transaction_log_count: number;
-        /** @description The continuation parameter specifies the starting point for fetching historical Block RFQs. When provided, the endpoint returns Block RFQs, starting from the specified ID and continuing backward (e.g., if `continuation` is 50, results will include Block RFQs of ID 49, 48, etc.) */
-        block_rfq_continuation: number;
-        /** @description Continuation token for pagination. Consists of `timestamp` and `block_rfq_id`. */
-        block_rfq_string_continuation: string;
-        /** @description State of Block RFQ */
-        block_rfq_state: "open" | "filled" | "traded" | "cancelled" | "expired" | "closed";
-        /** @description Role of the user in Block RFQ. When the `any` role is selected, the method returns all Block RFQs in which the user has participated, either as the `taker` or as a `maker` */
-        block_rfq_role: "any" | "taker" | "maker";
-        /** @description Direction of the trade from the taker perspective */
-        block_rfq_taker_direction: components["schemas"]["direction"];
-        /** @description Direction of selected leg. Must match the direction of the corresponding leg in the Block RFQ */
-        block_rfq_leg_direction: components["schemas"]["direction"];
-        /** @description List of legs for which the prices will be calculated */
-        legs_for_prices: {
-            /** @description Instrument name */
-            instrument_name?: components["schemas"]["instrument_name"];
-            /** @description It represents the requested trade size. For perpetual and inverse futures the amount is in USD units. For options and linear futures it is the underlying base currency coin. */
-            amount?: components["schemas"]["amount"];
-            /** @description Direction of selected leg */
-            direction?: components["schemas"]["direction"];
-        }[];
-        /** @description Price for the whole leg structure */
-        legs_price: number;
-        /** @description Id of the deposit */
-        deposit_id: string;
-        /** @description Information about the originator of the deposit */
-        originator: string;
-        /**
-         * @description Transaction id in a proper format for the currency
-         * @example 1b1fb5568515e2b79503501e3d3680b2d0838d5dfc2d15a04eb8cd9fbbe0b572
-         */
-        tx_hash: string;
-        /** @description If the user is the originator of the deposit */
-        is_personal: boolean;
-        /** @description Company name of the originator if the originator is a legal entity */
-        company_name: string;
-        /** @description If the user is the originator of the deposit */
-        first_name: string;
-        /** @description Last name of the originator if the originator is a person */
-        last_name: string;
-        /** @description Geographical address of the originator */
-        address: string;
-        /** @description Id of a subaccount */
-        optional_subaccount_id: number;
-        /**
-         * @description Determines whether historical trade and order records should be retrieved.
-         *
-         *     - `false` (default): Returns recent records: orders for 30 min, trades for 24h.
-         *     - `true`: Fetches historical records, available after a short delay due to indexing. Recent data is not included.
-         *
-         *     **📖 Related Article:** [Accessing Historical Trades and Orders Using API](https://docs.deribit.com/articles/accessing-historical-trades-orders)
-         */
-        historical: boolean;
-        /** @description When set to true, the API response format changes from a simple list of orders to an object containing the orders and a continuation token. */
-        with_continuation: boolean;
-        /** @description Determines whether the RFQ is non-anonymous, revealing both taker and maker aliases. It can be set to `false` (anonymous mode) only when at least 5 makers are targeted. Default value is `true`. */
-        disclosed: boolean;
-        /** @description Unique identifier of the settlement. */
-        custody_settlement_id: string;
-        /** @description Optional reason provided for ignoring or rejecting the instruction */
-        custody_settlement_review_reason: string;
-        /** @description Action taken by the custodian */
-        custody_settlement_review_action: "confirm" | "ignore" | "reject";
-        /** @description List of review instructions for each currency */
-        custody_settlement_review: string;
-        /** @description Expected custody balance of the user */
-        expected_custody_balance: number;
-        /** @description Amount to be settled */
-        custody_settlement_amount: number;
-        /** @description Balance of the user in the custodian system. */
-        custody_balance: number;
-        /** @description Request settlement for the given currencies */
-        custody_settlement_initiate: string;
-        /** @description The currency supported by custodian and exchange */
-        custody_currency: string;
-        /** @description The timestamp when the quote expires (milliseconds since the Unix epoch) */
-        expires_at: number;
-        /** @description Tag for XRP addresses */
-        address_tag: string;
-        /** @description Blockchain network for the wallet operation, given as a network resource name (e.g. `"networks/ethereum-mainnet"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks. */
-        coinbase_network: string;
-        /** @description Network resource name (e.g. `"networks/bitcoin-mainnet"`). Passed through to the custodian; not validated against `coinbase_networks`. Use a `resource_name` from `public/get_currencies`. */
-        coinbase_network_name: string;
-        /** @description Destination tag / memo for networks that support one. **Coinbase wallet type only.** Used together with `address` and `network`; also serves to disambiguate address book entries that share the same address. */
-        coinbase_address_tag: string;
-        /** @description Unique identifier (UUID7) of the address book entry, as returned in the `id` field of `private/get_address_book` results. **Coinbase wallet type only.** Can be used instead of `address` (with `network` and `tag`) to identify the entry. */
-        address_book_entry_id: string;
-        /** @description Identifier of a Coinbase Travel Network (CTN) counterparty. **Coinbase wallet type only.** Used instead of `address` and `network`; entries created with `counterparty_id` apply to all currencies, so `currency` is omitted. */
-        counterparty_id: string;
-        /** @description Full name of the beneficiary (person or organization). **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_name: string;
-        /** @description Country code of the beneficiary (ISO 3166-1 alpha-2). **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_country: string;
-        /** @description Name of the financial institution holding the beneficiary account. **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_financial_institution: string;
-        /** @description Account identifier of the beneficiary at the financial institution. **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_account: string;
-        /** @description Location of the beneficiary account. **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_account_location: string;
-        /** @description Type of the beneficiary entity. **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_entity_type: "organization" | "individual";
-        /** @description Type of the beneficiary wallet. **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_wallet_type: "exchange" | "self_hosted";
-        /** @description Indicates that the beneficiary is the account owner. **Coinbase wallet type only** — travel rule data. */
-        coinbase_beneficiary_is_self: boolean;
-        /** @description Indicates if the address belongs to an unhosted wallet */
-        unhosted_wallet: boolean;
-        /** @description The currency symbol */
-        wallet_currency_optional: components["schemas"]["wallet_currency"];
-        /** @description Address in currency format */
-        currency_address_optional: string;
-        /** @description Filter by creation timestamp (before) */
-        created_before: components["schemas"]["timestamp"];
-        /** @description Filter by creation timestamp (after) */
-        created_after: components["schemas"]["timestamp"];
-        /** @description Filter by update timestamp (before) */
-        updated_before: components["schemas"]["timestamp"];
-        /** @description Filter by update timestamp (after) */
-        updated_after: components["schemas"]["timestamp"];
-        /** @description Filter by personal wallet flag */
-        personal_wallet_optional: boolean;
-        /** @description Filter by unhosted wallet flag */
-        unhosted_wallet_optional: boolean;
-        /** @description Filter by beneficiary VASP name */
-        beneficiary_vasp_name_optional: components["schemas"]["beneficiary_vasp_name"];
-        /** @description Filter by beneficiary VASP DID */
-        beneficiary_vasp_did_optional: components["schemas"]["beneficiary_vasp_did"];
-        /** @description Maximum number of results to return */
-        limit_optional: number;
-        /** @description List of allocations for Block RFQ pre-allocation. Allows to split amount between different (sub)accounts or broker clients. Each allocation must specify either `user_id` (for direct allocation) or `client_info` object (for broker allocation), and amount. */
-        trade_allocations: {
-            /** @description User ID (subaccount or main account) to allocate part of the RFQ amount. */
-            user_id?: number;
-            /** @description Client allocation info for brokers. */
-            client_info?: {
-                /** @description ID of a client; available to broker. Represents a group of users under a common name. */
-                client_id?: number;
-                /** @description ID assigned to a single user in a client; available to broker. */
-                client_link_id?: number;
-            };
-            /** @description Amount allocated to this user or client. */
-            amount?: number;
-        }[];
-    };
+    parameters: never;
     requestBodies: never;
     headers: never;
     pathItems: never;
