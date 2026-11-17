@@ -7,8 +7,8 @@ export const methods = {
    "Block RFQ",
    "Private"
   ],
-  "summary": "**Taker method** Allows Block RFQ taker to accept a quote by sending a single crossing price.",
-  "description": "**Taker method** Allows Block RFQ taker to accept a quote by sending a single crossing price. The order can be either filled immediately (`fill_or_kill`) or remain active until cancelled (`good_til_cancelled`). **Note:** After Block RFQ creation, a grace period of 5 seconds begins, during which the taker cannot see quotes or trade the Block RFQ. Use [private/get_block_rfqs](https://docs.deribit.com/api-reference/block-rfq/private-get_block_rfqs) to retrieve Block RFQ information, or [private/cancel_block_rfq](https://docs.deribit.com/api-reference/block-rfq/private-cancel_block_rfq) to cancel a Block RFQ. **📖 Related Article:** [Deribit Block RFQ API walkthrough](https://docs.deribit.com/articles/block-rfq-api-walkthrough) **Scope:** `block_rfq:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Faccept_block_rfq)",
+  "summary": "**Taker method** Allows the Block RFQ taker to accept a quote by sending a single crossing price.",
+  "description": "**Taker method** Allows the Block RFQ taker to accept a quote by sending a single crossing price. The order can be either filled immediately (`fill_or_kill`) or remain active until cancelled (`good_til_cancelled`). **Note:** After Block RFQ creation, a grace period of 5 seconds begins, during which the taker cannot see quotes or trade the Block RFQ. **Delayed publication:** For accounts enabled for delayed publication, Block RFQ trades that meet the minimum size for the settlement currency are published to public data feeds with a delay of up to 8 hours, and at the latest 1 hour before the next settlement. Trades are not delayed when the next settlement is less than 1 hour away. The publication time is returned in the `block_delayed` field of each trade. Use [private/get_block_rfqs](https://docs.deribit.com/api-reference/block-rfq/private-get_block_rfqs) to retrieve Block RFQ information, or [private/cancel_block_rfq](https://docs.deribit.com/api-reference/block-rfq/private-cancel_block_rfq) to cancel a Block RFQ. **📖 Related Article:** [Deribit Block RFQ API walkthrough](https://docs.deribit.com/articles/block-rfq-api-walkthrough) **Scope:** `block_rfq:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Faccept_block_rfq)",
   "deprecated": false,
   "params": {
    "block_rfq_id": {
@@ -132,7 +132,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Adds a new address to the address book.",
-  "description": "Adds a new address to the address book. The address book allows you to store addresses for withdrawals, along with beneficiary information for compliance purposes. **Coinbase wallet type** For Coinbase wallet type accounts the method supports network selection and CTN (Coinbase Travel Network) counterparties, and behaves differently: - Required parameters are `type` and `label`, plus one of: - `address` together with `currency` and `network` (optional `tag`) — an on-chain address on the selected network, or - `counterparty_id` — a CTN counterparty; `currency` is then omitted and the entry applies to all currencies. - `type` accepts only `withdrawal` and `transfer`. - Travel rule data is provided with the fields `name`, `country`, `address`, `financial_institution`, `account`, `account_location`, `entity_type` (`organization` or `individual`), `wallet_type` (`exchange` or `self_hosted`) and `is_self` instead of the legacy `beneficiary_*`, `agreed` and `personal` fields. - `extra_currencies` is not supported. - The response contains a Coinbase address book entry object, including the entry `id` which can be used instead of `address` in the other address book methods. **📖 Related Article:** [Managing Withdrawals](https://docs.deribit.com/articles/managing-withdrawals-api) **Scope:** `wallet:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fadd_to_address_book)",
+  "description": "Adds a new address to the address book. The address book allows you to store addresses for withdrawals, along with beneficiary information for compliance purposes. **Coinbase wallet type** For Coinbase wallet type accounts the method supports network selection and CTN (Coinbase Transfer Network) counterparties, and behaves differently: - Required parameters are `type` and `label`, plus one of: - `address` together with `currency` and `network` (optional `tag`) — an on-chain address on the selected network, or - `counterparty_id` — a CTN counterparty; `currency` is then omitted and the entry applies to all currencies. - `type` accepts only `withdrawal` and `transfer`. - Travel rule data is provided with the fields `name`, `country`, `address`, `financial_institution`, `account`, `account_location`, `entity_type` (`organization` or `individual`), `wallet_type` (`exchange` or `self_hosted`) and `is_self` instead of the legacy `beneficiary_*`, `agreed` and `personal` fields. - `extra_currencies` is not supported. - The response contains a Coinbase address book entry object, including the entry `id` which can be used instead of `address` in the other address book methods. **📖 Related Article:** [Managing Withdrawals](https://docs.deribit.com/articles/managing-withdrawals-api) **Scope:** `wallet:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fadd_to_address_book)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -161,7 +161,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -169,7 +169,7 @@ export const methods = {
    },
    "counterparty_id": {
     "type": "string",
-    "description": "Identifier of a Coinbase Travel Network (CTN) counterparty. **Coinbase wallet type only.** Used instead of `address` and `network`; entries created with `counterparty_id` apply to all currencies, so `currency` is omitted."
+    "description": "Identifier of a Coinbase Transfer Network (CTN) counterparty. **Coinbase wallet type only.** Used instead of `address` and `network`; entries created with `counterparty_id` apply to all currencies, so `currency` is omitted."
    },
    "label": {
     "type": "string",
@@ -270,8 +270,8 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "Approves a pending block trade.",
-  "description": "Approves a pending block trade. `nonce` and `timestamp` are used to identify the block trade while `role` should be opposite to the trading counterparty. Use [private/get_block_trade_requests](https://docs.deribit.com/api-reference/block-trade/private-get_block_trade_requests) to retrieve pending block trades that require approval. To use the block trade approval feature, an [additional API key setting feature](https://docs.deribit.com/articles/creating-api-key#block-trade-approval-feature) called `enabled_features: block_trade_approval` is required. This key has to be given to the broker/registered partner who performs the trades on behalf of the user for the feature to be active. If the user wants to approve the trade, they must approve it from a different API key that doesn't have this feature enabled. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fapprove_block_trade)",
+  "summary": "Approves a pending Block Trade.",
+  "description": "Approves a pending Block Trade. `nonce` and `timestamp` are used to identify the Block Trade while `role` should be opposite to the trading counterparty. Use [private/get_block_trade_requests](https://docs.deribit.com/api-reference/block-trade/private-get_block_trade_requests) to retrieve pending Block Trades that require approval. To use the Block Trade approval feature, an [additional API key setting feature](https://docs.deribit.com/articles/creating-api-key#block-trade-approval-feature) called `enabled_features: block_trade_approval` is required. This key has to be given to the broker/registered partner who performs the trades on behalf of the user for the feature to be active. If the user wants to approve the trade, they must approve it from a different API key that doesn't have this feature enabled. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fapprove_block_trade)",
   "deprecated": false,
   "params": {
    "timestamp": {
@@ -340,7 +340,7 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency (Only for limit and stop_limit orders) When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "Order price in the instrument's price units (quote currency for futures and spot). Required for limit, stop_limit and take_limit; not used for market-like types. When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "time_in_force": {
     "type": "string",
@@ -354,11 +354,11 @@ export const methods = {
    },
    "display_amount": {
     "type": "number",
-    "description": "Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
+    "description": "Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the spread. Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the spread. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reject_post_only": {
     "type": "boolean",
@@ -374,7 +374,7 @@ export const methods = {
    },
    "trigger_offset": {
     "type": "number",
-    "description": "The maximum deviation from the price peak beyond which the order will be triggered"
+    "description": "Positive deviation from the price peak at which the order triggers; required for trailing_stop."
    },
    "trigger": {
     "type": "string",
@@ -424,7 +424,7 @@ export const methods = {
     "items": {
      "type": "object"
     },
-    "description": "List of secondary orders to place or cancel when the primary order is filled. Each entry in the array defines one secondary order. `amount` and `direction` are required; all other fields are optional."
+    "description": "List of secondary orders. Each requires positive `amount` and `direction`. Non-market types (including `take_limit`) require `price`. Stop/take orders require `trigger` and `trigger_price`; trailing-stop orders require `trigger` and positive `trigger_offset`."
    }
   },
   "required": [
@@ -822,8 +822,8 @@ export const methods = {
    "Block RFQ",
    "Private"
   ],
-  "summary": "**Taker method** Allows Block RFQ taker to cancel an active trigger for a Block RFQ.",
-  "description": "**Taker method** Allows Block RFQ taker to cancel an active trigger for a Block RFQ. The response includes the full Block RFQ object with the trade trigger state set to cancelled. Use [private/get_block_rfqs](https://docs.deribit.com/api-reference/block-rfq/private-get_block_rfqs) to retrieve Block RFQ information. **📖 Related Article:** [Deribit Block RFQ API walkthrough](https://docs.deribit.com/articles/block-rfq-api-walkthrough) **Scope:** `block_rfq:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fcancel_block_rfq_trigger)",
+  "summary": "**Taker method** Allows the Block RFQ taker to cancel an active trigger for a Block RFQ.",
+  "description": "**Taker method** Allows the Block RFQ taker to cancel an active trigger for a Block RFQ. The response includes the full Block RFQ object with the trade trigger state set to cancelled. Use [private/get_block_rfqs](https://docs.deribit.com/api-reference/block-rfq/private-get_block_rfqs) to retrieve Block RFQ information. **📖 Related Article:** [Deribit Block RFQ API walkthrough](https://docs.deribit.com/articles/block-rfq-api-walkthrough) **Scope:** `block_rfq:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fcancel_block_rfq_trigger)",
   "deprecated": false,
   "params": {
    "block_rfq_id": {
@@ -1092,7 +1092,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Changes the margin model for the authenticated account or a specified subaccount.",
-  "description": "Changes the margin model for the authenticated account or a specified subaccount. Margin models determine how margin requirements are calculated (e.g., Standard Margin vs. Portfolio Margin). Changing the margin model may affect margin requirements, available funds, and trading capabilities. Use the `dry_run` parameter to preview the impact of the change before applying it. **📖 Related Article:** [Margin types and usage](https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_margin_model)",
+  "description": "Changes the margin model for the authenticated account or a specified subaccount. Margin models determine how margin requirements are calculated (e.g., Standard Margin vs. Portfolio Margin). Changing the margin model may affect margin requirements, available funds, and trading capabilities. Use the `dry_run` parameter to preview the impact of the change before applying it. A dry run runs the same checks as the actual change. Returns an error if a currency would be left with negative equity, an unfunded long option position, or insufficient funds. **📖 Related Article:** [Margin types and usage](https://support.deribit.com/hc/en-us/articles/25944811317149-Margin-types-and-usage) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_margin_model)",
   "deprecated": false,
   "params": {
    "user_id": {
@@ -1267,7 +1267,7 @@ export const methods = {
       "block_trade_approval"
      ]
     },
-    "description": "List of enabled advanced on-key features. Available options: - `restricted_block_trades`: Limit the block_trade read the scope of the API key to block trades that have been made using this specific API key - `block_trade_approval`: Block trades created using this API key require additional user approval. Methods that use `block_rfq` scope are not affected by Block Trade approval feature"
+    "description": "List of enabled advanced on-key features. Available options: - `restricted_block_trades`: Limit the block_trade read scope of the API key to Block Trades that have been made using this specific API key - `block_trade_approval`: Block Trades created using this API key require additional user approval. Methods that use `block_rfq` scope are not affected by Block Trade approval feature"
    }
   },
   "required": [
@@ -1368,7 +1368,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "label": {
     "type": "string",
@@ -1479,7 +1479,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Disable Cancel On Disconnect for the connection.",
-  "description": "Disable Cancel On Disconnect for the connection. When change is applied for the account, then every newly opened connection will start with **inactive** Cancel on Disconnect. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fdisable_cancel_on_disconnect)",
+  "description": "Disable Cancel On Disconnect for the connection. When change is applied for the account, then every newly opened connection will start with **inactive** Cancel on Disconnect. **Scope & transport:** - `scope=connection` (the default) applies to the current WebSocket connection only and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`. - `scope=account` changes the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read_write` scope. Connection scope only requires an authenticated connection. **Scope:** `account:read_write` (only for `scope=account`) [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fdisable_cancel_on_disconnect)",
   "deprecated": false,
   "params": {
    "scope": {
@@ -1518,11 +1518,11 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency. When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "The order price in the instrument's price units (quote currency for futures and spot). When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Omitted means unchanged. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reduce_only": {
     "type": "boolean",
@@ -1546,7 +1546,7 @@ export const methods = {
    },
    "trigger_offset": {
     "type": "number",
-    "description": "The maximum deviation from the price peak beyond which the order will be triggered"
+    "description": "Positive deviation from the price peak at which the order triggers; required for trailing_stop."
    },
    "mmp": {
     "type": "boolean",
@@ -1558,7 +1558,7 @@ export const methods = {
    },
    "display_amount": {
     "type": "number",
-    "description": "Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
+    "description": "Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
    }
   },
   "required": [
@@ -1603,7 +1603,7 @@ export const methods = {
       "block_trade_approval"
      ]
     },
-    "description": "List of enabled advanced on-key features. Available options: - `restricted_block_trades`: Limit the block_trade read the scope of the API key to block trades that have been made using this specific API key - `block_trade_approval`: Block trades created using this API key require additional user approval. Methods that use `block_rfq` scope are not affected by Block Trade approval feature"
+    "description": "List of enabled advanced on-key features. Available options: - `restricted_block_trades`: Limit the block_trade read scope of the API key to Block Trades that have been made using this specific API key - `block_trade_approval`: Block Trades created using this API key require additional user approval. Methods that use `block_rfq` scope are not affected by Block Trade approval feature"
    },
    "ip_whitelist": {
     "type": "array",
@@ -1694,11 +1694,11 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency. When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "The order price in the instrument's price units (quote currency for futures and spot). When editing an option order with advanced=usd, the field price should be the option price value in USD. When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below or above the spread (accordingly to the original order type). Omitted means unchanged. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reduce_only": {
     "type": "boolean",
@@ -1771,7 +1771,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Enable Cancel On Disconnect for the connection.",
-  "description": "Enable Cancel On Disconnect for the connection. After enabling, all orders created via this connection will be automatically cancelled when the connection is closed. Cancel is triggered in the following cases: when the TCP connection is properly terminated, when the connection is closed due to 10 minutes of inactivity, or when a heartbeat detects a disconnection. To reduce the inactivity timeout, consider using [public/set_heartbeat](https://docs.deribit.com/api-reference/session-management/public-set_heartbeat). **Note:** If the connection is gracefully closed using [private/logout](https://docs.deribit.com/api-reference/authentication/private-logout), cancel-on-disconnect will **not** be triggered. **Notice:** Cancel-on-Disconnect does not affect orders created by other connections - they will remain active! When change is applied on the `account` scope, then every newly opened connection will start with **active** Cancel on Disconnect. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fenable_cancel_on_disconnect)",
+  "description": "Enable Cancel On Disconnect for the connection. After enabling, all orders created via this connection will be automatically cancelled when the connection is closed. Cancel is triggered in the following cases: when the TCP connection is properly terminated, when the connection is closed due to 10 minutes of inactivity, or when a heartbeat detects a disconnection. To reduce the inactivity timeout, consider using [public/set_heartbeat](https://docs.deribit.com/api-reference/session-management/public-set_heartbeat). **Note:** If the connection is gracefully closed using [private/logout](https://docs.deribit.com/api-reference/authentication/private-logout), cancel-on-disconnect will **not** be triggered. **Notice:** Cancel-on-Disconnect does not affect orders created by other connections - they will remain active! When change is applied on the `account` scope, then every newly opened connection will start with **active** Cancel on Disconnect. **Scope & transport:** - `scope=connection` (the default) applies to the current WebSocket connection only and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`. - `scope=account` changes the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read_write` scope. Connection scope only requires an authenticated connection. **Restrictions:** Not available for retail broker main accounts or their subaccounts: error `14021` (`not_allowed_for_retail_brokers`) is returned for both scopes. **Scope:** `account:read_write` (only for `scope=account`) [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fenable_cancel_on_disconnect)",
   "deprecated": false,
   "params": {
    "scope": {
@@ -1792,8 +1792,8 @@ export const methods = {
    "Matching Engine",
    "Private"
   ],
-  "summary": "Executes a block trade.",
-  "description": "Executes a block trade. This is the second step in the block trade workflow - the second party calls this method with the signature received from the first party to execute the trade. The whole request must be exactly the same as in [private/verify_block_trade](https://docs.deribit.com/api-reference/block-trade/private-verify_block_trade), only the `role` field should be set appropriately - this means that both sides have to agree on the same `timestamp`, `nonce`, and `trades` fields, and the server will ensure that the `role` field is different between sides (each party accepts their own role). Using the same `timestamp` and `nonce` by both sides in [private/verify_block_trade](https://docs.deribit.com/api-reference/block-trade/private-verify_block_trade) ensures that even if unintentionally both sides execute the given block trade with a valid `counterparty_signature`, the block trade will be executed only once. **Note:** In the API, the `direction` field is always expressed from the maker's perspective. This means that when you accept a block trade as a taker, the direction shown in the API represents the opposite side of your trade. For example, if you are buying puts as a taker, the API will show the operation as a \"sell put\" (maker's perspective), and you will be verifying and accepting a \"sell put\" block trade. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fexecute_block_trade)",
+  "summary": "Executes a Block Trade.",
+  "description": "Executes a Block Trade. This is the second step in the Block Trade workflow - the second party calls this method with the signature received from the first party to execute the trade. The whole request must be exactly the same as in [private/verify_block_trade](https://docs.deribit.com/api-reference/block-trade/private-verify_block_trade), only the `role` field should be set appropriately - this means that both sides have to agree on the same `timestamp`, `nonce`, and `trades` fields, and the server will ensure that the `role` field is different between sides (each party accepts their own role). Using the same `timestamp` and `nonce` by both sides in [private/verify_block_trade](https://docs.deribit.com/api-reference/block-trade/private-verify_block_trade) ensures that even if unintentionally both sides execute the given Block Trade with a valid `counterparty_signature`, the Block Trade will be executed only once. **Note:** In the API, the `direction` field is always expressed from the maker's perspective. This means that when you accept a Block Trade as a taker, the direction shown in the API represents the opposite side of your trade. For example, if you are buying puts as a taker, the API will show the operation as a \"sell put\" (maker's perspective), and you will be verifying and accepting a \"sell put\" Block Trade. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fexecute_block_trade)",
   "deprecated": false,
   "params": {
    "timestamp": {
@@ -1817,11 +1817,11 @@ export const methods = {
     "items": {
      "type": "object"
     },
-    "description": "List of trades for block trade"
+    "description": "List of trades for Block Trade"
    },
    "counterparty_signature": {
     "type": "string",
-    "description": "Signature of block trade generated by `private/verify_block_trade_method`"
+    "description": "Signature of Block Trade generated by `private/verify_block_trade`"
    }
   },
   "required": [
@@ -2081,7 +2081,7 @@ export const methods = {
      "expired",
      "closed"
     ],
-    "description": "State of Block RFQ"
+    "description": "Filter Block RFQs by state. Default: `open`. `open`, `filled`, `cancelled` and `expired` match the Block RFQ `state` field. Two more values are filters only and never appear as a Block RFQ `state`: - `closed`: all Block RFQs that are no longer open (`filled`, `cancelled` or `expired`). - `traded`: `filled` Block RFQs the user traded on. For a taker this matches `filled`. For a maker it returns only Block RFQs where the maker's quote was executed."
    },
    "role": {
     "type": "string",
@@ -2120,13 +2120,13 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "Returns information about a specific block trade identified by `block_trade_id`.",
-  "description": "Returns information about a specific block trade identified by `block_trade_id`. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_block_trade)",
+  "summary": "Returns information about a specific Block Trade or Block RFQ trade identified by `block_trade_id`.",
+  "description": "Returns information about a specific Block Trade or Block RFQ trade identified by `block_trade_id`. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_block_trade)",
   "deprecated": false,
   "params": {
    "id": {
     "type": "string",
-    "description": "Block trade id"
+    "description": "ID of the Block Trade or Block RFQ trade"
    }
   },
   "required": [
@@ -2139,13 +2139,13 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "Provides a list of block trade requests including pending approvals, declined trades, and expired trades.",
-  "description": "Provides a list of block trade requests including pending approvals, declined trades, and expired trades. `timestamp` and `nonce` received in response can be used with [private/approve_block_trade](https://docs.deribit.com/api-reference/block-trade/private-approve_block_trade) or [private/reject_block_trade](https://docs.deribit.com/api-reference/block-trade/private-reject_block_trade) to approve or reject the pending block trade. To use the block trade approval feature, an [additional API key setting feature](https://docs.deribit.com/articles/creating-api-key#block-trade-approval-feature) called `enabled_features: block_trade_approval` is required. This key has to be given to the broker/registered partner who performs the trades on behalf of the user for the feature to be active. If the user wants to approve the trade, they must approve it from a different API key that doesn't have this feature enabled. Only broker clients can use `broker_code` to query for their broker block trade requests. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_block_trade_requests)",
+  "summary": "Provides a list of Block Trade requests including pending approvals, declined trades, and expired trades.",
+  "description": "Provides a list of Block Trade requests including pending approvals, declined trades, and expired trades. `timestamp` and `nonce` received in response can be used with [private/approve_block_trade](https://docs.deribit.com/api-reference/block-trade/private-approve_block_trade) or [private/reject_block_trade](https://docs.deribit.com/api-reference/block-trade/private-reject_block_trade) to approve or reject the pending Block Trade. To use the Block Trade approval feature, an [additional API key setting feature](https://docs.deribit.com/articles/creating-api-key#block-trade-approval-feature) called `enabled_features: block_trade_approval` is required. This key has to be given to the broker/registered partner who performs the trades on behalf of the user for the feature to be active. If the user wants to approve the trade, they must approve it from a different API key that doesn't have this feature enabled. Only broker clients can use `broker_code` to query for their broker Block Trade requests. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_block_trade_requests)",
   "deprecated": false,
   "params": {
    "broker_code": {
     "type": "string",
-    "description": "Broker code to filter block trade requests. Only broker clients can use `broker_code` to query for their executed broker block trades."
+    "description": "Broker code to filter Block Trade requests. Only broker clients can use `broker_code` to query for their executed broker Block Trades."
    }
   },
   "required": []
@@ -2156,8 +2156,8 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "Returns a list of the user's block trades.",
-  "description": "Returns a list of the user's block trades. If currency is not provided, returns block trades for all currencies. `block_rfq_id` can be provided to receive block trades related to that particular Block RFQ. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_block_trades)",
+  "summary": "Returns a list of the user's Block Trades and Block RFQ trades.",
+  "description": "Returns a list of the user's Block Trades and Block RFQ trades. If currency is not provided, returns Block Trades and Block RFQ trades for all currencies. `block_rfq_id` can be provided to receive the Block RFQ trades related to that particular Block RFQ. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_block_trades)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -2173,15 +2173,15 @@ export const methods = {
    },
    "count": {
     "type": "integer",
-    "description": "Count of Block Trades returned, maximum - `101`"
+    "description": "Count of Block Trades and Block RFQ trades returned, maximum - `101`"
    },
    "start_id": {
     "type": "string",
-    "description": "Response will contain block trades older than the one provided in this field"
+    "description": "Response will contain Block Trades and Block RFQ trades older than the one provided in this field"
    },
    "end_id": {
     "type": "string",
-    "description": "The id of the oldest block trade to be returned, `start_id` is required with `end_id`"
+    "description": "The id of the oldest Block Trade or Block RFQ trade to be returned, `start_id` is required with `end_id`"
    },
    "block_rfq_id": {
     "type": "integer",
@@ -2189,7 +2189,7 @@ export const methods = {
    },
    "broker_code": {
     "type": "string",
-    "description": "Broker code to filter block trades. Only broker clients can use `broker_code` to filter broker block trades. Use `any` for all block trades."
+    "description": "Broker code to filter Block Trades. Only broker clients can use `broker_code` to filter broker Block Trades. Use `any` for all Block Trades. Ignored when `block_rfq_id` is provided."
    }
   },
   "required": []
@@ -2221,8 +2221,8 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "**Broker Method** Provides a list of broker block trade requests including pending approvals, declined trades, and expired trades.",
-  "description": "**Broker Method** Provides a list of broker block trade requests including pending approvals, declined trades, and expired trades. `timestamp` and `nonce` received in response can be used to approve or reject the pending broker block trade. This method takes no parameters. **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_broker_trade_requests)",
+  "summary": "**Broker Method** Provides a list of broker Block Trade requests including pending approvals, declined trades, and expired trades.",
+  "description": "**Broker Method** Provides a list of broker Block Trade requests including pending approvals, declined trades, and expired trades. `timestamp` and `nonce` received in response can be used to approve or reject the pending broker Block Trade. This method takes no parameters. **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_broker_trade_requests)",
   "deprecated": false,
   "params": {},
   "required": []
@@ -2233,8 +2233,8 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "**Broker Method** Returns list of broker block trades.",
-  "description": "**Broker Method** Returns list of broker block trades. If currency is not provided, returns broker block trades for all currencies. **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_broker_trades)",
+  "summary": "**Broker Method** Returns list of broker Block Trades.",
+  "description": "**Broker Method** Returns list of broker Block Trades. If currency is not provided, returns broker Block Trades for all currencies. **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_broker_trades)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -2254,11 +2254,11 @@ export const methods = {
    },
    "start_id": {
     "type": "string",
-    "description": "Response will contain block trades older than the one provided in this field"
+    "description": "Response will contain Block Trades and Block RFQ trades older than the one provided in this field"
    },
    "end_id": {
     "type": "string",
-    "description": "The id of the oldest block trade to be returned, `start_id` is required with `end_id`"
+    "description": "The id of the oldest Block Trade or Block RFQ trade to be returned, `start_id` is required with `end_id`"
    }
   },
   "required": []
@@ -2269,8 +2269,8 @@ export const methods = {
    "Session Management",
    "Private"
   ],
-  "summary": "Read current Cancel On Disconnect configuration for the account.",
-  "description": "Read current Cancel On Disconnect configuration for the account. **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_cancel_on_disconnect)",
+  "summary": "Read the current Cancel On Disconnect configuration.",
+  "description": "Read the current Cancel On Disconnect configuration. - `scope=connection` (the default) returns the state for the current WebSocket connection and is available over WebSocket only. Over REST/HTTP it fails with `10030` (`must_be_websocket_request`), so HTTP clients must pass `scope=account`. - `scope=account` returns the account setting, works over both WebSocket and REST/HTTP, and requires the `account:read` scope. **Scope:** `account:read` (only for `scope=account`) [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_cancel_on_disconnect)",
   "deprecated": false,
   "params": {
    "scope": {
@@ -2282,6 +2282,18 @@ export const methods = {
     "description": "Specifies if Cancel On Disconnect change should be applied/checked for the current connection or the account (default - `connection`) **NOTICE:** Scope `connection` can be used only when working via Websocket."
    }
   },
+  "required": []
+ },
+ "private/get_ctn_id": {
+  "scope": "private",
+  "tags": [
+   "Wallet",
+   "Private"
+  ],
+  "summary": "Returns the Coinbase Transfer Network (CTN) ID of the account.",
+  "description": "Returns the Coinbase Transfer Network (CTN) ID of the account. Share this ID with a sending party so they can add the account as a CTN counterparty and send funds to it. **Coinbase wallet type only.** The method is available to institutional Coinbase accounts and takes no parameters. Other accounts receive an error. **Scope:** `wallet:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_ctn_id)",
+  "deprecated": false,
+  "params": {},
   "required": []
  },
  "private/get_currencies": {
@@ -2319,7 +2331,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    }
   },
   "required": [
@@ -2668,7 +2680,11 @@ export const methods = {
      "take_limit",
      "take_market",
      "trailing_all",
-     "trailing_stop"
+     "trailing_stop",
+     "one_triggers_one_cancels_other",
+     "one_triggers_other",
+     "one_cancels_other",
+     "one_cancels_or_triggers_other"
     ],
     "description": "Order type, default - `all`"
    }
@@ -2720,7 +2736,11 @@ export const methods = {
      "take_limit",
      "take_market",
      "trailing_all",
-     "trailing_stop"
+     "trailing_stop",
+     "one_triggers_one_cancels_other",
+     "one_triggers_other",
+     "one_cancels_other",
+     "one_cancels_or_triggers_other"
     ],
     "description": "Order type, default - `all`"
    }
@@ -2756,7 +2776,11 @@ export const methods = {
      "take_limit",
      "take_market",
      "trailing_all",
-     "trailing_stop"
+     "trailing_stop",
+     "one_triggers_one_cancels_other",
+     "one_triggers_other",
+     "one_cancels_other",
+     "one_cancels_or_triggers_other"
     ],
     "description": "Order type, default - `all`"
    }
@@ -3378,11 +3402,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "sorting": {
     "type": "string",
@@ -3391,7 +3415,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3442,11 +3466,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -3459,7 +3483,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3471,9 +3495,7 @@ export const methods = {
    }
   },
   "required": [
-   "currency",
-   "start_timestamp",
-   "end_timestamp"
+   "currency"
   ]
  },
  "private/get_user_trades_by_instrument": {
@@ -3492,11 +3514,11 @@ export const methods = {
    },
    "start_seq": {
     "type": "integer",
-    "description": "The sequence number of the first trade to be returned"
+    "description": "Inclusive sequence number of the first trade to return; cannot be combined with start_timestamp."
    },
    "end_seq": {
     "type": "integer",
-    "description": "The sequence number of the last trade to be returned"
+    "description": "Inclusive sequence number of the last trade to return; cannot be combined with end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -3504,11 +3526,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "historical": {
     "type": "boolean",
@@ -3521,7 +3543,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "subaccount_id": {
     "type": "integer",
@@ -3548,11 +3570,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -3565,7 +3587,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3577,9 +3599,7 @@ export const methods = {
    }
   },
   "required": [
-   "instrument_name",
-   "start_timestamp",
-   "end_timestamp"
+   "instrument_name"
   ]
  },
  "private/get_user_trades_by_order": {
@@ -3603,7 +3623,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    },
    "historical": {
     "type": "boolean",
@@ -3658,13 +3678,13 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "Invalidates a block trade signature, effectively cancelling the block trade.",
-  "description": "Invalidates a block trade signature, effectively cancelling the block trade. This can be called at any time before [private/execute_block_trade](https://docs.deribit.com/api-reference/block-trade/private-execute_block_trade) is called. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Finvalidate_block_trade_signature)",
+  "summary": "Invalidates a Block Trade signature, effectively cancelling the Block Trade.",
+  "description": "Invalidates a Block Trade signature, effectively cancelling the Block Trade. This can be called at any time before [private/execute_block_trade](https://docs.deribit.com/api-reference/block-trade/private-execute_block_trade) is called. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Finvalidate_block_trade_signature)",
   "deprecated": false,
   "params": {
    "signature": {
     "type": "string",
-    "description": "Signature of block trade that will be invalidated"
+    "description": "Signature of Block Trade that will be invalidated"
    }
   },
   "required": [
@@ -3774,7 +3794,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Retrieves a list of all custody accounts associated with the authenticated account for a specific currency.",
-  "description": "Retrieves a list of all custody accounts associated with the authenticated account for a specific currency. Custody accounts are used for clients who require segregated custody of their assets. The response includes custody account details such as account name, status, balances, and configuration settings. **📖 Related Support Article:** [Custody Options](https://support.deribit.com/hc/en-us/articles/26533163120413-Custody-Options) [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Flist_custody_accounts)",
+  "description": "Retrieves a list of all custody accounts associated with the authenticated account for a specific currency. Custody accounts are used for clients who require segregated custody of their assets. The response includes custody account details such as account name, status, balances, and configuration settings. **📖 Related Support Article:** [Custody Options](https://support.deribit.com/hc/en-us/articles/26533163120413-Custody-Options) **Restrictions:** Not available for Coinbase Custody accounts (`coinbase` wallet type): error `13021` (`forbidden`) is returned. [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Flist_custody_accounts)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -3801,12 +3821,12 @@ export const methods = {
    "Private"
   ],
   "summary": "Gracefully terminate the current WebSocket connection and optionally invalidate all tokens associated with the session.",
-  "description": "Gracefully terminate the current WebSocket connection and optionally invalidate all tokens associated with the session. This method provides a clean way to close WebSocket connections while preserving active orders when [**Cancel On Disconnect (COD)**](https://docs.deribit.com/api-reference/session-management/private-enable_cancel_on_disconnect) is enabled. **Use Cases:** - **Clean Shutdown:** Properly close WebSocket connections during application shutdown or restart - **Order Preservation:** Close connections without triggering order cancellations when COD is enabled - **Session Management:** Invalidate tokens to ensure security when closing connections - **Maintenance Operations:** Temporarily disconnect for system maintenance without affecting trading positions **Cancel On Disconnect (COD) Behavior:** When Cancel On Disconnect is enabled for your connection, this method provides a safe way to close the connection without triggering automatic order cancellations. This is different from other disconnection scenarios: - **Graceful logout** (this method): Orders are **NOT cancelled**, even if COD is enabled - **Unexpected disconnection:** Orders are **cancelled** if COD is enabled - **Inactivity timeout:** Orders are **cancelled** if COD is enabled - **Heartbeat failure:** Orders are **cancelled** if COD is enabled This distinction allows you to perform planned disconnections (e.g., for maintenance, updates, or reconnection) while preserving your active orders. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in a 400 error response. **Note:** This method has no response. The WebSocket connection is closed immediately after the request is processed. [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Flogout)",
+  "description": "Gracefully terminate the current WebSocket connection and optionally invalidate all tokens associated with the session. This method provides a clean way to close WebSocket connections while preserving active orders when [**Cancel On Disconnect (COD)**](https://docs.deribit.com/api-reference/session-management/private-enable_cancel_on_disconnect) is enabled. **Use Cases:** - **Clean Shutdown:** Properly close WebSocket connections during application shutdown or restart - **Order Preservation:** Close connections without triggering order cancellations when COD is enabled - **Session Management:** Invalidate tokens to ensure security when closing connections - **Maintenance Operations:** Temporarily disconnect for system maintenance without affecting trading positions **Cancel On Disconnect (COD) Behavior:** When Cancel On Disconnect is enabled for your connection, this method provides a safe way to close the connection without triggering automatic order cancellations. This is different from other disconnection scenarios: - **Graceful logout** (this method): Orders are **NOT cancelled**, even if COD is enabled - **Unexpected disconnection:** Orders are **cancelled** if COD is enabled - **Inactivity timeout:** Orders are **cancelled** if COD is enabled - **Heartbeat failure:** Orders are **cancelled** if COD is enabled This distinction allows you to perform planned disconnections (e.g., for maintenance, updates, or reconnection) while preserving your active orders. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in a 400 error response. **Token invalidation:** With `invalidate_token=true` (default) the current token is invalidated. With `false` it stays valid but remains subject to its scope, session and expiry: a `connection` scope token stays bound to the connection it was issued on and cannot be used on a new connection; use a `session` scope token (or authenticate again) to continue after reconnecting. **Note:** This method has no response. The WebSocket connection is closed immediately after the request is processed. [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Flogout)",
   "deprecated": false,
   "params": {
    "invalidate_token": {
     "type": "boolean",
-    "description": "Token Invalidation: By default, all tokens created during the current session are invalidated when you call this method. You can control this behavior using this parameter: invalidate_token=true (default): All session tokens are invalidated, requiring re-authentication for new connections invalidate_token=false : Tokens remain valid, allowing you to reconnect using the same authentication"
+    "description": "Whether to invalidate session tokens (default true). If false, tokens remain subject to their scope, session and expiry; a connection-scope token cannot be used on a new connection."
    }
   },
   "required": []
@@ -3816,7 +3836,8 @@ export const methods = {
   "tags": [
    "Trading",
    "Matching Engine",
-   "Private"
+   "Private",
+   "WebSocket Only"
   ],
   "summary": "Places buy and/or sell orders (quotes) on one or more instruments simultaneously.",
   "description": "Places buy and/or sell orders (quotes) on one or more instruments simultaneously. This method is designed for market makers who need to quote on multiple instruments efficiently. **Requirements:** - Cancel-on-Disconnect must be enabled (see [private/enable_cancel_on_disconnect](https://docs.deribit.com/api-reference/session-management/private-enable_cancel_on_disconnect)), otherwise the request will return an error. - This endpoint can only be used after approval from the administrators. Each quote can include both bid and ask sides, or just one side. Quotes are identified by `quote_set_id` for targeted cancellation. Use the `wait_for_response` parameter to control whether to wait for all orders to be processed before returning. Accepted quotes are published to the standard Deribit order book and are visible in the UI and non-Starbase market data feeds. **📖 Related Article:** [Mass Quotes Specifications](https://docs.deribit.com/articles/mass-quotes-specifications) **Scope:** `trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fmass_quote)",
@@ -3940,8 +3961,8 @@ export const methods = {
    "Block Trade",
    "Private"
   ],
-  "summary": "Rejects a pending block trade.",
-  "description": "Rejects a pending block trade. `nonce` and `timestamp` are used to identify the block trade while `role` should be opposite to the trading counterparty. Use [private/get_block_trade_requests](https://docs.deribit.com/api-reference/block-trade/private-get_block_trade_requests) to retrieve pending block trades that require approval. To use the block trade approval feature, an [additional API key setting feature](https://docs.deribit.com/articles/creating-api-key#block-trade-approval-feature) called `enabled_features: block_trade_approval` is required. This key has to be given to the broker/registered partner who performs the trades on behalf of the user for the feature to be active. If the user wants to approve the trade, they must approve it from a different API key that doesn't have this feature enabled. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Freject_block_trade)",
+  "summary": "Rejects a pending Block Trade.",
+  "description": "Rejects a pending Block Trade. `nonce` and `timestamp` are used to identify the Block Trade while `role` should be opposite to the trading counterparty. Use [private/get_block_trade_requests](https://docs.deribit.com/api-reference/block-trade/private-get_block_trade_requests) to retrieve pending Block Trades that require approval. To use the Block Trade approval feature, an [additional API key setting feature](https://docs.deribit.com/articles/creating-api-key#block-trade-approval-feature) called `enabled_features: block_trade_approval` is required. This key has to be given to the broker/registered partner who performs the trades on behalf of the user for the feature to be active. If the user wants to approve the trade, they must approve it from a different API key that doesn't have this feature enabled. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Freject_block_trade)",
   "deprecated": false,
   "params": {
    "timestamp": {
@@ -4021,7 +4042,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -4235,7 +4256,7 @@ export const methods = {
    },
    "price": {
     "type": "number",
-    "description": "The order price in base currency (Only for limit and stop_limit orders) When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
+    "description": "Order price in the instrument's price units (quote currency for futures and spot). Required for limit, stop_limit and take_limit; not used for market-like types. When adding an order with advanced=usd, the field price should be the option price value in USD. When adding an order with advanced=implv, the field price should be a value of implied volatility in percentages. For example, price=100, means implied volatility of 100%"
    },
    "time_in_force": {
     "type": "string",
@@ -4249,11 +4270,11 @@ export const methods = {
    },
    "display_amount": {
     "type": "number",
-    "description": "Initial display amount for iceberg order. Has to be at least 100 times minimum amount for instrument and ratio of hidden part vs visible part has to be less than 100 as well. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
+    "description": "Initial visible amount for an iceberg order. Must meet the instrument's minimum iceberg amount and amount step, not exceed total amount, and satisfy the instrument's maximum total-to-display ratio. Iceberg orders are not supported for `option`, `future_combo`, and `option_combo` instruments."
    },
    "post_only": {
     "type": "boolean",
-    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just above the spread. Only valid in combination with time_in_force=`\"good_til_cancelled\"` For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
+    "description": "If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just above the spread. Only valid for non-market, non-advanced orders with time_in_force=good_til_cancelled or good_til_day. For spot trading routed to Coinbase Exchange, the price is never adjusted: `\"post_only\"` must be combined with `\"reject_post_only\"` set to true, and the order is rejected if it would be matched instantly."
    },
    "reject_post_only": {
     "type": "boolean",
@@ -4269,7 +4290,7 @@ export const methods = {
    },
    "trigger_offset": {
     "type": "number",
-    "description": "The maximum deviation from the price peak beyond which the order will be triggered"
+    "description": "Positive deviation from the price peak at which the order triggers; required for trailing_stop."
    },
    "trigger": {
     "type": "string",
@@ -4319,7 +4340,7 @@ export const methods = {
     "items": {
      "type": "object"
     },
-    "description": "List of secondary orders to place or cancel when the primary order is filled. Each entry in the array defines one secondary order. `amount` and `direction` are required; all other fields are optional."
+    "description": "List of secondary orders. Each requires positive `amount` and `direction`. Non-market types (including `take_limit`) require `price`. Stop/take orders require `trigger` and `trigger_price`; trailing-stop orders require `trigger` and positive `trigger_offset`."
    }
   },
   "required": [
@@ -4361,7 +4382,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -4686,8 +4707,8 @@ export const methods = {
    "Matching Engine",
    "Private"
   ],
-  "summary": "Checks if a block trade can be executed without actually executing it.",
-  "description": "Checks if a block trade can be executed without actually executing it. Use this method to verify that a block trade will succeed before proceeding with the actual execution. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fsimulate_block_trade)",
+  "summary": "Checks if a Block Trade can be executed without actually executing it.",
+  "description": "Checks if a Block Trade can be executed without actually executing it. Use this method to verify that a Block Trade will succeed before proceeding with the actual execution. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fsimulate_block_trade)",
   "deprecated": false,
   "params": {
    "role": {
@@ -4703,7 +4724,7 @@ export const methods = {
     "items": {
      "type": "object"
     },
-    "description": "List of trades for block trade"
+    "description": "List of trades for Block Trade"
    }
   },
   "required": [
@@ -4775,7 +4796,7 @@ export const methods = {
    },
    "source": {
     "type": "integer",
-    "description": "Id of the source (sub)account. Can be found in `My Account >> Subaccounts` tab. By default, it is the Id of the account which made the request. However, if a different \"source\" is specified, the user must possess the mainaccount scope, and only other subaccounts can be designated as the source."
+    "description": "Source account id, defaulting to the caller. With main-account authorization, either the main account or one of its subaccounts may be the source; a subaccount caller can transfer only from itself to its main account."
    },
    "nonce": {
     "type": "string",
@@ -5011,7 +5032,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -5114,8 +5135,8 @@ export const methods = {
    "Matching Engine",
    "Private"
   ],
-  "summary": "Verifies and creates a block trade signature.",
-  "description": "Verifies and creates a block trade signature. This is the first step in the block trade workflow - the first party calls this method to generate a signature that must be shared with the second party. **Note:** In the API, the `direction` field is always expressed from the maker's perspective. This means that when you accept a block trade as a taker, the direction shown in the API represents the opposite side of your trade. For example, if you are buying puts as a taker, the API will show the operation as a \"sell put\" (maker's perspective), and you will be verifying and accepting a \"sell put\" block trade. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fverify_block_trade)",
+  "summary": "Verifies and creates a Block Trade signature.",
+  "description": "Verifies and creates a Block Trade signature. This is the first step in the Block Trade workflow - the first party calls this method to generate a signature that must be shared with the second party. **Note:** In the API, the `direction` field is always expressed from the maker's perspective. This means that when you accept a Block Trade as a taker, the direction shown in the API represents the opposite side of your trade. For example, if you are buying puts as a taker, the API will show the operation as a \"sell put\" (maker's perspective), and you will be verifying and accepting a \"sell put\" Block Trade. **📖 Related Article:** [Block Trading](https://docs.deribit.com/articles/block-trading-api) **Scope:** `block_trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fverify_block_trade)",
   "deprecated": false,
   "params": {
    "timestamp": {
@@ -5139,7 +5160,7 @@ export const methods = {
     "items": {
      "type": "object"
     },
-    "description": "List of trades for block trade"
+    "description": "List of trades for Block Trade"
    }
   },
   "required": [
@@ -5156,7 +5177,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Creates a new withdrawal request.",
-  "description": "Creates a new withdrawal request. This method allows you to withdraw funds from your account to an external address. The withdrawal can be configured with priority settings and must use an address from your address book. **Withdrawal Checks & Balance Updates** Withdrawal funds are checked twice: when a user requests a withdrawal and again when they confirm it via the email link. If available funds decrease between these steps, the withdrawal may be rejected. A withdrawal may also be rejected if the on-chain fee increases between the request and confirmation. The withdrawal amount is deducted only after all checks pass and the transaction is scheduled. The web-interface Withdrawal tab displays all withdrawals regardless of their status (pending, cancelled, rejected, or completed). **Coinbase wallet type** For Coinbase wallet type accounts the method supports network selection and CTN (Coinbase Travel Network) counterparties, and behaves differently: - Required parameters are `currency` (any portfolio currency) and `amount`, plus one of `address` or `id` (the address book entry identifier returned by `private/get_address_book`). - When `address` is an on-chain address, pass `network` (and `tag` when applicable) to identify the address book entry. For a CTN withdrawal, pass the CTN counterparty identifier of the entry as `address`. - `priority` and `nonce` are not supported. Use `private/coinbase/estimate_withdrawal_fee` to estimate the network fee. - Subaccounts can withdraw only when enabled by the main account via `private/set_coinbase_subaccount_withdrawals_allowed`. - The response is a Coinbase withdrawal object instead of the legacy withdrawal object. Its `state` is one of `prepared`, `awaiting_second_email`, `unconfirmed`, `completed` or `cancelled`; withdrawals to an address that is not trusted start as `prepared` and require email confirmation, in which case `transfer_idem` is absent until the withdrawal is submitted to the custodian. Fields that are not set are omitted from the response. **📖 Related Article:** [Managing Withdrawals](https://docs.deribit.com/articles/managing-withdrawals-api) **Scope:** `wallet:read_write` and mainaccount [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fwithdraw)",
+  "description": "Creates a new withdrawal request. This method allows you to withdraw funds from your account to an external address. The withdrawal can be configured with priority settings and must use an address from your address book. **Withdrawal Checks & Balance Updates** Withdrawal funds are checked twice: when a user requests a withdrawal and again when they confirm it via the email link. If available funds decrease between these steps, the withdrawal may be rejected. A withdrawal may also be rejected if the on-chain fee increases between the request and confirmation. The withdrawal amount is deducted only after all checks pass and the transaction is scheduled. The web-interface Withdrawal tab displays all withdrawals regardless of their status (pending, cancelled, rejected, or completed). **Coinbase wallet type** For Coinbase wallet type accounts the method supports network selection and CTN (Coinbase Transfer Network) counterparties, and behaves differently: - Required parameters are `currency` (any portfolio currency) and `amount`, plus one of `address` or `id` (the address book entry identifier returned by `private/get_address_book`). - When `address` is an on-chain address, pass `network` (and `tag` when applicable) to identify the address book entry. For a CTN withdrawal, pass the CTN counterparty identifier of the entry as `address`. - `priority` and `nonce` are not supported. Use `private/coinbase/estimate_withdrawal_fee` to estimate the network fee. - Subaccounts can withdraw only when enabled by the main account via `private/set_coinbase_subaccount_withdrawals_allowed`. - The response is a Coinbase withdrawal object instead of the legacy withdrawal object. Its `state` is one of `prepared`, `awaiting_second_email`, `unconfirmed`, `completed` or `cancelled`; withdrawals to an address that is not trusted start as `prepared` and require email confirmation, in which case `transfer_idem` is absent until the withdrawal is submitted to the custodian. Fields that are not set are omitted from the response. **📖 Related Article:** [Managing Withdrawals](https://docs.deribit.com/articles/managing-withdrawals-api) **Scope:** `wallet:read_write` and mainaccount [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fwithdraw)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -5180,7 +5201,7 @@ export const methods = {
    },
    "network": {
     "type": "string",
-    "description": "Blockchain network for the wallet operation, given as a network resource name (e.g. `\"networks/ethereum-mainnet\"`). **Coinbase wallet type only.** The networks available for each currency are returned by `public/get_currencies` in the `coinbase_networks` field. Required for operations that target an on-chain address or a deposit address; also used to disambiguate address book entries when the same address exists on multiple networks."
+    "description": "Blockchain network resource name (e.g. networks/ethereum-mainnet), for Coinbase wallet types. Available networks are returned by public/get_currencies in coinbase_networks. Requiredness depends on the operation. When resolving an existing address-book entry, it is optional if the entry resolves uniquely; it disambiguates an address present on multiple networks."
    },
    "tag": {
     "type": "string",
@@ -5197,11 +5218,12 @@ export const methods = {
      "extreme_high",
      "very_high",
      "high",
+     "normal",
      "mid",
      "low",
      "very_low"
     ],
-    "description": "Withdrawal priority, optional for BTC, default: `high`"
+    "description": "Withdrawal priority, default: `high`. Note: fee priority levels are only configured for BTC; other currencies default to standard ratio 1.0."
    },
    "nonce": {
     "type": "string",
@@ -5220,7 +5242,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieve an OAuth access token, to be used for authentication of 'private' requests.",
-  "description": "Retrieve an OAuth access token, to be used for authentication of 'private' requests. **📖 Related Article:** [Authentication](https://docs.deribit.com/articles/authentication) **Authentication Methods:** Three methods of authentication are supported: - ``client_credentials`` - Using the client id and client secret that can be found on the API page on the website. This is the simplest method, suitable for server-to-server applications and quick setup. - ``client_signature`` - Enhanced security method that uses a cryptographic signature instead of sending the client secret directly. You generate an HMAC-SHA256 signature of a string containing a timestamp, a random nonce, and optional data, using your Client Secret as the key. This method requires `` `client_id` ``, `` `timestamp` `` (current time in milliseconds), `` `nonce` ``, `` `signature` ``, and optionally a `` `data` `` field. Deribit verifies the signature instead of requiring the raw secret. Best for enhanced security, asymmetric key pairs, and avoiding secret transmission. See the [Client Signature (WebSocket) guide](https://docs.deribit.com/articles/authentication#client-signature-websocket) for detailed signature calculation instructions. - ``refresh_token`` - Using a refresh token that was received from an earlier invocation. This allows you to obtain a new access token without re-supplying your Client ID and Client Secret. Best for long-lived sessions, token renewal, and avoiding re-authentication. **Response:** The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fauth)",
+  "description": "Retrieve an OAuth access token, to be used for authentication of 'private' requests. **📖 Related Article:** [Authentication](https://docs.deribit.com/articles/authentication) **Authentication Methods:** Three methods of authentication are supported (selected with `grant_type`): - `client_credentials` - Using the client id and client secret that can be found on the API page on the website. This is the simplest method, suitable for server-to-server applications and quick setup. - `client_signature` - Enhanced security method using a cryptographic signature instead of sending the client secret directly. The signature is calculated over ` \\n \\n ` (the three values joined with line-feed characters, `timestamp` exactly as sent). Keys with a shared secret use an HMAC-SHA256 signature encoded as hexadecimal; asymmetric (RSA / Ed25519) keys use a digital signature over the same string encoded as URL-safe base64 without padding. This method requires `client_id`, `timestamp` and `signature`; `nonce` and `data` are optional (`nonce` is strongly recommended for replay protection). See the [Client Signature (WebSocket) guide](https://docs.deribit.com/articles/authentication#client-signature-websocket) for detailed signature calculation instructions. - `refresh_token` - Using a refresh token that was received from an earlier invocation. This allows you to obtain a new access token without re-supplying your Client ID and Client Secret. Best for long-lived sessions, token renewal, and avoiding re-authentication. **Refresh token behavior:** - Every successful refresh issues a **new** access token **and** a new refresh token, and invalidates the previously issued token pair. Always store the newest `refresh_token`; reusing an older one fails with `-32602` (`invalid token`), which also affects concurrent refreshes with the same token. - The `scope` parameter is ignored for this grant type: the new tokens keep the scope, session and lifetime of the original token. - A token with `connection` scope is bound to the connection it was issued on and cannot be refreshed or used from another connection. **Scope behavior (`client_credentials` and `client_signature`):** - Without a `session:` or `connection` scope item, a WebSocket request gets a `connection` scope token. An HTTP (REST) request gets a `session` scope token with a generated `rest-...` session name, unless `connection` was requested explicitly. - `connection` and `session:name` cannot be combined (`-32602`). - Requested permission scopes (`trade`, `wallet`, `account`, `block_trade`, `block_rfq`) never exceed the permissions of the API key: higher levels are silently reduced to the key's level, and permission scopes that are not requested inherit the key's permissions. This is not reported as an error. **Response:** The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. Over WebSocket, a successful call also authenticates the current connection, so later private requests on it need no `access_token`. **Errors** (JSON-RPC `error.code`): - `13004` `invalid_credentials` - unknown `client_id`, wrong `client_secret`, invalid `signature`, or `client_id` longer than 16 bytes. - `13009` `unauthorized` - `timestamp` outside the allowed window, `nonce` longer than 128 bytes or already used, connecting IP not in the key's IP whitelist (`reason: bad_ip`). - `-32602` `Invalid params` - missing required parameter for the chosen `grant_type`, unknown `grant_type`, invalid `scope`, or an invalid / expired / already-replaced `refresh_token` (including `session_not_found`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fauth)",
   "deprecated": false,
   "params": {
    "grant_type": {
@@ -5234,31 +5256,31 @@ export const methods = {
    },
    "client_id": {
     "type": "string",
-    "description": "Required for grant type `` `client_credentials` `` and `` `client_signature` ``"
+    "description": "Required for grant types `client_credentials` and `client_signature`. Maximum length is 16 bytes."
    },
    "client_secret": {
     "type": "string",
-    "description": "Required for grant type `` `client_credentials` ``"
+    "description": "Required for grant type `client_credentials`."
    },
    "refresh_token": {
     "type": "string",
-    "description": "Required for grant type `` `refresh_token` ``"
+    "description": "Required for grant type `refresh_token`. The token pair it belongs to is replaced by the new tokens returned (see above)."
    },
    "timestamp": {
     "type": "integer",
-    "description": "Required for grant type `` `client_signature` ``. Provides time when request has been generated (milliseconds since the UNIX epoch)."
+    "description": "Required for grant type `client_signature`. Time when the request was generated, in milliseconds since the UNIX epoch. Must be within ±60 seconds (±60,000 ms) of the server time, otherwise the request is rejected with error `13009` (`unauthorized`)."
    },
    "signature": {
     "type": "string",
-    "description": "Required for grant type `` `client_signature` ``. It's a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with `` `SHA256` `` hash algorithm."
+    "description": "Required for grant type `client_signature`. Signature calculated over ` \\n \\n `: - **Shared-secret API keys:** HMAC-SHA256 with the client secret as key, encoded as hexadecimal (letter case is ignored). - **Asymmetric (RSA / Ed25519) API keys:** digital signature made with your private key (SHA-256), encoded as URL-safe base64 without padding. An invalid signature is rejected with error `13004` (`invalid_credentials`)."
    },
    "nonce": {
     "type": "string",
-    "description": "Optional for grant type `` `client_signature` ``. Delivers user generated initialization vector for the server token."
+    "description": "Optional for grant type `client_signature`, but strongly recommended. Defaults to an empty string. User-generated random string, up to 128 bytes. A non-empty nonce can be used only once for the same `client_id` and `timestamp` (a repeat is rejected with `13009`). With an empty or omitted nonce the timestamp window is still enforced but replay detection is not."
    },
    "data": {
     "type": "string",
-    "description": "Optional for grant type `` `client_signature` ``. Contains any user specific value."
+    "description": "Optional for grant type `client_signature`. Defaults to an empty string. Contains any user specific value; it is part of the signed string."
    },
    "state": {
     "type": "string",
@@ -5266,16 +5288,11 @@ export const methods = {
    },
    "scope": {
     "type": "string",
-    "description": "Describes type of the access for assigned token. **Possible values:** - `` `connection` `` - `` `session:name` `` - `` `trade:[read, read_write, none]` `` - `` `wallet:[read, read_write, none]` `` - `` `account:[read, read_write, none]` `` - `` `expires:NUMBER` `` - `` `ip:ADDR` `` Details are elucidated in [Access scope](https://docs.deribit.com/articles/access-scope)"
+    "description": "Describes type of the access for assigned token. Ignored for grant type `refresh_token`. **Possible values:** - `connection` - `session:name` (names longer than 64 bytes are truncated) - `trade:[read, read_write, none]` - `wallet:[read, read_write, none]` - `account:[read, read_write, none]` - `block_trade:[read, read_write, none]` - `block_rfq:[read, read_write, none]` - `expires:NUMBER` - `ip:ADDR` `connection` and `session:name` are mutually exclusive. Permission scopes cannot exceed the permissions of the API key. Details are elucidated in [Access scope](https://docs.deribit.com/articles/access-scope)"
    }
   },
   "required": [
-   "grant_type",
-   "client_id",
-   "client_secret",
-   "refresh_token",
-   "timestamp",
-   "signature"
+   "grant_type"
   ]
  },
  "public/disable_heartbeat": {
@@ -5286,7 +5303,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Stop sending heartbeat messages.",
-  "description": "Stop sending heartbeat messages. This method takes no parameters. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fdisable_heartbeat)",
+  "description": "Stop sending heartbeat messages. This method takes no parameters. It also stops the server-side monitoring of client activity configured by [public/set_heartbeat](https://docs.deribit.com/api-reference/session-management/public-set_heartbeat): after this call the server neither sends `test_request` messages nor closes the connection with code 4000. The regular WebSocket idle timeout (10 minutes without incoming data) still applies. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fdisable_heartbeat)",
   "deprecated": false,
   "params": {},
   "required": []
@@ -5298,7 +5315,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Generates a token for a new subject id.",
-  "description": "Generates a token for a new subject id. This method can be used to switch between subaccounts. **📖 Related Articles:** - [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) - [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fexchange_token)",
+  "description": "Generates a token for a new subject id. This method can be used to switch between subaccounts. **Rules:** - `subject_id` must differ from the subject of the supplied refresh token (otherwise `-32602`) and must identify an active user (otherwise `-32602`). - Regular clients can only switch within their own account family (the main account and its subaccounts). A token issued directly for a subaccount cannot switch to the main account or to sibling subaccounts (`-32602` on `subject_id`). Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`). - Without `scope`, the new token inherits the scope of the supplied refresh token. A supplied `scope` **replaces** it (it is not merged), and cannot exceed the scope of the refresh token (`13403` `scope_exceeded`). If it contains neither `session:` nor `connection`, a session with a generated name is created. - The new access token's lifetime is counted from the issue time of the supplied refresh token. - Over WebSocket, the returned access token is also installed on the current connection, so subsequent private requests act as the new subject. - An invalid, expired or already-replaced refresh token (or one bound to another connection) returns `-32602` on `refresh_token`; `session_not_found` means the session of the token no longer exists. **📖 Related Articles:** - [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) - [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fexchange_token)",
   "deprecated": false,
   "params": {
    "refresh_token": {
@@ -5307,11 +5324,11 @@ export const methods = {
    },
    "subject_id": {
     "type": "integer",
-    "description": "New subject id"
+    "description": "Id of the user (main account or subaccount) to switch to. Must differ from the current subject."
    },
    "scope": {
     "type": "string",
-    "description": "Optional scope override for the new session. Cannot exceed caller's permissions. Supports `session` scope for direct session creation during token exchange."
+    "description": "Optional scope for the new token. Replaces (does not merge with) the scope of the refresh token and cannot exceed it (`13403` `scope_exceeded`). Supports `session:name` for direct session creation. If omitted, the scope of the refresh token is kept."
    }
   },
   "required": [
@@ -5326,7 +5343,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Generates a token for a new named session.",
-  "description": "Generates a token for a new named session. This method can be used only with session scoped tokens. **📖 More Details:** [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ffork_token)",
+  "description": "Generates a token for a new named session. This method can be used only with session scoped tokens. **Rules:** - The refresh token must have `session` scope; a `connection` scope refresh token is rejected with `-32602` on `refresh_token`. - `session_name` longer than 64 bytes is truncated (not rejected). The truncated name must differ from the current session name, otherwise the call fails with `-32602` on `session_name`. - The forked session keeps the scope of the original token with only the session name replaced, and receives a fresh access token and refresh token. - Unlike `public/auth` and `public/exchange_token`, the forked access token is **not** installed on the current WebSocket connection: the connection keeps its current authentication until you authenticate it with the new token. - An invalid, expired or already-replaced refresh token returns `-32602` on `refresh_token`; `session_not_found` means the session of the token no longer exists. **📖 More Details:** [Fork and Exchange Tokens](https://docs.deribit.com/articles/authentication#fork-and-exchange-tokens) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ffork_token)",
   "deprecated": false,
   "params": {
    "refresh_token": {
@@ -5335,7 +5352,7 @@ export const methods = {
    },
    "session_name": {
     "type": "string",
-    "description": "New session name"
+    "description": "Name of the new session (truncated to 64 bytes). Must differ from the current session name."
    }
   },
   "required": [
@@ -5423,7 +5440,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Returns a list of recent Block RFQ trades.",
-  "description": "Returns a list of recent Block RFQ trades. Can be optionally filtered by currency. This is a public method that provides market data about completed Block RFQ trades. For private Block RFQ information, use [private/get_block_rfqs](https://docs.deribit.com/api-reference/block-rfq/private-get_block_rfqs). **📖 Related Article:** [Deribit Block RFQ API walkthrough](https://docs.deribit.com/articles/block-rfq-api-walkthrough) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_block_rfq_trades)",
+  "description": "Returns a list of recent Block RFQ trades. Can be optionally filtered by currency. Block RFQs whose trades have delayed publication are listed only after their publication time. This is a public method that provides market data about completed Block RFQ trades. For private Block RFQ information, use [private/get_block_rfqs](https://docs.deribit.com/api-reference/block-rfq/private-get_block_rfqs). **📖 Related Article:** [Deribit Block RFQ API walkthrough](https://docs.deribit.com/articles/block-rfq-api-walkthrough) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_block_rfq_trades)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -5458,7 +5475,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves summary information such as open interest, 24-hour volume, best bid/ask prices, last trade price, and other market statistics for all instruments in a given currency.",
-  "description": "Retrieves summary information such as open interest, 24-hour volume, best bid/ask prices, last trade price, and other market statistics for all instruments in a given currency. Results can be filtered by instrument kind (future, option, etc.). This method provides a quick overview of market activity across all instruments for a currency. **Note:** For real-time updates, we recommend using the WebSocket subscription to `ticker.{instrument_name}.{interval}` instead of polling this endpoint. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_book_summary_by_currency)",
+  "description": "Retrieves summary information such as open interest, 24-hour volume, best bid/ask prices, last trade price, and other market statistics for all instruments in a given currency. **Note:** `open_interest` is always reported with an 8-hour delay, regardless of trade type (on-screen, Block Trade or Block RFQ). `volume` equals `volume_realtime` plus `volume_delayed`; `volume_delayed` covers Block RFQ trades with delayed publication and is reported 8 hours late. Results can be filtered by instrument kind (future, option, etc.). This method provides a quick overview of market activity across all instruments for a currency. **Note:** For real-time updates, we recommend using the WebSocket subscription to `ticker.{instrument_name}.{interval}` instead of polling this endpoint. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_book_summary_by_currency)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -5495,7 +5512,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves summary information such as open interest, 24-hour volume, best bid/ask prices, last trade price, mark price, and other market statistics for a specific instrument.",
-  "description": "Retrieves summary information such as open interest, 24-hour volume, best bid/ask prices, last trade price, mark price, and other market statistics for a specific instrument. This method provides a quick overview of current market activity and liquidity for a single instrument. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_book_summary_by_instrument)",
+  "description": "Retrieves summary information such as open interest, 24-hour volume, best bid/ask prices, last trade price, mark price, and other market statistics for a specific instrument. **Note:** `open_interest` is always reported with an 8-hour delay, regardless of trade type (on-screen, Block Trade or Block RFQ). `volume` equals `volume_realtime` plus `volume_delayed`; `volume_delayed` covers Block RFQ trades with delayed publication and is reported 8 hours late. This method provides a quick overview of current market activity and liquidity for a single instrument. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_book_summary_by_instrument)",
   "deprecated": false,
   "params": {
    "instrument_name": {
@@ -5625,7 +5642,7 @@ export const methods = {
    "Market Data"
   ],
   "summary": "Retrieves historical delivery prices for a given index.",
-  "description": "Retrieves historical delivery prices for a given index. Delivery prices are the settlement prices used when futures or options contracts expire and are settled. Results can be paginated using the `offset` and `count` parameters. This method is useful for analyzing historical settlement prices and understanding how contracts have been settled over time. **📖 Related Article:** [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_delivery_prices)",
+  "description": "Retrieves historical delivery prices for a given index. Delivery prices are the settlement prices used when futures or options contracts expire and are settled. Results can be paginated using the `offset` and `count` parameters. Optionally, results can be limited to a date range using `start_timestamp` and `end_timestamp` — each is mapped to the UTC calendar date of the delivery and both bounds are inclusive; `records_total` reflects the filtered set. This method is useful for analyzing historical settlement prices and understanding how contracts have been settled over time. **📖 Related Article:** [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_delivery_prices)",
   "deprecated": false,
   "params": {
    "index_name": {
@@ -5689,6 +5706,14 @@ export const methods = {
    "count": {
     "type": "integer",
     "description": "Number of requested items, default - `10`, maximum - `1000`"
+   },
+   "start_timestamp": {
+    "type": "integer",
+    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch)"
+   },
+   "end_timestamp": {
+    "type": "integer",
+    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch)"
    }
   },
   "required": [
@@ -6090,7 +6115,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves trading instruments, filtered by `currency` and optional `kind`.",
-  "description": "Retrieves trading instruments, filtered by `currency` and optional `kind`. Responses are cached for about 1 minute and can be stale relative to live book state. **Note - This method has distinct API rate limiting requirements:** Sustained rate: 1 request/second. To avoid rate limits, we recommend using either the REST requests for server-cached data or the WebSocket subscription to [instrument_state.{kind}.{currency}](https://docs.deribit.com/subscriptions/market-data/instrumentstatekindcurrency) for real-time updates. For more information, see [Rate Limits](https://docs.deribit.com/articles/rate-limits). With `expired=false` (default) the list is not limited to tradable books. It includes visible instruments (`open`, `settlement`, `locked`, `halted`) plus inactive non-combo instruments. Inactive combos are omitted; combo kinds (`future_combo`, `option_combo`) return only visible books. `is_active` can therefore be `false` on this default list. Only `state` `open` accepts new orders. With `expired=true` the list is instruments still in the live table with `state` `delivered` — recently expired, not archivized. Older expired or archivized names are looked up with `public/get_instrument`, not this method. `currency` matches derivatives by settlement currency: inverse (reversed) contracts settle in the base coin (`BTC` for BTC-PERPETUAL), linear contracts typically settle in the quote coin (`USDC` for BTC_USDC-PERPETUAL). `currency=any` returns every settlement currency. Spot matching is different. A spot's settlement field is the pair symbol (for example `BTC_USDC`), not `BTC` or `USDC`. When `expired=false` and `kind` is omitted/`any` for a specific currency, the response unions (1) derivatives with that settlement currency and (2) spots whose base or quote is that currency. `kind=spot` with a specific currency matches spots on either side of the pair. `expired=true` does not apply that extra spot union, so recently delivered spots are not returned under `currency=BTC`. Results are sorted with perpetuals first, then by expiration. Each instrument includes `underlying_type`. Spot routed to Coinbase Exchange includes `is_cbe_routed` / `is_csr`. Set `extended=true` for extra commission and (on futures) margin/perpetual fields that `public/get_instrument` does not return. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_instruments)",
+  "description": "Retrieves trading instruments, filtered by `currency` and optional `kind`. Responses are cached for about 1 minute and can be stale relative to live book state. **Note - This method has distinct API rate limiting requirements:** Sustained rate: 1 request/second. To avoid rate limits, we recommend using either the REST requests for server-cached data or the WebSocket subscription to [instrument_state.{kind}.{currency}](https://docs.deribit.com/subscriptions/market-data/instrumentstatekindcurrency) for real-time updates. For more information, see [Rate Limits](https://docs.deribit.com/articles/rate-limits). With `expired=false` (default) the list is not limited to tradable books. It includes visible instruments (`open`, `settlement`, `locked`, `halted`) plus inactive non-combo instruments. Inactive combos are omitted; combo kinds (`future_combo`, `option_combo`) return only visible books. `is_active` can therefore be `false` on this default list. Only `state` `open` accepts new orders. With `expired=true` the list is instruments still in the live table with `state` `delivered` — recently expired, not archivized. Older expired or archivized names are looked up with `public/get_instrument`, not this method. `currency` matches derivatives by settlement currency: inverse (reversed) contracts settle in the base coin (`BTC` for BTC-PERPETUAL), linear contracts typically settle in the quote coin (`USDC` for BTC_USDC-PERPETUAL). `currency=any` returns every settlement currency. Spot matching is different. A spot's settlement field is the pair symbol (for example `BTC_USDC`), not `BTC` or `USDC`. When `expired=false` and `kind` is omitted/`any` for a specific currency, the response unions (1) derivatives with that settlement currency and (2) spots whose base or quote is that currency. `kind=spot` with a specific currency matches spots on either side of the pair. `expired=true` does not apply that extra spot union, so recently delivered spots are not returned under `currency=BTC`. Results are sorted with perpetuals first, then by expiration. Each instrument includes `underlying_type`. Spot routed to Coinbase Exchange includes `is_cbe_routed` / `is_csr`. Set `extended=true` for extra commission and (on futures) trading bandwidth/perpetual fields that `public/get_instrument` does not return. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_instruments)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -6123,7 +6148,7 @@ export const methods = {
    },
    "extended": {
     "type": "boolean",
-    "description": "When `true`, each instrument also includes `maker_max_commission`, `taker_max_commission`, `liquidation_max_commission`, and `settlement_max_commission`. Futures additionally include `margin_params` and `trading_bandwidth_fraction`; perpetuals also include `perpetual_dempener` and `perpetual_max_funding`. Default `false`. `public/get_instrument` does not accept this parameter."
+    "description": "When `true`, each instrument also includes `maker_max_commission`, `taker_max_commission`, `liquidation_max_commission`, and `settlement_max_commission`. Futures additionally include `trading_bandwidth_fraction`; perpetuals also include `perpetual_dempener` and `perpetual_max_funding`. Default `false`. `public/get_instrument` does not accept this parameter."
    }
   },
   "required": [
@@ -6224,7 +6249,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves the latest trades that have occurred for instruments in a specific currency.",
-  "description": "Retrieves the latest trades that have occurred for instruments in a specific currency. Returns trade details including price, amount, direction, timestamp, and trade ID for all instruments in the currency. Results can be filtered by instrument kind and trade ID range or timestamp range. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). **Note:** For currencies with spot instruments routed to Coinbase Exchange, this call is not supported when `kind` is `spot` or `any` — and `any` is the default when `kind` is omitted. A currency counts as routed when it is the base or the quote of a routed pair. Other kinds are unaffected. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history by instrument. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_currency)",
+  "description": "Retrieves the latest trades that have occurred for instruments in a specific currency. Returns trade details including price, amount, direction, timestamp, and trade ID for all instruments in the currency. Results can be filtered by instrument kind and trade ID range or timestamp range. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). **Note:** Block RFQ trades with delayed publication are returned only after their publication time (`block_delayed`). They keep their original `timestamp` and `trade_seq`, so results for a past time or sequence range can gain trades after publication. **Note:** For currencies with spot instruments routed to Coinbase Exchange, this call is not supported when `kind` is `spot` or `any` — and `any` is the default when `kind` is omitted. A currency counts as routed when it is the base or the quote of a routed pair. Other kinds are unaffected. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history by instrument. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_currency)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -6261,11 +6286,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "count": {
     "type": "integer",
@@ -6278,7 +6303,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
@@ -6292,7 +6317,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves the latest trades that have occurred for instruments in a specific currency within a specified time range.",
-  "description": "Retrieves the latest trades that have occurred for instruments in a specific currency within a specified time range. Returns trade details including price, amount, direction, timestamp, and trade ID. Results can be filtered by instrument kind. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). **Note:** For currencies with spot instruments routed to Coinbase Exchange, this call is not supported when `kind` is `spot` or `any` — and `any` is the default when `kind` is omitted. A currency counts as routed when it is the base or the quote of a routed pair. Other kinds are unaffected. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history by instrument. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) **Scope:** `trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_currency_and_time)",
+  "description": "Retrieves the latest trades that have occurred for instruments in a specific currency within a specified time range. Returns trade details including price, amount, direction, timestamp, and trade ID. Results can be filtered by instrument kind. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). **Note:** Block RFQ trades with delayed publication are returned only after their publication time (`block_delayed`). They keep their original `timestamp` and `trade_seq`, so results for a past time or sequence range can gain trades after publication. **Note:** For currencies with spot instruments routed to Coinbase Exchange, this call is not supported when `kind` is `spot` or `any` — and `any` is the default when `kind` is omitted. A currency counts as routed when it is the base or the quote of a routed pair. Other kinds are unaffected. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history by instrument. **📖 Related Articles:** - [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) **Scope:** `trade:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_currency_and_time)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -6321,11 +6346,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -6338,13 +6363,11 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
-   "currency",
-   "start_timestamp",
-   "end_timestamp"
+   "currency"
   ]
  },
  "public/get_last_trades_by_instrument": {
@@ -6354,7 +6377,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves the latest trades that have occurred for a specific instrument.",
-  "description": "Retrieves the latest trades that have occurred for a specific instrument. Returns trade details including price, amount, direction, timestamp, and trade ID. Results can be filtered by sequence number range or timestamp range. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). **Note:** For spot instruments routed to Coinbase Exchange, this call is not supported. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_instrument)",
+  "description": "Retrieves the latest trades that have occurred for a specific instrument. Returns trade details including price, amount, direction, timestamp, and trade ID. Results can be filtered by sequence number range or timestamp range. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). **Note:** Block RFQ trades with delayed publication are returned only after their publication time (`block_delayed`). They keep their original `timestamp` and `trade_seq`, so results for a past time or sequence range can gain trades after publication. **Note:** For spot instruments routed to Coinbase Exchange, this call is not supported. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_instrument)",
   "deprecated": false,
   "params": {
    "instrument_name": {
@@ -6363,19 +6386,19 @@ export const methods = {
    },
    "start_seq": {
     "type": "integer",
-    "description": "The sequence number of the first trade to be returned"
+    "description": "Inclusive sequence number of the first trade to return; cannot be combined with start_timestamp."
    },
    "end_seq": {
     "type": "integer",
-    "description": "The sequence number of the last trade to be returned"
+    "description": "Inclusive sequence number of the last trade to return; cannot be combined with end_timestamp."
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch); cannot be combined with a start_id or start_seq bound."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch)."
    },
    "count": {
     "type": "integer",
@@ -6388,7 +6411,7 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
@@ -6402,7 +6425,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves the latest trades that have occurred for a specific instrument within a specified time range.",
-  "description": "Retrieves the latest trades that have occurred for a specific instrument within a specified time range. Returns trade details including price, amount, direction, timestamp, and trade ID. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). This method is useful for analyzing trading activity over specific time periods. **Note:** For spot instruments routed to Coinbase Exchange, this call is not supported. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_instrument_and_time)",
+  "description": "Retrieves the latest trades that have occurred for a specific instrument within a specified time range. Returns trade details including price, amount, direction, timestamp, and trade ID. Use the `count` parameter to limit the number of trades returned, and `sorting` to control the order (ascending or descending by trade ID). This method is useful for analyzing trading activity over specific time periods. **Note:** Block RFQ trades with delayed publication are returned only after their publication time (`block_delayed`). They keep their original `timestamp` and `trade_seq`, so results for a past time or sequence range can gain trades after publication. **Note:** For spot instruments routed to Coinbase Exchange, this call is not supported. Use [Get product trades](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-trades) directly for full trade history. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_last_trades_by_instrument_and_time)",
   "deprecated": false,
   "params": {
    "instrument_name": {
@@ -6411,11 +6434,11 @@ export const methods = {
    },
    "start_timestamp": {
     "type": "integer",
-    "description": "The earliest timestamp to return result from (milliseconds since the UNIX epoch). When param is provided trades are returned from the earliest"
+    "description": "Inclusive earliest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "end_timestamp": {
     "type": "integer",
-    "description": "The most recent timestamp to return result from (milliseconds since the UNIX epoch). Only one of params: start_timestamp, end_timestamp is truly required"
+    "description": "Inclusive latest timestamp (milliseconds since the Unix epoch). Time-based methods require at least one of start_timestamp or end_timestamp."
    },
    "count": {
     "type": "integer",
@@ -6428,13 +6451,11 @@ export const methods = {
      "desc",
      "default"
     ],
-    "description": "Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)"
+    "description": "Result ordering: asc, desc, or the method-specific default."
    }
   },
   "required": [
-   "instrument_name",
-   "start_timestamp",
-   "end_timestamp"
+   "instrument_name"
   ]
  },
  "public/get_mark_price_history": {
@@ -6574,7 +6595,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves aggregated 24-hour trade volumes for different instrument types and currencies.",
-  "description": "Retrieves aggregated 24-hour trade volumes for different instrument types and currencies. The volume statistics include all executed trades across the platform. **Note:** Position moves are not included in this volume. Block trades and Block RFQ trades are included in the volume calculations. Use the `extended` parameter to include additional volume statistics and breakdowns. **Note:** For currencies with spot instruments routed to Coinbase Exchange, `spot_volume` is omitted, as are `spot_volume_7d` and `spot_volume_30d` when `extended` is used. Use [Get all product volume](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-all-product-volume) for venue spot volume. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_trade_volumes)",
+  "description": "Retrieves aggregated 24-hour trade volumes for different instrument types and currencies. The volume statistics include all executed trades across the platform. **Note:** Position moves are not included in this volume. Block Trades and Block RFQ trades are included in the volume calculations. Use the `extended` parameter to include additional volume statistics and breakdowns. **Note:** For currencies with spot instruments routed to Coinbase Exchange, `spot_volume` is omitted, as are `spot_volume_7d` and `spot_volume_30d` when `extended` is used. Use [Get all product volume](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-all-product-volume) for venue spot volume. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_trade_volumes)",
   "deprecated": false,
   "params": {
    "extended": {
@@ -6591,7 +6612,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves publicly available market data formatted for generating TradingView-compatible candle charts.",
-  "description": "Retrieves publicly available market data formatted for generating TradingView-compatible candle charts. The data includes open, high, low, close (OHLC) prices and volume for specified time intervals. Use the `chart_resolution` parameter to specify the candle interval (e.g., 1m, 5m, 1h, 1d). This method provides the standard format used by TradingView and other charting platforms. **Note:** For spot instruments routed to Coinbase Exchange, this call is not supported. Use [Get product candles](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-candles) instead. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_tradingview_chart_data)",
+  "description": "Retrieves publicly available market data formatted for generating TradingView-compatible candle charts. The data includes open, high, low, close (OHLC) prices and volume for specified time intervals. Use the `chart_resolution` parameter to specify the candle interval (e.g., 1m, 5m, 1h, 1d). This method provides the standard format used by TradingView and other charting platforms. **Note:** Block Trades and Block RFQ trades are not included in chart prices or volume. **Note:** For spot instruments routed to Coinbase Exchange, this call is not supported. Use [Get product candles](https://docs.cdp.coinbase.com/api-reference/exchange-api/rest-api/products/get-product-candles) instead. **📖 Related Article:** [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fget_tradingview_chart_data)",
   "deprecated": false,
   "params": {
    "instrument_name": {
@@ -6609,20 +6630,21 @@ export const methods = {
    "resolution": {
     "type": "string",
     "enum": [
-     1,
-     3,
-     5,
-     10,
-     15,
-     30,
-     60,
-     120,
-     180,
-     360,
-     720,
-     "1D"
+     "1",
+     "3",
+     "5",
+     "10",
+     "15",
+     "30",
+     "60",
+     "120",
+     "180",
+     "360",
+     "720",
+     "1D",
+     "D"
     ],
-    "description": "Chart bars resolution given in full minutes or keyword `1D` (only some specific resolutions are supported)"
+    "description": "Chart bars resolution in minutes, or `1D` / `D` for daily bars."
    }
   },
   "required": [
@@ -6688,7 +6710,7 @@ export const methods = {
    "WebSocket Only"
   ],
   "summary": "Method used to introduce the client software connected to Deribit platform over websocket.",
-  "description": "Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fhello)",
+  "description": "Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself. This method is available only over WebSocket; calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fhello)",
   "deprecated": false,
   "params": {
    "client_name": {
@@ -6713,12 +6735,12 @@ export const methods = {
    "WebSocket Only"
   ],
   "summary": "Signals the WebSocket connection to send and request heartbeats.",
-  "description": "Signals the WebSocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Attempting to use it via REST/HTTP will result in an error response. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fset_heartbeat)",
+  "description": "Signals the WebSocket connection to send and request heartbeats. Heartbeats are used to detect stale or broken connections. **Heartbeat & Disconnect Lifecycle:** - When no message has been sent to the client for `interval` seconds, the server sends a `heartbeat` notification (`\"params\": {\"type\": \"heartbeat\"}`). - When no message has been received from the client for `interval` seconds (plus 500 ms), the server sends a `heartbeat` notification with `\"params\": {\"type\": \"test_request\"}`. Respond by sending a `/api/v2/public/test` request. - Any JSON text message from the client counts as activity and restarts this timer; WebSocket-level ping/pong frames and the plain-text `ping` / `PING` messages do not. - If the connection stays silent until `(2 * interval) + 500 ms` after the last client message, the server closes the WebSocket with **close code 4000** (`heartbeat close`). - If Cancel on Disconnect is enabled for the connection (connection or account scope), orders created over this connection are cancelled when it is closed. - Calling this method again replaces the previous interval. **Validation:** `interval` must be an integer between 10 and 300 seconds inclusive. Any other value (including fractional numbers) returns JSON-RPC error `-32602`. **WebSocket Only:** This method is designed exclusively for WebSocket connections. Calling it over REST/HTTP returns error `10030` (`must_be_websocket_request`). [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fset_heartbeat)",
   "deprecated": false,
   "params": {
    "interval": {
-    "type": "number",
-    "description": "The heartbeat interval in seconds, but not less than 10"
+    "type": "integer",
+    "description": "The heartbeat interval in seconds (allowed range: 10 to 300)"
    }
   },
   "required": [
@@ -6767,7 +6789,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Tests the connection to the API server, and returns its version.",
-  "description": "Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version. [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ftest)",
+  "description": "Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version. With `expected_result` set to `exception` the server returns error `11094` (`internal_server_error`) instead of the version, for example: ```json {\"jsonrpc\": \"2.0\", \"id\": 8213, \"error\": {\"message\": \"internal_server_error\", \"code\": 11094}} ``` [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Ftest)",
   "deprecated": false,
   "params": {
    "expected_result": {
@@ -6775,7 +6797,7 @@ export const methods = {
     "enum": [
      "exception"
     ],
-    "description": "The value \"exception\" will trigger an error response. This may be useful for testing wrapper libraries."
+    "description": "The value \"exception\" will trigger an error response with code `11094` (`internal_server_error`). This may be useful for testing wrapper libraries."
    }
   },
   "required": []
@@ -6787,7 +6809,7 @@ export const methods = {
    "Public"
   ],
   "summary": "Retrieves the ticker (24-hour statistics) for a specific instrument.",
-  "description": "Retrieves the ticker (24-hour statistics) for a specific instrument. The ticker includes the last trade price, best bid/ask prices, 24-hour high/low, 24-hour volume, open interest, mark price, and other market statistics. This is a lightweight method for getting current market data for a single instrument. For real-time updates, consider using WebSocket subscriptions to ticker channels. **Note:** For spot instruments routed to Coinbase Exchange, `volume_notional` and `volume_usd` are omitted from `stats`. **📖 Related Articles:** - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fticker)",
+  "description": "Retrieves the ticker (24-hour statistics) for a specific instrument. The ticker includes the last trade price, best bid/ask prices, 24-hour high/low, 24-hour volume, open interest, mark price, and other market statistics. This is a lightweight method for getting current market data for a single instrument. For real-time updates, consider using WebSocket subscriptions to ticker channels. **Note:** `stats.volume` equals `volume_realtime` plus `volume_delayed`; `volume_delayed` covers Block RFQ trades with delayed publication and is reported 8 hours late. Trades with delayed publication do not affect `last_price` or the 24-hour `high`, `low` and `price_change`. `open_interest` is always reported with an 8-hour delay, regardless of trade type (on-screen, Block Trade or Block RFQ). For spot instruments routed to Coinbase Exchange, `volume_notional`, `volume_usd` and their `_realtime`/`_delayed` breakdowns are omitted from `stats`. **📖 Related Articles:** - [Spot Trading: Deribit and Coinbase-Routed Instruments](https://docs.deribit.com/articles/spot-trading-venues) - [Options Data Collection Best Practices](https://docs.deribit.com/articles/options-data-collection-best-practices) [Try in API console](https://test.deribit.com/api_console?method=%2Fpublic%2Fticker)",
   "deprecated": false,
   "params": {
    "instrument_name": {
