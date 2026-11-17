@@ -51,6 +51,24 @@ d.close();
 - **Search:** `search('funding rate history')` ranks methods by name, params, tags and description. `search('ticker', { kind: 'channel' })` does the same for channels. This is the basis for an MCP search tool.
 - **Drift check:** `npm run check-spec` compares the vendored specs with the published ones and lists added, removed or changed methods, params and channels. It exits with code 1 if anything changed. `-- --write` updates `spec/`, and `npm run generate` then rebuilds the generated files.
 
+## Weekly spec updates
+
+The `spec-drift` CI job runs weekly and on manual `workflow_dispatch`. It needs
+**Settings → Actions → General → Workflow permissions → Allow GitHub Actions to
+create and approve pull requests** enabled. The job's `contents: write` and
+`pull-requests: write` permissions alone do not enable PR creation. Keep the
+repository's default workflow permissions read-only; only this job needs write
+access.
+
+If a run fails with `GitHub Actions is not permitted to create or approve pull
+requests`, enable that repository setting, then run CI manually. Each publication
+uses the run ID and attempt in its branch name, so retrying after a successful
+push but failed PR creation does not collide with or overwrite an existing branch.
+Review and close any superseded spec-update PRs; do not merge them automatically.
+PRs created with `GITHUB_TOKEN` do not trigger `pull_request` CI, so manually run
+CI on the generated branch before merging (the drift job also regenerates,
+typechecks and tests the update, and includes those results in its PR body).
+
 ## Transports
 
 `call()` sends the same JSON-RPC envelope over HTTP (`POST /api/v2`, the default) or over WebSocket (`transport: 'ws'`, per client or per call).

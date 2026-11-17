@@ -51,7 +51,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          branch="chore/deribit-spec-$(date -u +%Y%m%d)"
+          # Trusted numeric Actions environment variables avoid collisions with
+          # branches pushed by a prior run/attempt; no force push is needed.
+          branch="chore/deribit-spec-$(date -u +%Y%m%d)-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$branch"
