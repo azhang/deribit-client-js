@@ -432,17 +432,18 @@
               "type": "integer"
             },
             "required": false,
-            "description": "The user id for the subaccount"
+            "description": "The user id of the subaccount to summarize. Defaults to the authenticated account; another account requires a main account token (`mainaccount` scope) and must belong to the same main account"
           },
           {
             "in": "query",
             "name": "extended",
             "required": false,
             "schema": {
+              "default": false,
               "example": true,
               "type": "boolean"
             },
-            "description": "Include additional fields"
+            "description": "Include additional account-level fields (`id`, `username`, `system_name`, `email`, `type`, `security_keys_enabled`, ...) and, for accounts on a non-default fee tier, `fee_group` and `fees`. `false` by default"
           }
         ],
         "responses": {
@@ -520,7 +521,6 @@
                         },
                         "projected_maintenance_margin": 0.7543841,
                         "available_funds": 301.38059622,
-                        "login_enabled": false,
                         "options_delta": -1.01962,
                         "balance": 302.60065765,
                         "security_keys_enabled": false,
@@ -549,6 +549,9 @@
                         "self_trading_reject_mode": "cancel_maker",
                         "initial_margin": 1.24669592,
                         "spot_reserve": 0,
+                        "locked_balance": 0,
+                        "additional_reserve": 0,
+                        "is_direct_access_allowed": false,
                         "delta_total": 31.602958,
                         "options_gamma": 1e-05,
                         "session_rpl": -0.03258105,
@@ -582,6 +585,178 @@
                         }
                       }
                     }
+                  },
+                  "standardResponse": {
+                    "summary": "Standard response example",
+                    "value": {
+                      "jsonrpc": "2.0",
+                      "id": 2516,
+                      "result": {
+                        "delta_total_map": {
+                          "btc_usd": 31.594357699
+                        },
+                        "margin_balance": 302.62729214,
+                        "futures_session_rpl": -0.03258105,
+                        "options_session_rpl": 0,
+                        "session_upl": 0.05271555,
+                        "options_gamma_map": {
+                          "btc_usd": 1e-05
+                        },
+                        "options_vega": 0.0858,
+                        "options_value": -0.0086,
+                        "available_withdrawal_funds": 301.35396172,
+                        "projected_delta_total": 32.613978,
+                        "maintenance_margin": 0.8857841,
+                        "total_pl": -0.33084225,
+                        "limits": {
+                          "limits_per_currency": false,
+                          "non_matching_engine": {
+                            "burst": 1500,
+                            "rate": 1000
+                          },
+                          "matching_engine": {
+                            "trading": {
+                              "total": {
+                                "burst": 250,
+                                "rate": 200
+                              }
+                            },
+                            "spot": {
+                              "burst": 250,
+                              "rate": 200
+                            },
+                            "quotes": {
+                              "burst": 500,
+                              "rate": 500
+                            },
+                            "max_quotes": {
+                              "burst": 10,
+                              "rate": 10
+                            },
+                            "guaranteed_quotes": {
+                              "burst": 2,
+                              "rate": 2
+                            },
+                            "cancel_all": {
+                              "burst": 250,
+                              "rate": 200
+                            }
+                          }
+                        },
+                        "options_theta_map": {
+                          "btc_usd": 15.97071
+                        },
+                        "projected_maintenance_margin": 0.7543841,
+                        "available_funds": 301.38059622,
+                        "options_delta": -1.01962,
+                        "balance": 302.60065765,
+                        "equity": 302.61869214,
+                        "futures_session_upl": 0.05921555,
+                        "fee_balance": 0,
+                        "currency": "BTC",
+                        "options_session_upl": -0.0065,
+                        "projected_initial_margin": 1.01529592,
+                        "options_theta": 15.97071,
+                        "portfolio_margining_enabled": false,
+                        "cross_collateral_enabled": false,
+                        "margin_model": "segregated_sm",
+                        "options_vega_map": {
+                          "btc_usd": 0.0858
+                        },
+                        "futures_pl": -0.32434225,
+                        "options_pl": -0.0065,
+                        "initial_margin": 1.24669592,
+                        "spot_reserve": 0,
+                        "locked_balance": 0,
+                        "additional_reserve": 0,
+                        "delta_total": 31.602958,
+                        "options_gamma": 1e-05,
+                        "session_rpl": -0.03258105,
+                        "is_direct_access_allowed": false
+                      }
+                    }
+                  },
+                  "subaccountResponse": {
+                    "summary": "Subaccount response example",
+                    "value": {
+                      "jsonrpc": "2.0",
+                      "id": 2517,
+                      "result": {
+                        "delta_total_map": {},
+                        "margin_balance": 5.0,
+                        "futures_session_rpl": 0,
+                        "options_session_rpl": 0,
+                        "session_upl": 0,
+                        "options_gamma_map": {},
+                        "options_vega": 0,
+                        "options_value": 0,
+                        "available_withdrawal_funds": 5.0,
+                        "projected_delta_total": 0,
+                        "maintenance_margin": 0.0,
+                        "total_pl": 0,
+                        "limits": {
+                          "limits_per_currency": false,
+                          "non_matching_engine": {
+                            "burst": 1500,
+                            "rate": 1000
+                          },
+                          "matching_engine": {
+                            "trading": {
+                              "total": {
+                                "burst": 250,
+                                "rate": 200
+                              }
+                            },
+                            "spot": {
+                              "burst": 250,
+                              "rate": 200
+                            },
+                            "quotes": {
+                              "burst": 500,
+                              "rate": 500
+                            },
+                            "max_quotes": {
+                              "burst": 10,
+                              "rate": 10
+                            },
+                            "guaranteed_quotes": {
+                              "burst": 2,
+                              "rate": 2
+                            },
+                            "cancel_all": {
+                              "burst": 250,
+                              "rate": 200
+                            }
+                          }
+                        },
+                        "options_theta_map": {},
+                        "projected_maintenance_margin": 0.0,
+                        "available_funds": 5.0,
+                        "options_delta": 0,
+                        "balance": 5.0,
+                        "equity": 5.0,
+                        "futures_session_upl": 0,
+                        "fee_balance": 0,
+                        "currency": "ETH",
+                        "options_session_upl": 0,
+                        "projected_initial_margin": 0.0,
+                        "options_theta": 0,
+                        "portfolio_margining_enabled": false,
+                        "cross_collateral_enabled": false,
+                        "margin_model": "segregated_sm",
+                        "options_vega_map": {},
+                        "futures_pl": 0,
+                        "options_pl": 0,
+                        "initial_margin": 0.0,
+                        "spot_reserve": 0,
+                        "locked_balance": 0,
+                        "additional_reserve": 0,
+                        "delta_total": 0,
+                        "options_gamma": 0,
+                        "session_rpl": 0,
+                        "is_direct_access_allowed": false
+                      }
+                    }
                   }
                 }
               }
@@ -608,13 +783,37 @@
                       "extended": true
                     }
                   }
+                },
+                "standardRequest": {
+                  "summary": "Standard Request",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 2516,
+                    "method": "private/get_account_summary",
+                    "params": {
+                      "currency": "BTC",
+                      "extended": false
+                    }
+                  }
+                },
+                "subaccountRequest": {
+                  "summary": "Subaccount Request",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 2517,
+                    "method": "private/get_account_summary",
+                    "params": {
+                      "currency": "ETH",
+                      "subaccount_id": 7
+                    }
+                  }
                 }
               }
             }
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Retrieves the account summary for a specific currency. The summary includes cash `balance`, `equity`, `margin_balance`, `available_funds`, `available_withdrawal_funds`, initial/maintenance margin, session and total PnL, options greeks, and related fields.\n\nKey relationships (standard margin): `equity = balance + futures session PnL + options_value`, `margin_balance = equity - options_value`, `available_funds = max(0, margin_balance - initial_margin)`. Under portfolio margin, `margin_balance` equals `equity`. Session PnL fields reset at daily settlement; `total_pl` does not.\n\nTo retrieve the summary for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included.\n\n**📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summary)\n\n",
+        "description": "Retrieves the account summary for a specific currency. The summary includes cash `balance`, `equity`, `margin_balance`, `available_funds`, `available_withdrawal_funds`, initial/maintenance margin, session and total PnL, options greeks, and related fields.\n\nKey relationships (standard margin): `equity = balance + futures session PnL + options_value`, `margin_balance = equity - options_value`, `available_funds = max(0, margin_balance - initial_margin)`. Under portfolio margin, `margin_balance` equals `equity`. Session PnL fields reset at daily settlement; `total_pl` does not.\n\nTo retrieve the summary for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included. The account's fee tier is returned in `fee_group` (with its rates in `fees`) only when `extended` is `true` and the account is on a non-default tier; when both are absent, standard fees apply.\n\n**Account selection (`subaccount_id`):**\n- If omitted (or equal to the caller's own id) the summary is for the authenticated account.\n- Another account can be requested only with a main account token (scope `mainaccount`), and it must belong to the same main account. Otherwise the call returns `-32602` (`Invalid params`, `Not allowed`).\n- A removed subaccount returns `13020` (`not_found`); a vault subaccount returns `14049` (`vault_subaccount_not_allowed`).\n\n**Currency:** `currency` is required and must be a currency held by the target account's wallet type; otherwise the call returns `-32602` (`Invalid params`, \"not supported for wallet type\" or an invalid currency).\n\n**Examples:** responses are illustrative, not live account data. The extended default example abbreviates account metadata and fee configuration; it is not an exhaustive list of returned fields.\n\n**📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summary)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/get_account_summary",
@@ -633,6 +832,16 @@
             "lang": "bash",
             "label": "cURL",
             "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_account_summary \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2515,\n  \"method\": \"private/get_account_summary\",\n  \"params\": {\n    \"currency\": \"BTC\",\n    \"extended\": true\n  }\n}'"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL (Standard)",
+            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_account_summary \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2516,\n  \"method\": \"private/get_account_summary\",\n  \"params\": {\n    \"currency\": \"BTC\",\n    \"extended\": false\n  }\n}'"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL (Subaccount)",
+            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_account_summary \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2517,\n  \"method\": \"private/get_account_summary\",\n  \"params\": {\n    \"currency\": \"ETH\",\n    \"subaccount_id\": 7\n  }\n}'"
           }
         ]
       }
@@ -647,17 +856,33 @@
               "type": "integer"
             },
             "required": false,
-            "description": "The user id for the subaccount"
+            "description": "The user id of the subaccount to summarize. Defaults to the authenticated account; another account requires a main account token (`mainaccount` scope) and must belong to the same main account"
           },
           {
             "in": "query",
             "name": "extended",
             "required": false,
             "schema": {
+              "default": false,
               "example": true,
               "type": "boolean"
             },
-            "description": "Include additional fields"
+            "description": "Include additional account-level fields (`id`, `username`, `system_name`, `email`, `type`, `security_keys_enabled`, ...) and, for accounts on a non-default fee tier, `fee_group` and `fees`. `false` by default"
+          },
+          {
+            "name": "currencies",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "BTC"
+              }
+            },
+            "description": "Optional list of currencies to return summaries for, e.g. `[\"BTC\", \"ETH\"]`. By default the summaries of all currencies held by the account's wallet type are returned. A currency that is invalid or not available for the account results in `-32602` (`Invalid params`)",
+            "style": "form",
+            "explode": true
           }
         ],
         "responses": {
@@ -682,12 +907,12 @@
                         "creation_timestamp": 1687352432143,
                         "type": "main",
                         "referrer_id": null,
-                        "login_enabled": false,
                         "security_keys_enabled": false,
                         "mmp_enabled": false,
                         "interuser_transfers_enabled": false,
                         "self_trading_reject_mode": "cancel_maker",
                         "self_trading_extended_to_subaccounts": false,
+                        "is_direct_access_allowed": false,
                         "self_trading_extended_across_members": false,
                         "summaries": [
                           {
@@ -743,6 +968,9 @@
                                 }
                               }
                             },
+                            "options_theta_map": {
+                              "btc_usd": 15.97071
+                            },
                             "projected_maintenance_margin": 0.7543841,
                             "available_funds": 301.38059622,
                             "options_delta": -1.01962,
@@ -763,6 +991,8 @@
                             "options_pl": -0.0065,
                             "initial_margin": 1.24669592,
                             "spot_reserve": 0,
+                            "locked_balance": 0,
+                            "additional_reserve": 0,
                             "delta_total": 31.602958,
                             "options_gamma": 1e-05,
                             "session_rpl": -0.03258105,
@@ -855,6 +1085,7 @@
                             "equity": 100,
                             "projected_initial_margin": 0.0002,
                             "spot_reserve": 0.0002,
+                            "locked_balance": 0,
                             "cross_collateral_enabled": false,
                             "available_withdrawal_funds": 99.999597,
                             "delta_total": 0,
@@ -901,6 +1132,100 @@
                         ]
                       }
                     }
+                  },
+                  "currenciesResponse": {
+                    "summary": "Currencies response example",
+                    "value": {
+                      "jsonrpc": "2.0",
+                      "id": 2518,
+                      "result": {
+                        "is_direct_access_allowed": false,
+                        "summaries": [
+                          {
+                            "currency": "BTC",
+                            "delta_total_map": {
+                              "btc_usd": 31.594357699
+                            },
+                            "margin_balance": 302.62729214,
+                            "futures_session_rpl": -0.03258105,
+                            "options_session_rpl": 0,
+                            "session_upl": 0.05271555,
+                            "options_gamma_map": {
+                              "btc_usd": 1e-05
+                            },
+                            "options_theta_map": {
+                              "btc_usd": 15.97071
+                            },
+                            "options_vega": 0.0858,
+                            "options_value": -0.0086,
+                            "available_withdrawal_funds": 301.35396172,
+                            "projected_delta_total": 32.613978,
+                            "maintenance_margin": 0.8857841,
+                            "total_pl": -0.33084225,
+                            "limits": {
+                              "limits_per_currency": false,
+                              "non_matching_engine": {
+                                "burst": 1500,
+                                "rate": 1000
+                              },
+                              "matching_engine": {
+                                "trading": {
+                                  "total": {
+                                    "burst": 250,
+                                    "rate": 200
+                                  }
+                                },
+                                "spot": {
+                                  "burst": 250,
+                                  "rate": 200
+                                },
+                                "quotes": {
+                                  "burst": 500,
+                                  "rate": 500
+                                },
+                                "max_quotes": {
+                                  "burst": 10,
+                                  "rate": 10
+                                },
+                                "guaranteed_quotes": {
+                                  "burst": 2,
+                                  "rate": 2
+                                },
+                                "cancel_all": {
+                                  "burst": 250,
+                                  "rate": 200
+                                }
+                              }
+                            },
+                            "projected_maintenance_margin": 0.7543841,
+                            "available_funds": 301.38059622,
+                            "options_delta": -1.01962,
+                            "balance": 302.60065765,
+                            "equity": 302.61869214,
+                            "futures_session_upl": 0.05921555,
+                            "fee_balance": 0,
+                            "options_session_upl": -0.0065,
+                            "projected_initial_margin": 1.01529592,
+                            "options_theta": 15.97071,
+                            "portfolio_margining_enabled": false,
+                            "cross_collateral_enabled": false,
+                            "margin_model": "segregated_sm",
+                            "options_vega_map": {
+                              "btc_usd": 0.0858
+                            },
+                            "futures_pl": -0.32434225,
+                            "options_pl": -0.0065,
+                            "initial_margin": 1.24669592,
+                            "spot_reserve": 0,
+                            "locked_balance": 0,
+                            "additional_reserve": 0,
+                            "delta_total": 31.602958,
+                            "options_gamma": 1e-05,
+                            "session_rpl": -0.03258105
+                          }
+                        ]
+                      }
+                    }
                   }
                 }
               }
@@ -926,13 +1251,26 @@
                       "extended": true
                     }
                   }
+                },
+                "currenciesRequest": {
+                  "summary": "Currencies Request",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 2518,
+                    "method": "private/get_account_summaries",
+                    "params": {
+                      "currencies": [
+                        "BTC"
+                      ]
+                    }
+                  }
                 }
               }
             }
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Retrieves a per-currency list of account summaries for the authenticated user. Each summary includes balance, equity, available funds, and margin information for each currency.\n\nTo retrieve summaries for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included. Prefer this method over looping `private/get_account_summary` per currency.\n\n**📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summaries)\n\n",
+        "description": "Retrieves account summaries for the authenticated user in a single call. The result is an object: account-level fields (such as `id`, `username`, `email`, `type`, present when `extended` is `true`) are on the object itself, and the `summaries` array holds one summary per currency with balance, equity, available funds, and margin information.\n\nTo retrieve summaries for a specific subaccount, use the `subaccount_id` parameter (a main account token is required to select another account, which must belong to the same main account; otherwise `-32602`, `Not allowed`). Use `currencies` to limit the result to selected currencies. The account's fee tier is returned in `fee_group` (with its rates in `fees`) only when `extended` is `true` and the account is on a non-default tier; when both are absent, standard fees apply. Prefer this method over looping `private/get_account_summary` per currency.\n\n**Examples:** responses are illustrative, not live account data. The extended default example abbreviates account metadata and fee configuration; it is not an exhaustive list of returned fields.\n\n**📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summaries)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/get_account_summaries",
@@ -940,7 +1278,8 @@
             "keywords": [
               "private/get_account_summaries",
               "subaccount_id",
-              "extended"
+              "extended",
+              "currencies"
             ]
           },
           "href": "/api-reference/account-management/private-get_account_summaries"
@@ -950,6 +1289,11 @@
             "lang": "bash",
             "label": "cURL",
             "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_account_summaries \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2515,\n  \"method\": \"private/get_account_summaries\",\n  \"params\": {\n    \"extended\": true\n  }\n}'"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL (Currencies)",
+            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_account_summaries \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2518,\n  \"method\": \"private/get_account_summaries\",\n  \"params\": {\n    \"currencies\": [\n      \"BTC\"\n    ]\n  }\n}'"
           }
         ]
       }
@@ -1025,7 +1369,8 @@
                               "haircut": 0,
                               "equity_side_impact": "none",
                               "pnl_offset": 0,
-                              "correlation_set": false
+                              "correlation_set": false,
+                              "delta_shock_pooling_factor": 0.75
                             },
                             "btc": {
                               "max_offsetable_pnl": 0,
@@ -1035,7 +1380,8 @@
                               "haircut": 0,
                               "equity_side_impact": "both",
                               "pnl_offset": 0,
-                              "correlation_set": false
+                              "correlation_set": false,
+                              "delta_shock_pooling_factor": 0.75
                             }
                           },
                           "general": {
@@ -3479,15 +3825,60 @@
                       "jsonrpc": "2.0",
                       "id": 5414,
                       "result": {
-                        "email": "user_AAA@email.com",
+                        "email": "user_AAA@example.com",
                         "id": 13,
                         "is_password": false,
                         "login_enabled": false,
+                        "security_keys_assignments": [],
+                        "margin_model": "segregated_sm",
+                        "disabled_trading_products": [],
+                        "trading_products_details": [
+                          {
+                            "product": "perpetual",
+                            "enabled": true,
+                            "overwriteable": true,
+                            "requires_consent": false
+                          },
+                          {
+                            "product": "futures",
+                            "enabled": true,
+                            "overwriteable": true,
+                            "requires_consent": false
+                          },
+                          {
+                            "product": "options",
+                            "enabled": true,
+                            "overwriteable": true,
+                            "requires_consent": false
+                          },
+                          {
+                            "product": "future_combos",
+                            "enabled": true,
+                            "overwriteable": true,
+                            "requires_consent": false
+                          },
+                          {
+                            "product": "option_combos",
+                            "enabled": true,
+                            "overwriteable": true,
+                            "requires_consent": false
+                          },
+                          {
+                            "product": "spots",
+                            "enabled": true,
+                            "overwriteable": true,
+                            "requires_consent": false
+                          }
+                        ],
+                        "referrals_count": 0,
                         "portfolio": {
                           "eth": {
                             "available_funds": 0,
                             "available_withdrawal_funds": 0,
                             "balance": 0,
+                            "locked_balance": 0,
+                            "additional_reserve": 0,
+                            "spot_reserve": 0,
                             "currency": "eth",
                             "equity": 0,
                             "initial_margin": 0,
@@ -3498,6 +3889,9 @@
                             "available_funds": 0,
                             "available_withdrawal_funds": 0,
                             "balance": 0,
+                            "locked_balance": 0,
+                            "additional_reserve": 0,
+                            "spot_reserve": 0,
                             "currency": "btc",
                             "equity": 0,
                             "initial_margin": 0,
@@ -3537,7 +3931,7 @@
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Creates a new subaccount under the authenticated main account. Subaccounts allow you to organize trading activities and manage risk separately from the main account.\n\nThis method takes no parameters. The new subaccount will be created with default settings and can be configured using other subaccount management methods.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write` and mainaccount\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fcreate_subaccount)\n\n",
+        "description": "Creates a new subaccount under the authenticated main account. Subaccounts allow you to organize trading activities and manage risk separately from the main account.\n\nThis method takes no parameters. The new subaccount inherits the main account's email address and is created with direct login disabled (`login_enabled: false`). It is accessible through the main account; the response contains an empty `portfolio` entry for every currency.\n\n**Access & Restrictions:**\n- Requires scope `account:read_write` and `mainaccount`, i.e. a main account token. Tokens without `mainaccount` (for example subaccount tokens) are rejected with `13021` (`forbidden`).\n- Not available for accounts without subaccount management and for some partner account types (`13009`, `unauthorized`), nor for locked accounts (`11098`).\n\n**Limits & Errors:**\n- A main account can have up to 20 regular subaccounts by default (the limit can be configured per account by Deribit). Exceeding it returns `12001` (`too_many_subaccounts`).\n\n**Example:** values are illustrative. Only BTC and ETH portfolio entries are shown; the actual currency set depends on the service configuration. The example assumes the main account has no disabled trading products or subaccount consent requirements.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write` and mainaccount\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fcreate_subaccount)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/create_subaccount",
@@ -3572,7 +3966,7 @@
               "example": 7
             },
             "required": true,
-            "description": "The user id for the subaccount"
+            "description": "The user id of the subaccount to rename, or the id of the authenticated main account to rename the main account itself"
           },
           {
             "name": "name",
@@ -3582,7 +3976,7 @@
               "example": "new_user_1_1"
             },
             "required": true,
-            "description": "The new user name"
+            "description": "The new display name, 5-80 characters after trimming whitespace, unique within the main account and its subaccounts. See name rules above"
           }
         ],
         "responses": {
@@ -3622,13 +4016,25 @@
                       "name": "new_user_1_1"
                     }
                   }
+                },
+                "main_accountRequest": {
+                  "summary": "Main account Request",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 3965,
+                    "method": "private/change_subaccount_name",
+                    "params": {
+                      "sid": 2,
+                      "name": "main_trading_desk"
+                    }
+                  }
                 }
               }
             }
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Updates the display name (username) for a subaccount. The new name is used for identification purposes and does not affect the subaccount's functionality or access.\n\nOnly the main account owner can change subaccount names.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write` and mainaccount\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_subaccount_name)\n\n",
+        "description": "Changes the display name (alias) of a subaccount, or of the authenticated main account itself (pass the main account's own id as `sid`). The alias is returned as `username` in account responses; the system-generated name (`system_name`), login credentials and account functionality are not affected.\n\n**Access & Restrictions:**\n- Requires scope `account:read_write` and `mainaccount`, i.e. a main account token.\n- `sid` must be the main account itself or one of its own subaccounts. Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`.\n- Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`).\n- Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).\n\n**Name rules** (applied after trimming leading and trailing whitespace):\n- 5 to 80 characters.\n- Only Latin-1 (ISO 8859-1) characters; control characters and the soft hyphen are rejected.\n- Must be unique among the main account and its active subaccounts. This includes the target's current name, so re-submitting it fails with `already_taken`.\n- Must not match the reserved auto-generated pattern `<main_username>_<number>` (or `<main_username>_vault_<number>`).\n- Setting the name to the account's own `system_name` clears a previously set alias.\n\n**Errors:** an invalid name returns `12002` (`wrong_subaccount_name`) with `data` = `already_taken`, `wrong_format` (invalid characters or reserved pattern), or `{\"msg\": \"too_short\" | \"too_long\", \"size\": <limit>}`. `12002` may also be returned without `data`.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write` and mainaccount\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_subaccount_name)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/change_subaccount_name",
@@ -3646,6 +4052,11 @@
             "lang": "bash",
             "label": "cURL",
             "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/change_subaccount_name \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 3964,\n  \"method\": \"private/change_subaccount_name\",\n  \"params\": {\n    \"sid\": 7,\n    \"name\": \"new_user_1_1\"\n  }\n}'"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL (Main account)",
+            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/change_subaccount_name \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 3965,\n  \"method\": \"private/change_subaccount_name\",\n  \"params\": {\n    \"sid\": 2,\n    \"name\": \"main_trading_desk\"\n  }\n}'"
           }
         ]
       }
@@ -3746,7 +4157,7 @@
               "example": 7
             },
             "required": true,
-            "description": "The user id for the subaccount"
+            "description": "The user id of the subaccount (must belong to the authenticated main account)"
           },
           {
             "name": "email",
@@ -3756,7 +4167,7 @@
               "example": "user_1_1@email.com"
             },
             "required": true,
-            "description": "The email address for the subaccount"
+            "description": "The new email address for the subaccount, up to 64 characters"
           }
         ],
         "responses": {
@@ -3802,7 +4213,7 @@
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Assigns an email address to a subaccount. This email can be used for direct login to the subaccount and for receiving notifications.\n\nThe email address owner will receive a confirmation email with a link to verify the email address. The email must be confirmed before it can be used for login.\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fset_email_for_subaccount)\n\n",
+        "description": "Assigns an email address to a subaccount. This email is used for direct login to the subaccount and for receiving notifications.\n\n**Behavior:**\n- Normally the address is not applied immediately: a verification email with a confirmation link is sent to it, and it can be used for login only after it is confirmed.\n- Two changes are applied immediately, without a verification email: setting the main account's own email (the subaccount returns to the main email and its direct login is disabled), and setting the subaccount's current confirmed email while another change is pending (the pending change is cancelled).\n- Every successful change terminates all active sessions of the subaccount.\n- An address that is already registered to another account does not produce an error: the call returns `ok` without revealing whether the address exists, and the address is not assigned.\n- An address already used by another subaccount of the same main account returns `-32602` (`Invalid params`) with `data.subaccount_id` of that subaccount.\n\n**Access & Restrictions:**\n- Must be called by the main account that owns the subaccount (`sid`). Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. Vault subaccounts are rejected with `14049`.\n- Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).\n\n**Validation & Limits:**\n- Maximum email length is 64 characters; a longer address returns `-32602` with `max_length`.\n- `11043` (`bad_argument`) with `data` = `email_wrong_format`, `email_blocked`, `empty_email_address`, `invalid_email_domain` or `same_email` (the address equals the current email and no change is pending).\n- Changes are rate limited per subaccount: `10028` (`too_many_requests`) with the time to wait in `data.wait` (seconds).\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fset_email_for_subaccount)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/set_email_for_subaccount",
@@ -3839,7 +4250,7 @@
               "example": 7
             },
             "required": true,
-            "description": "The user id for the subaccount"
+            "description": "The user id of the subaccount (must belong to the authenticated main account)"
           },
           {
             "name": "state",
@@ -3853,7 +4264,7 @@
               "example": "enable"
             },
             "required": true,
-            "description": "enable or disable login."
+            "description": "`enable` or `disable` direct login. Disabling terminates the subaccount's active sessions"
           }
         ],
         "responses": {
@@ -3899,7 +4310,7 @@
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Enables or disables direct login access for a subaccount. When login is disabled, the subaccount cannot be accessed directly using email and password authentication, but can still be accessed through the main account.\n\nIf login is disabled while an active session exists for the subaccount, that session will be immediately terminated.\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_subaccount_login)\n\n",
+        "description": "Enables or disables direct login access for a subaccount. When login is disabled, the subaccount cannot be accessed directly using email and password authentication, but can still be accessed through the main account.\n\nIf login is disabled while an active session exists for the subaccount, that session will be immediately terminated (all sessions of the subaccount are dropped). Requesting the state the subaccount already has is accepted and returns `ok`.\n\n**Access & Restrictions:**\n- Must be called by the main account that owns the subaccount (`sid`). Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`.\n- Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`).\n- Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).\n- `state` must be `enable` or `disable`; any other value returns `11043` (`bad_argument`) with `data` = `state`.\n\n**Enabling login** additionally requires:\n- no email change pending for the subaccount;\n- an email address different from the main account's email;\n- a password configured for the subaccount.\n\n**Known limitation:** if one of these conditions is not met, the call currently returns `ok` but login stays disabled. Check `login_enabled` in `private/get_subaccounts` to confirm the change.\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_subaccount_login)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/toggle_subaccount_login",
@@ -3936,7 +4347,7 @@
               "example": 7
             },
             "required": true,
-            "description": "The user id for the subaccount"
+            "description": "The user id of the subaccount (must belong to the authenticated main account)"
           },
           {
             "name": "state",
@@ -3946,7 +4357,7 @@
               "example": true
             },
             "required": true,
-            "description": "enable (`true`) or disable (`false`) notifications"
+            "description": "Forwarding preference: `true` to request copies at the main account email, `false` to request no copies. Currently has no effect; see the known limitation above"
           }
         ],
         "responses": {
@@ -3992,7 +4403,7 @@
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Enables or disables email and other notifications for a subaccount. When notifications are disabled, the subaccount will not receive email alerts, trade confirmations, or other notification messages.\n\nThis setting only affects notifications sent to the subaccount's email address. Notifications sent to the main account are not affected.\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_notifications_from_subaccount)\n\n",
+        "description": "Saves a subaccount's preference for forwarding copies of its notification emails to the main account's email address. It does not stop the subaccount from receiving its own emails.\n\nWhen forwarding is active, forwarded copies exclude the registration welcome email and mask activation and password-change links. Their title is `Notification for subaccount: <name> - <original title>`.\n\n**Known limitation:** changing this setting currently has no effect on forwarding, and `receive_notifications` (returned by `private/get_subaccounts`, `private/create_subaccount`, and by `private/get_account_summary` / `private/get_account_summaries` with `extended` = `true`) does not reflect it. A successful response only confirms that the request was accepted.\n\n**Access & Restrictions:**\n- Must be called by the main account that owns the subaccount (`sid`). The target must be an owned subaccount, not the main account itself. An invalid target is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. Vault subaccounts are rejected with `14049`.\n- Also rejected for accounts without subaccount management (`13009`) and locked accounts (`11098`).\n- Send `state` as a JSON boolean. Do not rely on rejection of other types: the current implementation may coerce them to a boolean.\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_notifications_from_subaccount)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/toggle_notifications_from_subaccount",
@@ -4026,9 +4437,10 @@
             "in": "query",
             "schema": {
               "type": "boolean",
+              "default": false,
               "example": true
             },
-            "description": "Portfolio flag: `true` for portfolio information, `false` for subaccount information only. `false` by default",
+            "description": "Portfolio flag: `true` to include per-currency balance and margin summaries (no positions), `false` for account metadata only",
             "required": false
           }
         ],
@@ -4047,11 +4459,51 @@
                       "id": 4947,
                       "result": [
                         {
-                          "email": "user_AAA@email.com",
+                          "email": "user_AAA@example.com",
                           "id": 2,
                           "is_password": true,
                           "margin_model": "segregated_sm",
                           "login_enabled": true,
+                          "disabled_trading_products": [],
+                          "trading_products_details": [
+                            {
+                              "product": "perpetual",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "futures",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "options",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "future_combos",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "option_combos",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "spots",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            }
+                          ],
+                          "referrals_count": 0,
                           "portfolio": {
                             "eth": {
                               "additional_reserve": 0,
@@ -4059,6 +4511,7 @@
                               "available_funds": 5,
                               "available_withdrawal_funds": 5,
                               "balance": 5,
+                              "locked_balance": 0,
                               "currency": "eth",
                               "equity": 5,
                               "initial_margin": 0,
@@ -4071,6 +4524,7 @@
                               "available_funds": 5.000413075,
                               "available_withdrawal_funds": 5.000413075,
                               "balance": 5.000593987,
+                              "locked_balance": 0,
                               "currency": "btc",
                               "equity": 5.000571846,
                               "initial_margin": 0.000158771,
@@ -4086,11 +4540,51 @@
                           "username": "user_1"
                         },
                         {
-                          "email": "user_AAA@gmail.com",
+                          "email": "user_AAA@example.com",
                           "id": 7,
                           "is_password": true,
                           "margin_model": "cross_pm",
                           "login_enabled": false,
+                          "disabled_trading_products": [],
+                          "trading_products_details": [
+                            {
+                              "product": "perpetual",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "futures",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "options",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "future_combos",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "option_combos",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "spots",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            }
+                          ],
+                          "referrals_count": 0,
                           "portfolio": {
                             "eth": {
                               "additional_reserve": 0,
@@ -4098,6 +4592,7 @@
                               "available_funds": 0,
                               "available_withdrawal_funds": 0,
                               "balance": 0,
+                              "locked_balance": 0,
                               "currency": "eth",
                               "equity": 0,
                               "initial_margin": 0,
@@ -4110,6 +4605,7 @@
                               "available_funds": 0,
                               "available_withdrawal_funds": 0,
                               "balance": 0,
+                              "locked_balance": 0,
                               "currency": "btc",
                               "equity": 0,
                               "initial_margin": 0,
@@ -4117,6 +4613,119 @@
                               "margin_balance": 0
                             }
                           },
+                          "receive_notifications": false,
+                          "system_name": "user_1_1",
+                          "security_keys_enabled": false,
+                          "security_keys_assignments": [],
+                          "type": "subaccount",
+                          "username": "user_1_1"
+                        }
+                      ]
+                    }
+                  },
+                  "metadataResponse": {
+                    "summary": "Metadata response example",
+                    "value": {
+                      "jsonrpc": "2.0",
+                      "id": 4948,
+                      "result": [
+                        {
+                          "email": "user_AAA@example.com",
+                          "id": 2,
+                          "is_password": true,
+                          "margin_model": "segregated_sm",
+                          "login_enabled": true,
+                          "disabled_trading_products": [],
+                          "trading_products_details": [
+                            {
+                              "product": "perpetual",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "futures",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "options",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "future_combos",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "option_combos",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "spots",
+                              "enabled": true,
+                              "overwriteable": false,
+                              "requires_consent": false
+                            }
+                          ],
+                          "receive_notifications": false,
+                          "system_name": "user_1",
+                          "security_keys_enabled": false,
+                          "security_keys_assignments": [],
+                          "type": "main",
+                          "username": "user_1"
+                        },
+                        {
+                          "email": "user_AAA@example.com",
+                          "id": 7,
+                          "is_password": true,
+                          "margin_model": "cross_pm",
+                          "login_enabled": false,
+                          "disabled_trading_products": [],
+                          "trading_products_details": [
+                            {
+                              "product": "perpetual",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "futures",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "options",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "future_combos",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "option_combos",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            },
+                            {
+                              "product": "spots",
+                              "enabled": true,
+                              "overwriteable": true,
+                              "requires_consent": false
+                            }
+                          ],
                           "receive_notifications": false,
                           "system_name": "user_1_1",
                           "security_keys_enabled": false,
@@ -4150,13 +4759,24 @@
                       "with_portfolio": true
                     }
                   }
+                },
+                "metadataRequest": {
+                  "summary": "Metadata Request",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 4948,
+                    "method": "private/get_subaccounts",
+                    "params": {
+                      "with_portfolio": false
+                    }
+                  }
                 }
               }
             }
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Retrieves information about all subaccounts associated with the main account. Returns details such as subaccount IDs, names, and status.\n\nWhen called from a subaccount, the response includes limited details for the main account and full details for the subaccount initiating the request.\n\nSet the `with_portfolio` parameter to `true` to include portfolio information (balances, positions, etc.) in the response. By default, only subaccount metadata is returned.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts)\n\n",
+        "description": "Retrieves the main account and its subaccounts, with identifiers, names, email, login and security status. The list always includes the main account itself (`type: main`); removed subaccounts are not listed.\n\n**Visibility:**\n- Main account access is available when the authenticated account is the main account, or its token grants access to that main account (`mainaccount` scope or impersonated access). The response lists the main account and its eligible subaccounts.\n- Without main account access, a subaccount caller receives only the main account, with limited details (login, password and security-key related fields and `disabled_trading_products` are omitted), and the calling subaccount with full details.\n- Vault subaccounts are excluded from ordinary public listings. Isolated-margin subaccounts are not listed.\n- Not available for retail brokers (`14021`).\n\n**Portfolio:** set `with_portfolio` to `true` to include per-currency balance and margin summaries (equity, balance, available funds, margin; no positions or orders). With main account access, each returned account has a `portfolio` object. Without it, only the calling subaccount has `portfolio`; the main account entry omits it. The flag also adds `referrals_count` and, while an email change is awaiting confirmation, `not_confirmed_email`. By default only account metadata is returned.\n\n**Examples:** response values are illustrative, not live account data. The examples show all trading products enabled, with no subaccount consent requirements.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/get_subaccounts",
@@ -4173,9 +4793,16 @@
               "system_name",
               "receive_notifications",
               "is_password",
+              "disabled_trading_products",
+              "trading_products_details",
+              "referrals_count",
               "margin_model",
               "login_enabled",
-              "portfolio"
+              "portfolio",
+              "product",
+              "enabled",
+              "overwriteable",
+              "requires_consent"
             ]
           },
           "href": "/api-reference/account-management/private-get_subaccounts"
@@ -4185,6 +4812,11 @@
             "lang": "bash",
             "label": "cURL",
             "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_subaccounts \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 4947,\n  \"method\": \"private/get_subaccounts\",\n  \"params\": {\n    \"with_portfolio\": true\n  }\n}'"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL (Metadata)",
+            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_subaccounts \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 4948,\n  \"method\": \"private/get_subaccounts\",\n  \"params\": {\n    \"with_portfolio\": false\n  }\n}'"
           }
         ]
       }
@@ -4201,7 +4833,7 @@
             "required": true,
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/currency"
+              "$ref": "#/components/schemas/wallet_currency"
             },
             "description": "The currency symbol.\n\n**📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)\n"
           },
@@ -4209,7 +4841,8 @@
             "name": "with_open_orders",
             "in": "query",
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "default": false
             },
             "description": "Optional parameter to ask for open orders list, default: `false`",
             "required": false
@@ -4227,23 +4860,26 @@
                     "summary": "Response example",
                     "value": {
                       "jsonrpc": "2.0",
+                      "id": 1604,
                       "result": [
                         {
                           "uid": 3,
                           "positions": [
                             {
+                              "instrument_name": "BTC-PERPETUAL",
+                              "kind": "future",
+                              "user_id": 3,
                               "total_profit_loss": -0.000118183,
                               "size_currency": 0.004152776,
                               "size": 200.0,
                               "settlement_price": 48150.36,
                               "realized_profit_loss": -8.79e-07,
                               "realized_funding": -8.8e-07,
+                              "interest_value": 0,
                               "open_orders_margin": 0.0,
                               "mark_price": 48160.55,
                               "maintenance_margin": 8.9286e-05,
                               "leverage": 34.0,
-                              "kind": "future",
-                              "instrument_name": "BTC-PERPETUAL",
                               "initial_margin": 0.000122508,
                               "index_price": 47897.12,
                               "floating_profit_loss": -3.451e-05,
@@ -4258,6 +4894,9 @@
                           "uid": 10,
                           "positions": [
                             {
+                              "instrument_name": "BTC-3SEP21",
+                              "kind": "future",
+                              "user_id": 10,
                               "total_profit_loss": 3.7333e-05,
                               "size_currency": -0.001308984,
                               "size": -60.0,
@@ -4267,8 +4906,6 @@
                               "mark_price": 45837.07,
                               "maintenance_margin": 2.8143e-05,
                               "leverage": 34.0,
-                              "kind": "future",
-                              "instrument_name": "BTC-3SEP21",
                               "initial_margin": 3.8615e-05,
                               "index_price": 47897.12,
                               "floating_profit_loss": 3.7333e-05,
@@ -4278,6 +4915,96 @@
                               "average_price": 47182.76
                             }
                           ]
+                        }
+                      ]
+                    }
+                  },
+                  "with_open_ordersResponse": {
+                    "summary": "With_open_orders response example",
+                    "value": {
+                      "jsonrpc": "2.0",
+                      "id": 1605,
+                      "result": [
+                        {
+                          "uid": 3,
+                          "positions": [
+                            {
+                              "instrument_name": "BTC-PERPETUAL",
+                              "kind": "future",
+                              "user_id": 3,
+                              "total_profit_loss": -0.000118183,
+                              "size_currency": 0.004152776,
+                              "size": 200.0,
+                              "settlement_price": 48150.36,
+                              "realized_profit_loss": -8.79e-07,
+                              "realized_funding": -8.8e-07,
+                              "interest_value": 0,
+                              "open_orders_margin": 0.0,
+                              "mark_price": 48160.55,
+                              "maintenance_margin": 8.9286e-05,
+                              "leverage": 34.0,
+                              "initial_margin": 0.000122508,
+                              "index_price": 47897.12,
+                              "floating_profit_loss": -3.451e-05,
+                              "direction": "buy",
+                              "estimated_liquidation_price": null,
+                              "delta": 0.004152776,
+                              "average_price": 49571.3
+                            }
+                          ],
+                          "open_orders": [
+                            {
+                              "time_in_force": "good_til_cancelled",
+                              "reduce_only": false,
+                              "price": 45000.0,
+                              "post_only": false,
+                              "order_type": "limit",
+                              "order_state": "open",
+                              "order_id": "BTC-584849853",
+                              "user_id": 3,
+                              "mmp": false,
+                              "risk_reducing": false,
+                              "replaced": false,
+                              "web": false,
+                              "last_update_timestamp": 1550050597036,
+                              "label": "",
+                              "is_liquidation": false,
+                              "instrument_name": "BTC-PERPETUAL",
+                              "filled_amount": 0,
+                              "direction": "buy",
+                              "creation_timestamp": 1550050597036,
+                              "average_price": 0,
+                              "api": true,
+                              "amount": 40
+                            }
+                          ]
+                        },
+                        {
+                          "uid": 10,
+                          "positions": [
+                            {
+                              "instrument_name": "BTC-3SEP21",
+                              "kind": "future",
+                              "user_id": 10,
+                              "total_profit_loss": 3.7333e-05,
+                              "size_currency": -0.001308984,
+                              "size": -60.0,
+                              "settlement_price": 47886.98,
+                              "realized_profit_loss": 0.0,
+                              "open_orders_margin": 0.0,
+                              "mark_price": 45837.07,
+                              "maintenance_margin": 2.8143e-05,
+                              "leverage": 34.0,
+                              "initial_margin": 3.8615e-05,
+                              "index_price": 47897.12,
+                              "floating_profit_loss": 3.7333e-05,
+                              "direction": "sell",
+                              "estimated_liquidation_price": null,
+                              "delta": -0.001308984,
+                              "average_price": 47182.76
+                            }
+                          ],
+                          "open_orders": []
                         }
                       ]
                     }
@@ -4299,10 +5026,22 @@
                   "summary": "JSON-RPC Request Example",
                   "value": {
                     "jsonrpc": "2.0",
-                    "id": 1,
+                    "id": 1604,
                     "method": "private/get_subaccounts_details",
                     "params": {
                       "currency": "BTC"
+                    }
+                  }
+                },
+                "with_open_ordersRequest": {
+                  "summary": "With open orders Request",
+                  "value": {
+                    "jsonrpc": "2.0",
+                    "id": 1605,
+                    "method": "private/get_subaccounts_details",
+                    "params": {
+                      "currency": "BTC",
+                      "with_open_orders": true
                     }
                   }
                 }
@@ -4311,7 +5050,7 @@
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Retrieves position details for all subaccounts for a specific currency. Returns positions aggregated across all subaccounts, including size, average entry price, mark price, and P&L information.\n\nOptionally include open orders for each subaccount by setting the `with_open_orders` parameter to `true`.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts_details)\n\n",
+        "description": "Retrieves the positions in a given currency for the accounts visible to the caller. The result has one entry per account (`uid`) with that account's own positions (size, average entry price, mark price, margin and P&L); positions are not aggregated across accounts.\n\n**Visibility:**\n- Main account access is available when the authenticated account is the main account, or its token grants access to that main account (`mainaccount` scope or impersonated access). The result covers the main account and its eligible subaccounts.\n- Without main account access, only the calling subaccount is returned.\n- Vault subaccounts are excluded from ordinary public listings. Isolated-margin subaccounts are not listed.\n- Not available for retail brokers (`14021`).\n\n**Open orders:** set `with_open_orders` to `true` to add an `open_orders` list to each entry. It is omitted by default.\n\n**Notes:**\n- `currency` must be available for the account's wallet type, otherwise `-32602` (`Invalid params`, \"not supported for wallet type\").\n- Results are cached for 1 second. When the data cannot be collected in time the call fails with `13028` (`temporarily_unavailable`); retry the request.\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts_details)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/get_subaccounts_details",
@@ -4347,6 +5086,8 @@
               "leverage",
               "realized_funding",
               "interest_value",
+              "estimated_liquidation_price",
+              "open_orders_margin",
               "order_id",
               "order_state",
               "order_type",
@@ -4408,7 +5149,12 @@
           {
             "lang": "bash",
             "label": "cURL",
-            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_subaccounts_details \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"private/get_subaccounts_details\",\n  \"params\": {\n    \"currency\": \"BTC\"\n  }\n}'"
+            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_subaccounts_details \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1604,\n  \"method\": \"private/get_subaccounts_details\",\n  \"params\": {\n    \"currency\": \"BTC\"\n  }\n}'"
+          },
+          {
+            "lang": "bash",
+            "label": "cURL (With open orders)",
+            "source": "curl --request POST \\\n  --url https://test.deribit.com/api/v2/private/get_subaccounts_details \\\n  --header 'Authorization: Bearer <ACCESS_TOKEN>' \\\n  --header 'Content-Type: application/json' \\\n  --data '{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1605,\n  \"method\": \"private/get_subaccounts_details\",\n  \"params\": {\n    \"currency\": \"BTC\",\n    \"with_open_orders\": true\n  }\n}'"
           }
         ]
       }
@@ -4425,10 +5171,11 @@
             "in": "query",
             "schema": {
               "type": "integer",
+              "minimum": 1,
               "example": 120
             },
             "required": true,
-            "description": "The user id for the subaccount"
+            "description": "The user id of the subaccount to remove (must belong to the authenticated main account)"
           }
         ],
         "responses": {
@@ -4473,7 +5220,7 @@
           },
           "description": "JSON-RPC request body"
         },
-        "description": "Permanently removes a subaccount. The subaccount must be empty (no positions, no open orders, and zero balance) before it can be removed.\n\nThis operation cannot be undone. All subaccount data will be permanently deleted.\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fremove_subaccount)\n\n",
+        "description": "Removes a subaccount from the main account. The subaccount must be empty before it can be removed.\n\nRemoval cannot be undone through the API. The subaccount can no longer be used or logged in to, it disappears from `private/get_subaccounts`, all of its active sessions are terminated, and its deposit addresses are moved to the main account.\n\n**Access & Restrictions:**\n- Must be called by the main account that owns the subaccount. Any other account is rejected with `13009` (`unauthorized`); an already removed subaccount returns `13009` with `data.reason` = `already_removed`.\n- Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).\n- Vault subaccounts are rejected during access validation with `14049` (`vault_subaccount_not_allowed`).\n- Only one subaccount can be removed per main account every 5 minutes. A repeated call earlier returns `12006` (`remove_subaccount_over_limit`) with the remaining time in `data.wait` (seconds).\n\n**Removal is refused with `12007` (`subaccount_not_removable`)**; `data.reason` is one of:\n- `\"has not zero equity\"`: open positions, a position closed since the last daily settlement (08:00 UTC) whose realized profit/loss is not settled yet (the subaccount becomes removable after that settlement), non-zero initial or maintenance margin, or absolute equity or balance at or above the currency's minimum balance (only dust whose absolute value is below the threshold is allowed);\n- `\"has opened trigger orders\"`: untriggered trigger orders;\n- `\"has pending deposits\"`;\n- `\"is owner of app\"`: the subaccount owns an API application;\n- `\"has active block rfq\"` or `\"is part of block rfq allocation\"`;\n- `\"is linked to a voice broker\"`;\n- `\"is an LSP participant\"`;\n- `\"has a locked portfolio, reason: <reasons>\"`, where `<reasons>` is a comma-separated list such as `liquidation running`, `negative equity`, `locked by admin`, `locked on user request` or `legacy lock`.\n\nOther reason strings may be returned in rare cases.\n\nIf the subaccount's portfolio could not be cleaned up or verified, or the change could not be saved, the call fails with `13008` (`request_failed`).\n\n**[TFA required](https://docs.deribit.com/articles/security-keys)**\n\n**📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)\n\n**Scope:** `account:read_write`\n\n[Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fremove_subaccount)\n\n",
         "x-mint": {
           "metadata": {
             "title": "private/remove_subaccount",
@@ -31377,11 +32124,14 @@
                 },
                 "security_keys_enabled": {
                   "type": "boolean",
-                  "description": "Whether the Security Keys authentication is enabled"
+                  "description": "Whether Security Keys authentication is enabled. Omitted from the main account entry when the caller lacks main account access"
                 },
                 "security_keys_assignments": {
                   "type": "array",
-                  "description": "Names of assignments with Security Keys assigned"
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Names of assignments with Security Keys assigned. Omitted from the main account entry when the caller lacks main account access"
                 },
                 "system_name": {
                   "type": "string",
@@ -31389,11 +32139,43 @@
                 },
                 "receive_notifications": {
                   "type": "boolean",
-                  "description": "When `true` - receive all notification emails on the main email"
+                  "description": "Email-forwarding flag reported for the account. It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there"
                 },
                 "is_password": {
                   "type": "boolean",
-                  "description": "`true` when password for the subaccount has been configured"
+                  "description": "`true` when password for the subaccount has been configured. Omitted from the main account entry when the caller lacks main account access"
+                },
+                "disabled_trading_products": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "List of disabled trading products. Omitted from the main account entry when the caller lacks main account access"
+                },
+                "trading_products_details": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "product": {
+                        "type": "string"
+                      },
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "overwriteable": {
+                        "type": "boolean"
+                      },
+                      "requires_consent": {
+                        "type": "boolean"
+                      }
+                    }
+                  },
+                  "description": "Per trading product, whether it is enabled and can be overwritten for the account"
+                },
+                "referrals_count": {
+                  "type": "integer",
+                  "description": "Number of referrals of the account. Only included if `with_portfolio` == `true`."
                 },
                 "margin_model": {
                   "type": "string",
@@ -31401,20 +32183,18 @@
                 },
                 "login_enabled": {
                   "type": "boolean",
-                  "description": "Informs whether login to the subaccount is enabled"
+                  "description": "Informs whether login to the subaccount is enabled. Omitted from the main account entry when the caller lacks main account access"
                 },
                 "portfolio": {
                   "$ref": "#/components/schemas/portfolio",
-                  "description": "Only if with_portfolio == true"
+                  "description": "Present only when `with_portfolio` is true and the caller has portfolio access to this entry. Without main account access, omitted from the main account entry"
                 }
               },
               "required": [
                 "username",
                 "email",
                 "type",
-                "tfa_enabled",
                 "receive_notifications",
-                "is_password",
                 "system_name",
                 "id"
               ]
@@ -31452,14 +32232,30 @@
                 "positions": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/position"
-                  }
+                    "$ref": "#/components/schemas/position_with_open_orders_margin"
+                  },
+                  "description": "Open positions of the account in the requested currency (not aggregated with other accounts)"
                 },
                 "open_orders": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/order"
-                  }
+                    "allOf": [
+                      {
+                        "$ref": "#/components/schemas/order"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "user_id": {
+                            "type": "integer",
+                            "example": 3,
+                            "description": "ID of the account (main or subaccount) that owns the order"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "description": "Open orders of the account in the requested currency. Present only when `with_open_orders` = `true`"
                 }
               },
               "required": [
@@ -31506,7 +32302,7 @@
               },
               "receive_notifications": {
                 "type": "boolean",
-                "description": "When `true` - receive all notification emails on the main email"
+                "description": "Email-forwarding flag reported for the account. It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there"
               },
               "system_name": {
                 "example": "username_1",
@@ -32334,6 +33130,11 @@
                 "example": 2.26,
                 "description": "Funds available to withdraw in the selected currency. Typically lower than `available_funds` because withdrawals also exclude positive session profit, locked balance, `spot_reserve`, `additional_reserve`, and non-withdrawable external/implied equity components. Always ≥ `0`."
               },
+              "available_subaccount_transfer_funds": {
+                "type": "number",
+                "example": 2.5,
+                "description": "Funds available for transfer to other subaccounts of the same main account. Returned only when it differs from `available_withdrawal_funds`, which happens when additional restrictions apply to external withdrawals only. Always ≥ `0`."
+              },
               "margin_balance": {
                 "type": "number",
                 "example": 2.25,
@@ -32347,7 +33148,7 @@
               "spot_reserve": {
                 "example": 0.3,
                 "type": "number",
-                "description": "The account's balance reserved in active spot orders"
+                "description": "Part of the balance reserved by open spot orders (the amount the orders would spend if filled). Excluded from `available_withdrawal_funds`."
               },
               "locked_balance": {
                 "$ref": "#/components/schemas/locked_balance"
@@ -32360,7 +33161,8 @@
               },
               "fee_group": {
                 "type": "string",
-                "description": "Fee group indicates the level of fee discounts applied to an account. Use `extended`: `true` to view this field. If the field is missing, the account is not assigned to any fee group. **📖 Related Support Article:** [Automatically applied volume based fee discounts](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11)"
+                "example": "Custom",
+                "description": "Name of the fee tier assigned to the account. This is how to check which fee tier applies to an account through the API.\n\n- A preset tier (for example one of the automatically applied volume-based tiers) is returned by its name.\n- `Custom` means the account has individually configured fee rates that do not come from a preset tier.\n\n**Requirements:** returned only when `extended` = `true`.\n\n**When absent:** the account is on the default (standard) fee tier. The field is omitted together with `fees`; there is no explicit \"Standard\" value.\n\nSubaccounts report the tier of their main account (or of the SMA manager for accounts linked to one). The rates of the tier are returned in `fees`.\n\n**Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11)\n"
               },
               "currency": {
                 "example": "ETH",
@@ -32379,7 +33181,7 @@
               "deposit_address": {
                 "example": "14diAAyXL5UzhPTCKC998ch2GV7DMb7yDi",
                 "type": "string",
-                "description": "The deposit address for the account (if available)"
+                "description": "The account's deposit address for the selected currency. Omitted when no deposit address has been generated for the account yet."
               },
               "email": {
                 "example": "support@deribit.com",
@@ -32466,21 +33268,21 @@
                 "additionalProperties": {
                   "type": "number"
                 },
-                "description": "Map of options' gammas per index"
+                "description": "Sum of option position gammas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included."
               },
               "options_theta_map": {
                 "type": "object",
                 "additionalProperties": {
                   "type": "number"
                 },
-                "description": "Map of options' thetas per index"
+                "description": "Sum of option position thetas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included."
               },
               "options_vega_map": {
                 "type": "object",
                 "additionalProperties": {
                   "type": "number"
                 },
-                "description": "Map of options' vegas per index"
+                "description": "Sum of option position vegas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included."
               },
               "security_keys_enabled": {
                 "example": false,
@@ -32530,17 +33332,23 @@
               "portfolio_margining_enabled": {
                 "type": "boolean",
                 "example": true,
-                "description": "`true` when portfolio margining is enabled for user"
+                "description": "`true` when the account uses a portfolio margin model (`segregated_pm` or `cross_pm`), `false` for standard margin."
               },
               "cross_collateral_enabled": {
                 "type": "boolean",
                 "example": true,
-                "description": "When `true` cross collateral is enabled for user"
+                "description": "`true` when the account uses a cross collateral margin model (`cross_sm` or `cross_pm`), where all cross collateral currencies are margined together. The `total_*_usd` fields are returned only in this case."
               },
               "margin_model": {
                 "type": "string",
                 "example": "segregated_sm",
-                "description": "Name of user's currently enabled margin model"
+                "enum": [
+                  "segregated_sm",
+                  "segregated_pm",
+                  "cross_sm",
+                  "cross_pm"
+                ],
+                "description": "Margin model currently enabled for the account: `segregated_sm` (segregated standard margin), `segregated_pm` (segregated portfolio margin), `cross_sm` (cross collateral standard margin) or `cross_pm` (cross collateral portfolio margin)."
               },
               "total_equity_usd": {
                 "example": 2.6437733,
@@ -32574,8 +33382,9 @@
               },
               "referrer_id": {
                 "type": "string",
+                "nullable": true,
                 "example": "517.6035",
-                "description": "Optional identifier of the referrer (of the affiliation program, and available when parameter `extended` = `true`), which link was used by this account at registration. It coincides with suffix of the affiliation link path after `/reg-`"
+                "description": "Identifier of the affiliate whose referral link was used to register this account, or `null` when the account was not referred. It equals the suffix of the referral link after `?reg=` (available when parameter `extended` = `true`)."
               },
               "limits": {
                 "$ref": "#/components/schemas/api_limits"
@@ -32587,15 +33396,19 @@
               },
               "has_non_block_chain_equity": {
                 "type": "boolean",
-                "description": "Optional field returned with value `true` when user has non block chain equity"
+                "description": "Returned with value `true` only when part of the account's equity is not held on chain at Deribit (for example off-exchange or credit-based equity, or a pending loan in the selected currency). Omitted otherwise."
               },
               "self_trading_reject_mode": {
                 "type": "string",
-                "description": "Self trading rejection behavior - `reject_taker` or `cancel_maker` (available when parameter `extended` = `true`)"
+                "enum": [
+                  "reject_taker",
+                  "cancel_maker"
+                ],
+                "description": "Self-trade prevention behavior: `reject_taker` rejects the incoming (taker) order, `cancel_maker` cancels the resting (maker) order. Returned only when self-trade prevention is configured for the account (available when parameter `extended` = `true`)."
               },
               "self_trading_extended_to_subaccounts": {
                 "type": "boolean",
-                "description": "`true` if self trading rejection behavior is applied to trades between subaccounts (available when parameter `extended` = `true`)"
+                "description": "`true` if self-trade prevention also applies to trades between the main account and its subaccounts. Returned only when self-trade prevention is configured (available when parameter `extended` = `true`)."
               },
               "self_trading_extended_across_members": {
                 "type": "boolean",
@@ -32618,49 +33431,100 @@
                         "type": "object",
                         "properties": {
                           "type": {
+                            "enum": [
+                              "relative",
+                              "fixed"
+                            ],
                             "type": "string",
-                            "description": "Fee type - `relative` if fee is calculated as a fraction of base instrument fee, `fixed` if fee is calculated solely using user fee"
+                            "description": "`relative` - `maker`/`taker` are multipliers of the standard fee; `fixed` - `maker`/`taker` are absolute fee rates"
                           },
                           "taker": {
                             "type": "number",
-                            "description": "Taker fee"
+                            "description": "Taker fee (multiplier or rate, depending on `type`)"
                           },
                           "maker": {
                             "type": "number",
-                            "description": "Maker fee"
+                            "description": "Maker fee (multiplier or rate, depending on `type`); a negative fixed rate is a rebate"
                           }
                         },
                         "required": [
                           "type",
                           "taker",
                           "maker"
-                        ]
+                        ],
+                        "description": "Order book trading fees"
                       },
                       "block_trade": {
                         "type": "number",
-                        "description": "Block trade fee (if applicable)"
+                        "description": "Block trade fee as a multiplier of the standard block trade fee (only when configured)"
+                      },
+                      "settlement": {
+                        "type": "number",
+                        "description": "Fixed delivery/settlement fee rate (only when configured)"
                       }
                     },
                     "required": [
                       "default"
                     ]
-                  }
+                  },
+                  "description": "Fee rates per instrument kind for one index"
                 },
-                "description": "Fee structure for all currency pairs and instrument types related to the currency (available when parameter `extended` = `true` and user has any discounts). Keys are index names (e.g., \"btc_usd\"), values are objects with instrument types as keys (option, perpetual, future)."
+                "description": "Fee rates of the account's fee tier (see `fee_group`) for every index related to the selected currency. Keys are index names (for example `btc_usd`); values are objects keyed by instrument kind (`future`, `perpetual`, `option`, `spot`). Kinds and indexes without a configured discount are omitted and use the standard rates.\n\n**Requirements:** returned only when `extended` = `true` and the account is on a non-default fee tier. Absent for accounts on standard fees.\n\n**Reading the values:**\n- `default.type` = `relative`: `maker` and `taker` are multipliers of the standard fee (for example `0.625` means 62.5% of the standard rate).\n- `default.type` = `fixed`: `maker` and `taker` are the fee rates themselves, as a fraction of the traded amount (negative values are rebates).\n- `block_trade` is always a multiplier of the standard block trade fee.\n- `settlement` is always a fixed fee rate applied at delivery/settlement.\n\n**Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees)\n"
               },
               "affiliate_promotion_fee": {
                 "type": "number",
-                "example": 0.0,
-                "description": "Affiliate promotion fee (if greater than 0.0)"
+                "example": 0.1,
+                "description": "Active affiliate fee promotion, as a fraction by which trading fees are reduced (fee = standard fee × (1 - `affiliate_promotion_fee`)). Returned only while a promotion is active (available when parameter `extended` = `true`)."
               },
               "trading_products_details": {
-                "type": "object",
-                "description": "Which trading products are enabled or can be overwritten for the account"
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "description": "Trading product name"
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                      "description": "Whether the product is enabled for the account"
+                    },
+                    "overwriteable": {
+                      "type": "boolean",
+                      "description": "Whether the setting can be overwritten at the account level (subaccounts only)"
+                    },
+                    "requires_consent": {
+                      "type": "boolean",
+                      "description": "Whether enabling the product requires consent (subaccounts only)"
+                    }
+                  },
+                  "required": [
+                    "product",
+                    "enabled",
+                    "overwriteable",
+                    "requires_consent"
+                  ]
+                },
+                "description": "Per trading product, whether it is enabled and can be overwritten for the account (available when parameter `extended` = `true`)"
               },
               "receive_notifications": {
                 "type": "boolean",
                 "example": false,
-                "description": "Whether the account receives notifications"
+                "description": "Email-forwarding flag reported for the account (available when `extended` = `true`). It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there"
+              },
+              "mandatory_tfa": {
+                "type": "boolean",
+                "example": true,
+                "description": "`true` when mandatory two-factor authentication is enforced for the account, so the required security key assignments must be set up (for example, to generate a deposit address); `false` when it is not enforced or the account is exempted. Taken from the main account (available when `extended` = `true`)"
+              },
+              "user_origin": {
+                "type": "string",
+                "enum": [
+                  "deribit",
+                  "coinbase"
+                ],
+                "example": "deribit",
+                "description": "How the account was created: `deribit` for accounts registered on Deribit, `coinbase` for accounts provisioned through Coinbase (available when parameter `extended` = `true`)."
               },
               "is_direct_access_allowed": {
                 "type": "boolean",
@@ -32695,13 +33559,7 @@
               "futures_session_rpl",
               "projected_maintenance_margin",
               "delta_total",
-              "projected_delta_total",
-              "security_keys_enabled",
-              "system_name",
-              "username",
-              "email",
-              "type",
-              "id"
+              "projected_delta_total"
             ],
             "type": "object"
           }
@@ -32778,8 +33636,9 @@
               },
               "referrer_id": {
                 "type": "string",
+                "nullable": true,
                 "example": "517.6035",
-                "description": "Optional identifier of the referrer (of the affiliation program, and available when parameter `extended` = `true`), which link was used by this account at registration. It coincides with suffix of the affiliation link path after `/reg-`"
+                "description": "Identifier of the affiliate whose referral link was used to register this account, or `null` when the account was not referred. It equals the suffix of the referral link after `?reg=` (available when parameter `extended` = `true`)."
               },
               "creation_timestamp": {
                 "type": "integer",
@@ -32788,11 +33647,15 @@
               },
               "self_trading_reject_mode": {
                 "type": "string",
-                "description": "Self trading rejection behavior - `reject_taker` or `cancel_maker` (available when parameter `extended` = `true`)"
+                "enum": [
+                  "reject_taker",
+                  "cancel_maker"
+                ],
+                "description": "Self-trade prevention behavior: `reject_taker` rejects the incoming (taker) order, `cancel_maker` cancels the resting (maker) order. Returned only when self-trade prevention is configured for the account (available when parameter `extended` = `true`)."
               },
               "self_trading_extended_to_subaccounts": {
                 "type": "boolean",
-                "description": "`true` if self trading rejection behavior is applied to trades between subaccounts (available when parameter `extended` = `true`)"
+                "description": "`true` if self-trade prevention also applies to trades between the main account and its subaccounts. Returned only when self-trade prevention is configured (available when parameter `extended` = `true`)."
               },
               "self_trading_extended_across_members": {
                 "type": "boolean",
@@ -32806,17 +33669,63 @@
               },
               "affiliate_promotion_fee": {
                 "type": "number",
-                "example": 0.0,
-                "description": "Affiliate promotion fee (if greater than 0.0)"
+                "example": 0.1,
+                "description": "Active affiliate fee promotion, as a fraction by which trading fees are reduced (fee = standard fee × (1 - `affiliate_promotion_fee`)). Returned only while a promotion is active (available when parameter `extended` = `true`)."
               },
               "trading_products_details": {
-                "type": "object",
-                "description": "Which trading products are enabled or can be overwritten for the account"
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "product": {
+                      "type": "string",
+                      "description": "Trading product name"
+                    },
+                    "enabled": {
+                      "type": "boolean",
+                      "description": "Whether the product is enabled for the account"
+                    },
+                    "overwriteable": {
+                      "type": "boolean",
+                      "description": "Whether the setting can be overwritten at the account level (subaccounts only)"
+                    },
+                    "requires_consent": {
+                      "type": "boolean",
+                      "description": "Whether enabling the product requires consent (subaccounts only)"
+                    }
+                  },
+                  "required": [
+                    "product",
+                    "enabled",
+                    "overwriteable",
+                    "requires_consent"
+                  ]
+                },
+                "description": "Per trading product, whether it is enabled and can be overwritten for the account (available when parameter `extended` = `true`)"
               },
               "receive_notifications": {
                 "type": "boolean",
                 "example": false,
-                "description": "Whether the account receives notifications"
+                "description": "Email-forwarding flag reported for the account (available when `extended` = `true`). It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there"
+              },
+              "mandatory_tfa": {
+                "type": "boolean",
+                "example": true,
+                "description": "`true` when mandatory two-factor authentication is enforced for the account, so the required security key assignments must be set up (for example, to generate a deposit address); `false` when it is not enforced or the account is exempted. Taken from the main account (available when `extended` = `true`)"
+              },
+              "user_origin": {
+                "type": "string",
+                "enum": [
+                  "deribit",
+                  "coinbase"
+                ],
+                "example": "deribit",
+                "description": "How the account was created: `deribit` for accounts registered on Deribit, `coinbase` for accounts provisioned through Coinbase (available when parameter `extended` = `true`)."
+              },
+              "is_direct_access_allowed": {
+                "type": "boolean",
+                "example": false,
+                "description": "Whether Direct Access trading is enabled for the account."
               },
               "summaries": {
                 "type": "array",
@@ -32844,6 +33753,11 @@
                       "example": 2.26,
                       "description": "Funds available to withdraw in the selected currency. Typically lower than `available_funds` because withdrawals also exclude positive session profit, locked balance, `spot_reserve`, `additional_reserve`, and non-withdrawable external/implied equity components. Always ≥ `0`."
                     },
+                    "available_subaccount_transfer_funds": {
+                      "type": "number",
+                      "example": 2.5,
+                      "description": "Funds available for transfer to other subaccounts of the same main account. Returned only when it differs from `available_withdrawal_funds`, which happens when additional restrictions apply to external withdrawals only. Always ≥ `0`."
+                    },
                     "margin_balance": {
                       "type": "number",
                       "example": 2.25,
@@ -32857,7 +33771,7 @@
                     "spot_reserve": {
                       "example": 0.3,
                       "type": "number",
-                      "description": "The account's balance reserved in active spot orders"
+                      "description": "Part of the balance reserved by open spot orders (the amount the orders would spend if filled). Excluded from `available_withdrawal_funds`."
                     },
                     "locked_balance": {
                       "$ref": "#/components/schemas/locked_balance"
@@ -32870,7 +33784,8 @@
                     },
                     "fee_group": {
                       "type": "string",
-                      "description": "Fee group indicates the level of fee discounts applied to an account. Use `extended`: `true` to view this field. If the field is missing, the account is not assigned to any fee group. **📖 Related Support Article:** [Automatically applied volume based fee discounts](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11)"
+                      "example": "Custom",
+                      "description": "Name of the fee tier assigned to the account. This is how to check which fee tier applies to an account through the API.\n\n- A preset tier (for example one of the automatically applied volume-based tiers) is returned by its name.\n- `Custom` means the account has individually configured fee rates that do not come from a preset tier.\n\n**Requirements:** returned only when `extended` = `true`.\n\n**When absent:** the account is on the default (standard) fee tier. The field is omitted together with `fees`; there is no explicit \"Standard\" value.\n\nSubaccounts report the tier of their main account (or of the SMA manager for accounts linked to one). The rates of the tier are returned in `fees`.\n\n**Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11)\n"
                     },
                     "currency": {
                       "example": "ETH",
@@ -32889,7 +33804,7 @@
                     "deposit_address": {
                       "example": "14diAAyXL5UzhPTCKC998ch2GV7DMb7yDi",
                       "type": "string",
-                      "description": "The deposit address for the account (if available)"
+                      "description": "The account's deposit address for the selected currency. Omitted when no deposit address has been generated for the account yet."
                     },
                     "equity": {
                       "example": 2.6437733,
@@ -32966,21 +33881,21 @@
                       "additionalProperties": {
                         "type": "number"
                       },
-                      "description": "Map of options' gammas per index"
+                      "description": "Sum of option position gammas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included."
                     },
                     "options_theta_map": {
                       "type": "object",
                       "additionalProperties": {
                         "type": "number"
                       },
-                      "description": "Map of options' thetas per index"
+                      "description": "Sum of option position thetas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included."
                     },
                     "options_vega_map": {
                       "type": "object",
                       "additionalProperties": {
                         "type": "number"
                       },
-                      "description": "Map of options' vegas per index"
+                      "description": "Sum of option position vegas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included."
                     },
                     "projected_initial_margin": {
                       "$ref": "#/components/schemas/projected_initial_margin"
@@ -32997,17 +33912,23 @@
                     "portfolio_margining_enabled": {
                       "type": "boolean",
                       "example": true,
-                      "description": "`true` when portfolio margining is enabled for user"
+                      "description": "`true` when the account uses a portfolio margin model (`segregated_pm` or `cross_pm`), `false` for standard margin."
                     },
                     "cross_collateral_enabled": {
                       "type": "boolean",
                       "example": true,
-                      "description": "When `true` cross collateral is enabled for user"
+                      "description": "`true` when the account uses a cross collateral margin model (`cross_sm` or `cross_pm`), where all cross collateral currencies are margined together. The `total_*_usd` fields are returned only in this case."
                     },
                     "margin_model": {
                       "type": "string",
                       "example": "segregated_sm",
-                      "description": "Name of user's currently enabled margin model"
+                      "enum": [
+                        "segregated_sm",
+                        "segregated_pm",
+                        "cross_sm",
+                        "cross_pm"
+                      ],
+                      "description": "Margin model currently enabled for the account: `segregated_sm` (segregated standard margin), `segregated_pm` (segregated portfolio margin), `cross_sm` (cross collateral standard margin) or `cross_pm` (cross collateral portfolio margin)."
                     },
                     "total_equity_usd": {
                       "example": 2.6437733,
@@ -33039,7 +33960,7 @@
                     },
                     "has_non_block_chain_equity": {
                       "type": "boolean",
-                      "description": "Optional field returned with value `true` when user has non block chain equity"
+                      "description": "Returned with value `true` only when part of the account's equity is not held on chain at Deribit (for example off-exchange or credit-based equity, or a pending loan in the selected currency). Omitted otherwise."
                     },
                     "fees": {
                       "type": "object",
@@ -33052,49 +33973,45 @@
                               "type": "object",
                               "properties": {
                                 "type": {
+                                  "enum": [
+                                    "relative",
+                                    "fixed"
+                                  ],
                                   "type": "string",
-                                  "description": "Fee calculation type (e.g., fixed, relative)"
+                                  "description": "`relative` - `maker`/`taker` are multipliers of the standard fee; `fixed` - `maker`/`taker` are absolute fee rates"
                                 },
                                 "taker": {
                                   "type": "number",
-                                  "description": "Taker fee"
+                                  "description": "Taker fee (multiplier or rate, depending on `type`)"
                                 },
                                 "maker": {
                                   "type": "number",
-                                  "description": "Maker fee"
+                                  "description": "Maker fee (multiplier or rate, depending on `type`); a negative fixed rate is a rebate"
                                 }
                               },
                               "required": [
                                 "type",
                                 "taker",
                                 "maker"
-                              ]
+                              ],
+                              "description": "Order book trading fees"
                             },
                             "block_trade": {
                               "type": "number",
-                              "description": "Block trade fee (if applicable)"
+                              "description": "Block trade fee as a multiplier of the standard block trade fee (only when configured)"
+                            },
+                            "settlement": {
+                              "type": "number",
+                              "description": "Fixed delivery/settlement fee rate (only when configured)"
                             }
                           },
                           "required": [
                             "default"
                           ]
-                        }
+                        },
+                        "description": "Fee rates per instrument kind for one index"
                       },
-                      "description": "Fee structure for all currency pairs and instrument types related to the currency (available when parameter `extended` = `true` and user has any discounts). Keys are index names (e.g., \"btc_usd\"), values are objects with instrument types as keys (option, perpetual, future)."
-                    },
-                    "affiliate_promotion_fee": {
-                      "type": "number",
-                      "example": 0.0,
-                      "description": "Affiliate promotion fee (if greater than 0.0)"
-                    },
-                    "trading_products_details": {
-                      "type": "object",
-                      "description": "Which trading products are enabled or can be overwritten for the account"
-                    },
-                    "receive_notifications": {
-                      "type": "boolean",
-                      "example": false,
-                      "description": "Whether the account receives notifications"
+                      "description": "Fee rates of the account's fee tier (see `fee_group`) for every index related to the selected currency. Keys are index names (for example `btc_usd`); values are objects keyed by instrument kind (`future`, `perpetual`, `option`, `spot`). Kinds and indexes without a configured discount are omitted and use the standard rates.\n\n**Requirements:** returned only when `extended` = `true` and the account is on a non-default fee tier. Absent for accounts on standard fees.\n\n**Reading the values:**\n- `default.type` = `relative`: `maker` and `taker` are multipliers of the standard fee (for example `0.625` means 62.5% of the standard rate).\n- `default.type` = `fixed`: `maker` and `taker` are the fee rates themselves, as a fraction of the traded amount (negative values are rebates).\n- `block_trade` is always a multiplier of the standard block trade fee.\n- `settlement` is always a fixed fee rate applied at delivery/settlement.\n\n**Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees)\n"
                     }
                   },
                   "required": [
@@ -33127,16 +34044,11 @@
                     "projected_delta_total"
                   ]
                 },
-                "description": "Aggregated list of per-currency account summaries"
+                "description": "List of per-currency account summaries (all currencies of the account, or those requested with `currencies`)"
               }
             },
             "required": [
-              "security_keys_enabled",
-              "system_name",
-              "username",
-              "email",
-              "type",
-              "id"
+              "summaries"
             ]
           }
         },

@@ -178,7 +178,16 @@ export interface paths {
          *
          *     Key relationships (standard margin): `equity = balance + futures session PnL + options_value`, `margin_balance = equity - options_value`, `available_funds = max(0, margin_balance - initial_margin)`. Under portfolio margin, `margin_balance` equals `equity`. Session PnL fields reset at daily settlement; `total_pl` does not.
          *
-         *     To retrieve the summary for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included.
+         *     To retrieve the summary for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included. The account's fee tier is returned in `fee_group` (with its rates in `fees`) only when `extended` is `true` and the account is on a non-default tier; when both are absent, standard fees apply.
+         *
+         *     **Account selection (`subaccount_id`):**
+         *     - If omitted (or equal to the caller's own id) the summary is for the authenticated account.
+         *     - Another account can be requested only with a main account token (scope `mainaccount`), and it must belong to the same main account. Otherwise the call returns `-32602` (`Invalid params`, `Not allowed`).
+         *     - A removed subaccount returns `13020` (`not_found`); a vault subaccount returns `14049` (`vault_subaccount_not_allowed`).
+         *
+         *     **Currency:** `currency` is required and must be a currency held by the target account's wallet type; otherwise the call returns `-32602` (`Invalid params`, "not supported for wallet type" or an invalid currency).
+         *
+         *     **Examples:** responses are illustrative, not live account data. The extended default example abbreviates account metadata and fee configuration; it is not an exhaustive list of returned fields.
          *
          *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
          *
@@ -195,9 +204,9 @@ export interface paths {
                      *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
                      */
                     currency: components["schemas"]["wallet_currency"];
-                    /** @description The user id for the subaccount */
+                    /** @description The user id of the subaccount to summarize. Defaults to the authenticated account; another account requires a main account token (`mainaccount` scope) and must belong to the same main account */
                     subaccount_id?: number;
-                    /** @description Include additional fields */
+                    /** @description Include additional account-level fields (`id`, `username`, `system_name`, `email`, `type`, `security_keys_enabled`, ...) and, for accounts on a non-default fee tier, `fee_group` and `fees`. `false` by default */
                     extended?: boolean;
                 };
                 header?: never;
@@ -238,9 +247,11 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Retrieves a per-currency list of account summaries for the authenticated user. Each summary includes balance, equity, available funds, and margin information for each currency.
+         * @description Retrieves account summaries for the authenticated user in a single call. The result is an object: account-level fields (such as `id`, `username`, `email`, `type`, present when `extended` is `true`) are on the object itself, and the `summaries` array holds one summary per currency with balance, equity, available funds, and margin information.
          *
-         *     To retrieve summaries for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included. Prefer this method over looping `private/get_account_summary` per currency.
+         *     To retrieve summaries for a specific subaccount, use the `subaccount_id` parameter (a main account token is required to select another account, which must belong to the same main account; otherwise `-32602`, `Not allowed`). Use `currencies` to limit the result to selected currencies. The account's fee tier is returned in `fee_group` (with its rates in `fees`) only when `extended` is `true` and the account is on a non-default tier; when both are absent, standard fees apply. Prefer this method over looping `private/get_account_summary` per currency.
+         *
+         *     **Examples:** responses are illustrative, not live account data. The extended default example abbreviates account metadata and fee configuration; it is not an exhaustive list of returned fields.
          *
          *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
          *
@@ -251,10 +262,12 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    /** @description The user id for the subaccount */
+                    /** @description The user id of the subaccount to summarize. Defaults to the authenticated account; another account requires a main account token (`mainaccount` scope) and must belong to the same main account */
                     subaccount_id?: number;
-                    /** @description Include additional fields */
+                    /** @description Include additional account-level fields (`id`, `username`, `system_name`, `email`, `type`, `security_keys_enabled`, ...) and, for accounts on a non-default fee tier, `fee_group` and `fees`. `false` by default */
                     extended?: boolean;
+                    /** @description Optional list of currencies to return summaries for, e.g. `["BTC", "ETH"]`. By default the summaries of all currencies held by the account's wallet type are returned. A currency that is invalid or not available for the account results in `-32602` (`Invalid params`) */
+                    currencies?: string[];
                 };
                 header?: never;
                 path?: never;
@@ -1526,7 +1539,16 @@ export interface paths {
         /**
          * @description Creates a new subaccount under the authenticated main account. Subaccounts allow you to organize trading activities and manage risk separately from the main account.
          *
-         *     This method takes no parameters. The new subaccount will be created with default settings and can be configured using other subaccount management methods.
+         *     This method takes no parameters. The new subaccount inherits the main account's email address and is created with direct login disabled (`login_enabled: false`). It is accessible through the main account; the response contains an empty `portfolio` entry for every currency.
+         *
+         *     **Access & Restrictions:**
+         *     - Requires scope `account:read_write` and `mainaccount`, i.e. a main account token. Tokens without `mainaccount` (for example subaccount tokens) are rejected with `13021` (`forbidden`).
+         *     - Not available for accounts without subaccount management and for some partner account types (`13009`, `unauthorized`), nor for locked accounts (`11098`).
+         *
+         *     **Limits & Errors:**
+         *     - A main account can have up to 20 regular subaccounts by default (the limit can be configured per account by Deribit). Exceeding it returns `12001` (`too_many_subaccounts`).
+         *
+         *     **Example:** values are illustrative. Only BTC and ETH portfolio entries are shown; the actual currency set depends on the service configuration. The example assumes the main account has no disabled trading products or subaccount consent requirements.
          *
          *     **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)
          *
@@ -1575,9 +1597,22 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Updates the display name (username) for a subaccount. The new name is used for identification purposes and does not affect the subaccount's functionality or access.
+         * @description Changes the display name (alias) of a subaccount, or of the authenticated main account itself (pass the main account's own id as `sid`). The alias is returned as `username` in account responses; the system-generated name (`system_name`), login credentials and account functionality are not affected.
          *
-         *     Only the main account owner can change subaccount names.
+         *     **Access & Restrictions:**
+         *     - Requires scope `account:read_write` and `mainaccount`, i.e. a main account token.
+         *     - `sid` must be the main account itself or one of its own subaccounts. Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`.
+         *     - Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`).
+         *     - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).
+         *
+         *     **Name rules** (applied after trimming leading and trailing whitespace):
+         *     - 5 to 80 characters.
+         *     - Only Latin-1 (ISO 8859-1) characters; control characters and the soft hyphen are rejected.
+         *     - Must be unique among the main account and its active subaccounts. This includes the target's current name, so re-submitting it fails with `already_taken`.
+         *     - Must not match the reserved auto-generated pattern `<main_username>_<number>` (or `<main_username>_vault_<number>`).
+         *     - Setting the name to the account's own `system_name` clears a previously set alias.
+         *
+         *     **Errors:** an invalid name returns `12002` (`wrong_subaccount_name`) with `data` = `already_taken`, `wrong_format` (invalid characters or reserved pattern), or `{"msg": "too_short" | "too_long", "size": <limit>}`. `12002` may also be returned without `data`.
          *
          *     **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)
          *
@@ -1588,9 +1623,9 @@ export interface paths {
         get: {
             parameters: {
                 query: {
-                    /** @description The user id for the subaccount */
+                    /** @description The user id of the subaccount to rename, or the id of the authenticated main account to rename the main account itself */
                     sid: number;
-                    /** @description The new user name */
+                    /** @description The new display name, 5-80 characters after trimming whitespace, unique within the main account and its subaccounts. See name rules above */
                     name: string;
                 };
                 header?: never;
@@ -1683,9 +1718,23 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Assigns an email address to a subaccount. This email can be used for direct login to the subaccount and for receiving notifications.
+         * @description Assigns an email address to a subaccount. This email is used for direct login to the subaccount and for receiving notifications.
          *
-         *     The email address owner will receive a confirmation email with a link to verify the email address. The email must be confirmed before it can be used for login.
+         *     **Behavior:**
+         *     - Normally the address is not applied immediately: a verification email with a confirmation link is sent to it, and it can be used for login only after it is confirmed.
+         *     - Two changes are applied immediately, without a verification email: setting the main account's own email (the subaccount returns to the main email and its direct login is disabled), and setting the subaccount's current confirmed email while another change is pending (the pending change is cancelled).
+         *     - Every successful change terminates all active sessions of the subaccount.
+         *     - An address that is already registered to another account does not produce an error: the call returns `ok` without revealing whether the address exists, and the address is not assigned.
+         *     - An address already used by another subaccount of the same main account returns `-32602` (`Invalid params`) with `data.subaccount_id` of that subaccount.
+         *
+         *     **Access & Restrictions:**
+         *     - Must be called by the main account that owns the subaccount (`sid`). Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. Vault subaccounts are rejected with `14049`.
+         *     - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).
+         *
+         *     **Validation & Limits:**
+         *     - Maximum email length is 64 characters; a longer address returns `-32602` with `max_length`.
+         *     - `11043` (`bad_argument`) with `data` = `email_wrong_format`, `email_blocked`, `empty_email_address`, `invalid_email_domain` or `same_email` (the address equals the current email and no change is pending).
+         *     - Changes are rate limited per subaccount: `10028` (`too_many_requests`) with the time to wait in `data.wait` (seconds).
          *
          *     **[TFA required](https://docs.deribit.com/articles/security-keys)**
          *
@@ -1698,9 +1747,9 @@ export interface paths {
         get: {
             parameters: {
                 query: {
-                    /** @description The user id for the subaccount */
+                    /** @description The user id of the subaccount (must belong to the authenticated main account) */
                     sid: number;
-                    /** @description The email address for the subaccount */
+                    /** @description The new email address for the subaccount, up to 64 characters */
                     email: string;
                 };
                 header?: never;
@@ -1743,7 +1792,20 @@ export interface paths {
         /**
          * @description Enables or disables direct login access for a subaccount. When login is disabled, the subaccount cannot be accessed directly using email and password authentication, but can still be accessed through the main account.
          *
-         *     If login is disabled while an active session exists for the subaccount, that session will be immediately terminated.
+         *     If login is disabled while an active session exists for the subaccount, that session will be immediately terminated (all sessions of the subaccount are dropped). Requesting the state the subaccount already has is accepted and returns `ok`.
+         *
+         *     **Access & Restrictions:**
+         *     - Must be called by the main account that owns the subaccount (`sid`). Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`.
+         *     - Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`).
+         *     - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).
+         *     - `state` must be `enable` or `disable`; any other value returns `11043` (`bad_argument`) with `data` = `state`.
+         *
+         *     **Enabling login** additionally requires:
+         *     - no email change pending for the subaccount;
+         *     - an email address different from the main account's email;
+         *     - a password configured for the subaccount.
+         *
+         *     **Known limitation:** if one of these conditions is not met, the call currently returns `ok` but login stays disabled. Check `login_enabled` in `private/get_subaccounts` to confirm the change.
          *
          *     **[TFA required](https://docs.deribit.com/articles/security-keys)**
          *
@@ -1756,9 +1818,9 @@ export interface paths {
         get: {
             parameters: {
                 query: {
-                    /** @description The user id for the subaccount */
+                    /** @description The user id of the subaccount (must belong to the authenticated main account) */
                     sid: number;
-                    /** @description enable or disable login. */
+                    /** @description `enable` or `disable` direct login. Disabling terminates the subaccount's active sessions */
                     state: "enable" | "disable";
                 };
                 header?: never;
@@ -1799,9 +1861,16 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Enables or disables email and other notifications for a subaccount. When notifications are disabled, the subaccount will not receive email alerts, trade confirmations, or other notification messages.
+         * @description Saves a subaccount's preference for forwarding copies of its notification emails to the main account's email address. It does not stop the subaccount from receiving its own emails.
          *
-         *     This setting only affects notifications sent to the subaccount's email address. Notifications sent to the main account are not affected.
+         *     When forwarding is active, forwarded copies exclude the registration welcome email and mask activation and password-change links. Their title is `Notification for subaccount: <name> - <original title>`.
+         *
+         *     **Known limitation:** changing this setting currently has no effect on forwarding, and `receive_notifications` (returned by `private/get_subaccounts`, `private/create_subaccount`, and by `private/get_account_summary` / `private/get_account_summaries` with `extended` = `true`) does not reflect it. A successful response only confirms that the request was accepted.
+         *
+         *     **Access & Restrictions:**
+         *     - Must be called by the main account that owns the subaccount (`sid`). The target must be an owned subaccount, not the main account itself. An invalid target is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. Vault subaccounts are rejected with `14049`.
+         *     - Also rejected for accounts without subaccount management (`13009`) and locked accounts (`11098`).
+         *     - Send `state` as a JSON boolean. Do not rely on rejection of other types: the current implementation may coerce them to a boolean.
          *
          *     **[TFA required](https://docs.deribit.com/articles/security-keys)**
          *
@@ -1814,9 +1883,9 @@ export interface paths {
         get: {
             parameters: {
                 query: {
-                    /** @description The user id for the subaccount */
+                    /** @description The user id of the subaccount (must belong to the authenticated main account) */
                     sid: number;
-                    /** @description enable (`true`) or disable (`false`) notifications */
+                    /** @description Forwarding preference: `true` to request copies at the main account email, `false` to request no copies. Currently has no effect; see the known limitation above */
                     state: boolean;
                 };
                 header?: never;
@@ -1857,11 +1926,17 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Retrieves information about all subaccounts associated with the main account. Returns details such as subaccount IDs, names, and status.
+         * @description Retrieves the main account and its subaccounts, with identifiers, names, email, login and security status. The list always includes the main account itself (`type: main`); removed subaccounts are not listed.
          *
-         *     When called from a subaccount, the response includes limited details for the main account and full details for the subaccount initiating the request.
+         *     **Visibility:**
+         *     - Main account access is available when the authenticated account is the main account, or its token grants access to that main account (`mainaccount` scope or impersonated access). The response lists the main account and its eligible subaccounts.
+         *     - Without main account access, a subaccount caller receives only the main account, with limited details (login, password and security-key related fields and `disabled_trading_products` are omitted), and the calling subaccount with full details.
+         *     - Vault subaccounts are excluded from ordinary public listings. Isolated-margin subaccounts are not listed.
+         *     - Not available for retail brokers (`14021`).
          *
-         *     Set the `with_portfolio` parameter to `true` to include portfolio information (balances, positions, etc.) in the response. By default, only subaccount metadata is returned.
+         *     **Portfolio:** set `with_portfolio` to `true` to include per-currency balance and margin summaries (equity, balance, available funds, margin; no positions or orders). With main account access, each returned account has a `portfolio` object. Without it, only the calling subaccount has `portfolio`; the main account entry omits it. The flag also adds `referrals_count` and, while an email change is awaiting confirmation, `not_confirmed_email`. By default only account metadata is returned.
+         *
+         *     **Examples:** response values are illustrative, not live account data. The examples show all trading products enabled, with no subaccount consent requirements.
          *
          *     **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)
          *
@@ -1872,7 +1947,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    /** @description Portfolio flag: `true` for portfolio information, `false` for subaccount information only. `false` by default */
+                    /** @description Portfolio flag: `true` to include per-currency balance and margin summaries (no positions), `false` for account metadata only */
                     with_portfolio?: boolean;
                 };
                 header?: never;
@@ -1914,9 +1989,19 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Retrieves position details for all subaccounts for a specific currency. Returns positions aggregated across all subaccounts, including size, average entry price, mark price, and P&L information.
+         * @description Retrieves the positions in a given currency for the accounts visible to the caller. The result has one entry per account (`uid`) with that account's own positions (size, average entry price, mark price, margin and P&L); positions are not aggregated across accounts.
          *
-         *     Optionally include open orders for each subaccount by setting the `with_open_orders` parameter to `true`.
+         *     **Visibility:**
+         *     - Main account access is available when the authenticated account is the main account, or its token grants access to that main account (`mainaccount` scope or impersonated access). The result covers the main account and its eligible subaccounts.
+         *     - Without main account access, only the calling subaccount is returned.
+         *     - Vault subaccounts are excluded from ordinary public listings. Isolated-margin subaccounts are not listed.
+         *     - Not available for retail brokers (`14021`).
+         *
+         *     **Open orders:** set `with_open_orders` to `true` to add an `open_orders` list to each entry. It is omitted by default.
+         *
+         *     **Notes:**
+         *     - `currency` must be available for the account's wallet type, otherwise `-32602` (`Invalid params`, "not supported for wallet type").
+         *     - Results are cached for 1 second. When the data cannot be collected in time the call fails with `13028` (`temporarily_unavailable`); retry the request.
          *
          *     **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api)
          *
@@ -1932,7 +2017,7 @@ export interface paths {
                      *
                      *     **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)
                      */
-                    currency: components["schemas"]["currency"];
+                    currency: components["schemas"]["wallet_currency"];
                     /** @description Optional parameter to ask for open orders list, default: `false` */
                     with_open_orders?: boolean;
                 };
@@ -1975,9 +2060,29 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * @description Permanently removes a subaccount. The subaccount must be empty (no positions, no open orders, and zero balance) before it can be removed.
+         * @description Removes a subaccount from the main account. The subaccount must be empty before it can be removed.
          *
-         *     This operation cannot be undone. All subaccount data will be permanently deleted.
+         *     Removal cannot be undone through the API. The subaccount can no longer be used or logged in to, it disappears from `private/get_subaccounts`, all of its active sessions are terminated, and its deposit addresses are moved to the main account.
+         *
+         *     **Access & Restrictions:**
+         *     - Must be called by the main account that owns the subaccount. Any other account is rejected with `13009` (`unauthorized`); an already removed subaccount returns `13009` with `data.reason` = `already_removed`.
+         *     - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`).
+         *     - Vault subaccounts are rejected during access validation with `14049` (`vault_subaccount_not_allowed`).
+         *     - Only one subaccount can be removed per main account every 5 minutes. A repeated call earlier returns `12006` (`remove_subaccount_over_limit`) with the remaining time in `data.wait` (seconds).
+         *
+         *     **Removal is refused with `12007` (`subaccount_not_removable`)**; `data.reason` is one of:
+         *     - `"has not zero equity"`: open positions, a position closed since the last daily settlement (08:00 UTC) whose realized profit/loss is not settled yet (the subaccount becomes removable after that settlement), non-zero initial or maintenance margin, or absolute equity or balance at or above the currency's minimum balance (only dust whose absolute value is below the threshold is allowed);
+         *     - `"has opened trigger orders"`: untriggered trigger orders;
+         *     - `"has pending deposits"`;
+         *     - `"is owner of app"`: the subaccount owns an API application;
+         *     - `"has active block rfq"` or `"is part of block rfq allocation"`;
+         *     - `"is linked to a voice broker"`;
+         *     - `"is an LSP participant"`;
+         *     - `"has a locked portfolio, reason: <reasons>"`, where `<reasons>` is a comma-separated list such as `liquidation running`, `negative equity`, `locked by admin`, `locked on user request` or `legacy lock`.
+         *
+         *     Other reason strings may be returned in rare cases.
+         *
+         *     If the subaccount's portfolio could not be cleaned up or verified, or the change could not be saved, the call fails with `13008` (`request_failed`).
          *
          *     **[TFA required](https://docs.deribit.com/articles/security-keys)**
          *
@@ -1990,7 +2095,7 @@ export interface paths {
         get: {
             parameters: {
                 query: {
-                    /** @description The user id for the subaccount */
+                    /** @description The user id of the subaccount to remove (must belong to the authenticated main account) */
                     subaccount_id: number;
                 };
                 header?: never;
@@ -14118,21 +14223,32 @@ export interface components {
                 email: string;
                 /** @description New email address that has not yet been confirmed. This field is only included if `with_portfolio` == `true`. */
                 not_confirmed_email?: string;
-                /** @description Whether the Security Keys authentication is enabled */
+                /** @description Whether Security Keys authentication is enabled. Omitted from the main account entry when the caller lacks main account access */
                 security_keys_enabled?: boolean;
-                /** @description Names of assignments with Security Keys assigned */
-                security_keys_assignments?: unknown[];
+                /** @description Names of assignments with Security Keys assigned. Omitted from the main account entry when the caller lacks main account access */
+                security_keys_assignments?: string[];
                 /** @description System generated user nickname */
                 system_name: string;
-                /** @description When `true` - receive all notification emails on the main email */
+                /** @description Email-forwarding flag reported for the account. It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there */
                 receive_notifications: boolean;
-                /** @description `true` when password for the subaccount has been configured */
-                is_password: boolean;
+                /** @description `true` when password for the subaccount has been configured. Omitted from the main account entry when the caller lacks main account access */
+                is_password?: boolean;
+                /** @description List of disabled trading products. Omitted from the main account entry when the caller lacks main account access */
+                disabled_trading_products?: string[];
+                /** @description Per trading product, whether it is enabled and can be overwritten for the account */
+                trading_products_details?: {
+                    product?: string;
+                    enabled?: boolean;
+                    overwriteable?: boolean;
+                    requires_consent?: boolean;
+                }[];
+                /** @description Number of referrals of the account. Only included if `with_portfolio` == `true`. */
+                referrals_count?: number;
                 /** @description Margin model */
                 margin_model?: string;
-                /** @description Informs whether login to the subaccount is enabled */
+                /** @description Informs whether login to the subaccount is enabled. Omitted from the main account entry when the caller lacks main account access */
                 login_enabled?: boolean;
-                /** @description Only if with_portfolio == true */
+                /** @description Present only when `with_portfolio` is true and the caller has portfolio access to this entry. Without main account access, omitted from the main account entry */
                 portfolio?: components["schemas"]["portfolio"];
             }[];
         };
@@ -14147,8 +14263,16 @@ export interface components {
             result: {
                 /** @description Account/Subaccount identifier */
                 uid: number;
-                positions: components["schemas"]["position"][];
-                open_orders?: components["schemas"]["order"][];
+                /** @description Open positions of the account in the requested currency (not aggregated with other accounts) */
+                positions: components["schemas"]["position_with_open_orders_margin"][];
+                /** @description Open orders of the account in the requested currency. Present only when `with_open_orders` = `true` */
+                open_orders?: (components["schemas"]["order"] & {
+                    /**
+                     * @description ID of the account (main or subaccount) that owns the order
+                     * @example 3
+                     */
+                    user_id?: number;
+                })[];
             }[];
         };
         PrivateCreateSubaccountResponse: {
@@ -14169,7 +14293,7 @@ export interface components {
                 login_enabled: boolean;
                 /** @description `true` when password for the subaccount has been configured */
                 is_password: boolean;
-                /** @description When `true` - receive all notification emails on the main email */
+                /** @description Email-forwarding flag reported for the account. It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there */
                 receive_notifications: boolean;
                 /**
                  * @description System generated user nickname
@@ -14510,6 +14634,11 @@ export interface components {
                  */
                 available_withdrawal_funds: number;
                 /**
+                 * @description Funds available for transfer to other subaccounts of the same main account. Returned only when it differs from `available_withdrawal_funds`, which happens when additional restrictions apply to external withdrawals only. Always ≥ `0`.
+                 * @example 2.5
+                 */
+                available_subaccount_transfer_funds?: number;
+                /**
                  * @description Collateral available against margin requirements. Under standard margin (SM): `equity - options_value` (cash balance plus futures session UPL and RPL). Under portfolio margin (PM): equal to `equity` on a segregated account, and `equity - outstanding_loan_amount` on a cross account. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index.
                  * @example 2.25
                  */
@@ -14520,14 +14649,28 @@ export interface components {
                  */
                 balance: number;
                 /**
-                 * @description The account's balance reserved in active spot orders
+                 * @description Part of the balance reserved by open spot orders (the amount the orders would spend if filled). Excluded from `available_withdrawal_funds`.
                  * @example 0.3
                  */
                 spot_reserve?: number;
                 locked_balance?: components["schemas"]["locked_balance"];
                 additional_reserve?: components["schemas"]["additional_reserve"];
                 fee_balance?: components["schemas"]["fee_balance"];
-                /** @description Fee group indicates the level of fee discounts applied to an account. Use `extended`: `true` to view this field. If the field is missing, the account is not assigned to any fee group. **📖 Related Support Article:** [Automatically applied volume based fee discounts](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11) */
+                /**
+                 * @description Name of the fee tier assigned to the account. This is how to check which fee tier applies to an account through the API.
+                 *
+                 *     - A preset tier (for example one of the automatically applied volume-based tiers) is returned by its name.
+                 *     - `Custom` means the account has individually configured fee rates that do not come from a preset tier.
+                 *
+                 *     **Requirements:** returned only when `extended` = `true`.
+                 *
+                 *     **When absent:** the account is on the default (standard) fee tier. The field is omitted together with `fees`; there is no explicit "Standard" value.
+                 *
+                 *     Subaccounts report the tier of their main account (or of the SMA manager for accounts linked to one). The rates of the tier are returned in `fees`.
+                 *
+                 *     **Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11)
+                 * @example Custom
+                 */
                 fee_group?: string;
                 /**
                  * @description The selected currency
@@ -14538,7 +14681,7 @@ export interface components {
                 projected_delta_total: components["schemas"]["projected_delta_total"];
                 delta_total_map?: components["schemas"]["delta_total_map"];
                 /**
-                 * @description The deposit address for the account (if available)
+                 * @description The account's deposit address for the selected currency. Omitted when no deposit address has been generated for the account yet.
                  * @example 14diAAyXL5UzhPTCKC998ch2GV7DMb7yDi
                  */
                 deposit_address?: string;
@@ -14546,7 +14689,7 @@ export interface components {
                  * @description User email (available when parameter `extended` = `true`)
                  * @example support@deribit.com
                  */
-                email: string;
+                email?: string;
                 /**
                  * @description The account's equity in the selected currency: `balance + futures (session UPL + RPL) + options mark value` (plus any external/implied equity). Related: `margin_balance` excludes options mark value under standard margin.
                  * @example 2.6437733
@@ -14581,7 +14724,7 @@ export interface components {
                  * @description System generated user nickname (available when parameter `extended` = `true`)
                  * @example myname
                  */
-                system_name: string;
+                system_name?: string;
                 /**
                  * @description Sum of the deltas of all options positions. For inverse (coin-margined) options this is the Black-Scholes delta; for linear options it is the index-price-adjusted delta. Unlike account-level `delta_total`, the options mark value is not subtracted.
                  * @example 0
@@ -14622,15 +14765,15 @@ export interface components {
                  * @example 0
                  */
                 options_vega: number;
-                /** @description Map of options' gammas per index */
+                /** @description Sum of option position gammas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included. */
                 options_gamma_map: {
                     [key: string]: number;
                 };
-                /** @description Map of options' thetas per index */
+                /** @description Sum of option position thetas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included. */
                 options_theta_map: {
                     [key: string]: number;
                 };
-                /** @description Map of options' vegas per index */
+                /** @description Sum of option position vegas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included. */
                 options_vega_map: {
                     [key: string]: number;
                 };
@@ -14638,7 +14781,7 @@ export interface components {
                  * @description Whether Security Key authentication is enabled (available when parameter `extended` = `true`)
                  * @example false
                  */
-                security_keys_enabled: boolean;
+                security_keys_enabled?: boolean;
                 /**
                  * @description Whether MMP is enabled (available when parameter `extended` = `true`)
                  * @example false
@@ -14652,12 +14795,12 @@ export interface components {
                  * @description Account name (given by user) (available when parameter `extended` = `true`)
                  * @example name
                  */
-                username: string;
+                username?: string;
                 /**
                  * @description Account type (available when parameter `extended` = `true`)
                  * @enum {string}
                  */
-                type: "main" | "subaccount";
+                type?: "main" | "subaccount";
                 /**
                  * @description Whether account is loginable using email and password (available when parameter `extended` = `true` and account is a subaccount)
                  * @example false
@@ -14667,22 +14810,23 @@ export interface components {
                  * @description Account id (available when parameter `extended` = `true`)
                  * @example 12354
                  */
-                id: number;
+                id?: number;
                 /**
-                 * @description `true` when portfolio margining is enabled for user
+                 * @description `true` when the account uses a portfolio margin model (`segregated_pm` or `cross_pm`), `false` for standard margin.
                  * @example true
                  */
                 portfolio_margining_enabled?: boolean;
                 /**
-                 * @description When `true` cross collateral is enabled for user
+                 * @description `true` when the account uses a cross collateral margin model (`cross_sm` or `cross_pm`), where all cross collateral currencies are margined together. The `total_*_usd` fields are returned only in this case.
                  * @example true
                  */
                 cross_collateral_enabled?: boolean;
                 /**
-                 * @description Name of user's currently enabled margin model
+                 * @description Margin model currently enabled for the account: `segregated_sm` (segregated standard margin), `segregated_pm` (segregated portfolio margin), `cross_sm` (cross collateral standard margin) or `cross_pm` (cross collateral portfolio margin).
                  * @example segregated_sm
+                 * @enum {string}
                  */
-                margin_model?: string;
+                margin_model?: "segregated_sm" | "segregated_pm" | "cross_sm" | "cross_pm";
                 /**
                  * @description Optional (only for users using cross margin). The account's total equity in all cross collateral currencies, expressed in USD
                  * @example 2.6437733
@@ -14714,21 +14858,24 @@ export interface components {
                  */
                 interuser_transfers_enabled?: boolean;
                 /**
-                 * @description Optional identifier of the referrer (of the affiliation program, and available when parameter `extended` = `true`), which link was used by this account at registration. It coincides with suffix of the affiliation link path after `/reg-`
+                 * @description Identifier of the affiliate whose referral link was used to register this account, or `null` when the account was not referred. It equals the suffix of the referral link after `?reg=` (available when parameter `extended` = `true`).
                  * @example 517.6035
                  */
-                referrer_id?: string;
+                referrer_id?: string | null;
                 limits?: components["schemas"]["api_limits"];
                 /**
                  * @description Time at which the account was created (milliseconds since the Unix epoch; available when parameter `extended` = `true`)
                  * @example 1542100802842
                  */
                 creation_timestamp?: number;
-                /** @description Optional field returned with value `true` when user has non block chain equity */
+                /** @description Returned with value `true` only when part of the account's equity is not held on chain at Deribit (for example off-exchange or credit-based equity, or a pending loan in the selected currency). Omitted otherwise. */
                 has_non_block_chain_equity?: boolean;
-                /** @description Self trading rejection behavior - `reject_taker` or `cancel_maker` (available when parameter `extended` = `true`) */
-                self_trading_reject_mode?: string;
-                /** @description `true` if self trading rejection behavior is applied to trades between subaccounts (available when parameter `extended` = `true`) */
+                /**
+                 * @description Self-trade prevention behavior: `reject_taker` rejects the incoming (taker) order, `cancel_maker` cancels the resting (maker) order. Returned only when self-trade prevention is configured for the account (available when parameter `extended` = `true`).
+                 * @enum {string}
+                 */
+                self_trading_reject_mode?: "reject_taker" | "cancel_maker";
+                /** @description `true` if self-trade prevention also applies to trades between the main account and its subaccounts. Returned only when self-trade prevention is configured (available when parameter `extended` = `true`). */
                 self_trading_extended_to_subaccounts?: boolean;
                 /**
                  * @description `true` if self trading rejection behavior is applied across all Starbase Members of the main account. Enabled by Deribit on request (available when parameter `extended` = `true`)
@@ -14740,35 +14887,73 @@ export interface components {
                  * @example false
                  */
                 block_rfq_self_match_prevention?: boolean;
-                /** @description Fee structure for all currency pairs and instrument types related to the currency (available when parameter `extended` = `true` and user has any discounts). Keys are index names (e.g., "btc_usd"), values are objects with instrument types as keys (option, perpetual, future). */
+                /**
+                 * @description Fee rates of the account's fee tier (see `fee_group`) for every index related to the selected currency. Keys are index names (for example `btc_usd`); values are objects keyed by instrument kind (`future`, `perpetual`, `option`, `spot`). Kinds and indexes without a configured discount are omitted and use the standard rates.
+                 *
+                 *     **Requirements:** returned only when `extended` = `true` and the account is on a non-default fee tier. Absent for accounts on standard fees.
+                 *
+                 *     **Reading the values:**
+                 *     - `default.type` = `relative`: `maker` and `taker` are multipliers of the standard fee (for example `0.625` means 62.5% of the standard rate).
+                 *     - `default.type` = `fixed`: `maker` and `taker` are the fee rates themselves, as a fraction of the traded amount (negative values are rebates).
+                 *     - `block_trade` is always a multiplier of the standard block trade fee.
+                 *     - `settlement` is always a fixed fee rate applied at delivery/settlement.
+                 *
+                 *     **Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees)
+                 */
                 fees?: {
                     [key: string]: {
                         [key: string]: {
+                            /** @description Order book trading fees */
                             default: {
-                                /** @description Fee type - `relative` if fee is calculated as a fraction of base instrument fee, `fixed` if fee is calculated solely using user fee */
-                                type: string;
-                                /** @description Taker fee */
+                                /**
+                                 * @description `relative` - `maker`/`taker` are multipliers of the standard fee; `fixed` - `maker`/`taker` are absolute fee rates
+                                 * @enum {string}
+                                 */
+                                type: "relative" | "fixed";
+                                /** @description Taker fee (multiplier or rate, depending on `type`) */
                                 taker: number;
-                                /** @description Maker fee */
+                                /** @description Maker fee (multiplier or rate, depending on `type`); a negative fixed rate is a rebate */
                                 maker: number;
                             };
-                            /** @description Block trade fee (if applicable) */
+                            /** @description Block trade fee as a multiplier of the standard block trade fee (only when configured) */
                             block_trade?: number;
+                            /** @description Fixed delivery/settlement fee rate (only when configured) */
+                            settlement?: number;
                         };
                     };
                 };
                 /**
-                 * @description Affiliate promotion fee (if greater than 0.0)
-                 * @example 0
+                 * @description Active affiliate fee promotion, as a fraction by which trading fees are reduced (fee = standard fee × (1 - `affiliate_promotion_fee`)). Returned only while a promotion is active (available when parameter `extended` = `true`).
+                 * @example 0.1
                  */
                 affiliate_promotion_fee?: number;
-                /** @description Which trading products are enabled or can be overwritten for the account */
-                trading_products_details?: Record<string, never>;
+                /** @description Per trading product, whether it is enabled and can be overwritten for the account (available when parameter `extended` = `true`) */
+                trading_products_details?: {
+                    /** @description Trading product name */
+                    product: string;
+                    /** @description Whether the product is enabled for the account */
+                    enabled: boolean;
+                    /** @description Whether the setting can be overwritten at the account level (subaccounts only) */
+                    overwriteable: boolean;
+                    /** @description Whether enabling the product requires consent (subaccounts only) */
+                    requires_consent: boolean;
+                }[];
                 /**
-                 * @description Whether the account receives notifications
+                 * @description Email-forwarding flag reported for the account (available when `extended` = `true`). It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there
                  * @example false
                  */
                 receive_notifications?: boolean;
+                /**
+                 * @description `true` when mandatory two-factor authentication is enforced for the account, so the required security key assignments must be set up (for example, to generate a deposit address); `false` when it is not enforced or the account is exempted. Taken from the main account (available when `extended` = `true`)
+                 * @example true
+                 */
+                mandatory_tfa?: boolean;
+                /**
+                 * @description How the account was created: `deribit` for accounts registered on Deribit, `coinbase` for accounts provisioned through Coinbase (available when parameter `extended` = `true`).
+                 * @example deribit
+                 * @enum {string}
+                 */
+                user_origin?: "deribit" | "coinbase";
                 /**
                  * @description Whether Direct Access trading is enabled for the account.
                  * @example false
@@ -14789,22 +14974,22 @@ export interface components {
                  * @description Account id (available when parameter `extended` = `true`)
                  * @example 12354
                  */
-                id: number;
+                id?: number;
                 /**
                  * @description System generated user nickname (available when parameter `extended` = `true`)
                  * @example myname
                  */
-                system_name: string;
+                system_name?: string;
                 /**
                  * @description Account name (given by user) (available when parameter `extended` = `true`)
                  * @example name
                  */
-                username: string;
+                username?: string;
                 /**
                  * @description Account type (available when parameter `extended` = `true`)
                  * @enum {string}
                  */
-                type: "main" | "subaccount";
+                type?: "main" | "subaccount";
                 /**
                  * @description Whether account is loginable using email and password (available when parameter `extended` = `true` and account is a subaccount)
                  * @example false
@@ -14814,12 +14999,12 @@ export interface components {
                  * @description User email (available when parameter `extended` = `true`)
                  * @example support@deribit.com
                  */
-                email: string;
+                email?: string;
                 /**
                  * @description Whether Security Key authentication is enabled (available when parameter `extended` = `true`)
                  * @example false
                  */
-                security_keys_enabled: boolean;
+                security_keys_enabled?: boolean;
                 /**
                  * @description Whether MMP is enabled (available when parameter `extended` = `true`)
                  * @example false
@@ -14831,18 +15016,21 @@ export interface components {
                  */
                 interuser_transfers_enabled?: boolean;
                 /**
-                 * @description Optional identifier of the referrer (of the affiliation program, and available when parameter `extended` = `true`), which link was used by this account at registration. It coincides with suffix of the affiliation link path after `/reg-`
+                 * @description Identifier of the affiliate whose referral link was used to register this account, or `null` when the account was not referred. It equals the suffix of the referral link after `?reg=` (available when parameter `extended` = `true`).
                  * @example 517.6035
                  */
-                referrer_id?: string;
+                referrer_id?: string | null;
                 /**
                  * @description Time at which the account was created (milliseconds since the Unix epoch; available when parameter `extended` = `true`)
                  * @example 1542100802842
                  */
                 creation_timestamp?: number;
-                /** @description Self trading rejection behavior - `reject_taker` or `cancel_maker` (available when parameter `extended` = `true`) */
-                self_trading_reject_mode?: string;
-                /** @description `true` if self trading rejection behavior is applied to trades between subaccounts (available when parameter `extended` = `true`) */
+                /**
+                 * @description Self-trade prevention behavior: `reject_taker` rejects the incoming (taker) order, `cancel_maker` cancels the resting (maker) order. Returned only when self-trade prevention is configured for the account (available when parameter `extended` = `true`).
+                 * @enum {string}
+                 */
+                self_trading_reject_mode?: "reject_taker" | "cancel_maker";
+                /** @description `true` if self-trade prevention also applies to trades between the main account and its subaccounts. Returned only when self-trade prevention is configured (available when parameter `extended` = `true`). */
                 self_trading_extended_to_subaccounts?: boolean;
                 /**
                  * @description `true` if self trading rejection behavior is applied across all Starbase Members of the main account. Enabled by Deribit on request (available when parameter `extended` = `true`)
@@ -14855,19 +15043,44 @@ export interface components {
                  */
                 block_rfq_self_match_prevention?: boolean;
                 /**
-                 * @description Affiliate promotion fee (if greater than 0.0)
-                 * @example 0
+                 * @description Active affiliate fee promotion, as a fraction by which trading fees are reduced (fee = standard fee × (1 - `affiliate_promotion_fee`)). Returned only while a promotion is active (available when parameter `extended` = `true`).
+                 * @example 0.1
                  */
                 affiliate_promotion_fee?: number;
-                /** @description Which trading products are enabled or can be overwritten for the account */
-                trading_products_details?: Record<string, never>;
+                /** @description Per trading product, whether it is enabled and can be overwritten for the account (available when parameter `extended` = `true`) */
+                trading_products_details?: {
+                    /** @description Trading product name */
+                    product: string;
+                    /** @description Whether the product is enabled for the account */
+                    enabled: boolean;
+                    /** @description Whether the setting can be overwritten at the account level (subaccounts only) */
+                    overwriteable: boolean;
+                    /** @description Whether enabling the product requires consent (subaccounts only) */
+                    requires_consent: boolean;
+                }[];
                 /**
-                 * @description Whether the account receives notifications
+                 * @description Email-forwarding flag reported for the account (available when `extended` = `true`). It does not reflect changes made with `private/toggle_notifications_from_subaccount`; see the known limitation there
                  * @example false
                  */
                 receive_notifications?: boolean;
-                /** @description Aggregated list of per-currency account summaries */
-                summaries?: {
+                /**
+                 * @description `true` when mandatory two-factor authentication is enforced for the account, so the required security key assignments must be set up (for example, to generate a deposit address); `false` when it is not enforced or the account is exempted. Taken from the main account (available when `extended` = `true`)
+                 * @example true
+                 */
+                mandatory_tfa?: boolean;
+                /**
+                 * @description How the account was created: `deribit` for accounts registered on Deribit, `coinbase` for accounts provisioned through Coinbase (available when parameter `extended` = `true`).
+                 * @example deribit
+                 * @enum {string}
+                 */
+                user_origin?: "deribit" | "coinbase";
+                /**
+                 * @description Whether Direct Access trading is enabled for the account.
+                 * @example false
+                 */
+                is_direct_access_allowed?: boolean;
+                /** @description List of per-currency account summaries (all currencies of the account, or those requested with `currencies`) */
+                summaries: {
                     /**
                      * @description Total profit and loss of all open positions since each position was opened (not limited to the current session). Differs from `session_rpl` + `session_upl`, which reset at daily settlement.
                      * @example 0.02032221
@@ -14886,6 +15099,11 @@ export interface components {
                      */
                     available_withdrawal_funds: number;
                     /**
+                     * @description Funds available for transfer to other subaccounts of the same main account. Returned only when it differs from `available_withdrawal_funds`, which happens when additional restrictions apply to external withdrawals only. Always ≥ `0`.
+                     * @example 2.5
+                     */
+                    available_subaccount_transfer_funds?: number;
+                    /**
                      * @description Collateral available against margin requirements. Under standard margin (SM): `equity - options_value` (cash balance plus futures session UPL and RPL). Under portfolio margin (PM): equal to `equity` on a segregated account, and `equity - outstanding_loan_amount` on a cross account. When cross collateral is enabled, this aggregated value is calculated by converting the sum of each cross collateral currency's value to the given currency, using each cross collateral currency's index.
                      * @example 2.25
                      */
@@ -14896,14 +15114,28 @@ export interface components {
                      */
                     balance: number;
                     /**
-                     * @description The account's balance reserved in active spot orders
+                     * @description Part of the balance reserved by open spot orders (the amount the orders would spend if filled). Excluded from `available_withdrawal_funds`.
                      * @example 0.3
                      */
                     spot_reserve?: number;
                     locked_balance?: components["schemas"]["locked_balance"];
                     additional_reserve?: components["schemas"]["additional_reserve"];
                     fee_balance?: components["schemas"]["fee_balance"];
-                    /** @description Fee group indicates the level of fee discounts applied to an account. Use `extended`: `true` to view this field. If the field is missing, the account is not assigned to any fee group. **📖 Related Support Article:** [Automatically applied volume based fee discounts](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11) */
+                    /**
+                     * @description Name of the fee tier assigned to the account. This is how to check which fee tier applies to an account through the API.
+                     *
+                     *     - A preset tier (for example one of the automatically applied volume-based tiers) is returned by its name.
+                     *     - `Custom` means the account has individually configured fee rates that do not come from a preset tier.
+                     *
+                     *     **Requirements:** returned only when `extended` = `true`.
+                     *
+                     *     **When absent:** the account is on the default (standard) fee tier. The field is omitted together with `fees`; there is no explicit "Standard" value.
+                     *
+                     *     Subaccounts report the tier of their main account (or of the SMA manager for accounts linked to one). The rates of the tier are returned in `fees`.
+                     *
+                     *     **Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees#heading-11)
+                     * @example Custom
+                     */
                     fee_group?: string;
                     /**
                      * @description Currency of the summary
@@ -14914,7 +15146,7 @@ export interface components {
                     projected_delta_total: components["schemas"]["projected_delta_total"];
                     delta_total_map?: components["schemas"]["delta_total_map"];
                     /**
-                     * @description The deposit address for the account (if available)
+                     * @description The account's deposit address for the selected currency. Omitted when no deposit address has been generated for the account yet.
                      * @example 14diAAyXL5UzhPTCKC998ch2GV7DMb7yDi
                      */
                     deposit_address?: string;
@@ -14988,15 +15220,15 @@ export interface components {
                      * @example 0
                      */
                     options_vega: number;
-                    /** @description Map of options' gammas per index */
+                    /** @description Sum of option position gammas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included. */
                     options_gamma_map: {
                         [key: string]: number;
                     };
-                    /** @description Map of options' thetas per index */
+                    /** @description Sum of option position thetas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included. */
                     options_theta_map: {
                         [key: string]: number;
                     };
-                    /** @description Map of options' vegas per index */
+                    /** @description Sum of option position vegas per index. Keys are index names (for example `btc_usd`); only indexes with open options positions are included. */
                     options_vega_map: {
                         [key: string]: number;
                     };
@@ -15005,20 +15237,21 @@ export interface components {
                     close_out_margin?: components["schemas"]["close_out_margin"];
                     projected_close_out_margin?: components["schemas"]["projected_close_out_margin"];
                     /**
-                     * @description `true` when portfolio margining is enabled for user
+                     * @description `true` when the account uses a portfolio margin model (`segregated_pm` or `cross_pm`), `false` for standard margin.
                      * @example true
                      */
                     portfolio_margining_enabled?: boolean;
                     /**
-                     * @description When `true` cross collateral is enabled for user
+                     * @description `true` when the account uses a cross collateral margin model (`cross_sm` or `cross_pm`), where all cross collateral currencies are margined together. The `total_*_usd` fields are returned only in this case.
                      * @example true
                      */
                     cross_collateral_enabled?: boolean;
                     /**
-                     * @description Name of user's currently enabled margin model
+                     * @description Margin model currently enabled for the account: `segregated_sm` (segregated standard margin), `segregated_pm` (segregated portfolio margin), `cross_sm` (cross collateral standard margin) or `cross_pm` (cross collateral portfolio margin).
                      * @example segregated_sm
+                     * @enum {string}
                      */
-                    margin_model?: string;
+                    margin_model?: "segregated_sm" | "segregated_pm" | "cross_sm" | "cross_pm";
                     /**
                      * @description Optional (only for users using cross margin). The account's total equity in all cross collateral currencies, expressed in USD
                      * @example 2.6437733
@@ -15045,37 +15278,43 @@ export interface components {
                      */
                     total_delta_total_usd?: number;
                     limits?: components["schemas"]["api_limits"];
-                    /** @description Optional field returned with value `true` when user has non block chain equity */
+                    /** @description Returned with value `true` only when part of the account's equity is not held on chain at Deribit (for example off-exchange or credit-based equity, or a pending loan in the selected currency). Omitted otherwise. */
                     has_non_block_chain_equity?: boolean;
-                    /** @description Fee structure for all currency pairs and instrument types related to the currency (available when parameter `extended` = `true` and user has any discounts). Keys are index names (e.g., "btc_usd"), values are objects with instrument types as keys (option, perpetual, future). */
+                    /**
+                     * @description Fee rates of the account's fee tier (see `fee_group`) for every index related to the selected currency. Keys are index names (for example `btc_usd`); values are objects keyed by instrument kind (`future`, `perpetual`, `option`, `spot`). Kinds and indexes without a configured discount are omitted and use the standard rates.
+                     *
+                     *     **Requirements:** returned only when `extended` = `true` and the account is on a non-default fee tier. Absent for accounts on standard fees.
+                     *
+                     *     **Reading the values:**
+                     *     - `default.type` = `relative`: `maker` and `taker` are multipliers of the standard fee (for example `0.625` means 62.5% of the standard rate).
+                     *     - `default.type` = `fixed`: `maker` and `taker` are the fee rates themselves, as a fraction of the traded amount (negative values are rebates).
+                     *     - `block_trade` is always a multiplier of the standard block trade fee.
+                     *     - `settlement` is always a fixed fee rate applied at delivery/settlement.
+                     *
+                     *     **Related articles:** [Fees](https://support.deribit.com/hc/en-us/articles/25944746248989-Fees)
+                     */
                     fees?: {
                         [key: string]: {
                             [key: string]: {
+                                /** @description Order book trading fees */
                                 default: {
-                                    /** @description Fee calculation type (e.g., fixed, relative) */
-                                    type: string;
-                                    /** @description Taker fee */
+                                    /**
+                                     * @description `relative` - `maker`/`taker` are multipliers of the standard fee; `fixed` - `maker`/`taker` are absolute fee rates
+                                     * @enum {string}
+                                     */
+                                    type: "relative" | "fixed";
+                                    /** @description Taker fee (multiplier or rate, depending on `type`) */
                                     taker: number;
-                                    /** @description Maker fee */
+                                    /** @description Maker fee (multiplier or rate, depending on `type`); a negative fixed rate is a rebate */
                                     maker: number;
                                 };
-                                /** @description Block trade fee (if applicable) */
+                                /** @description Block trade fee as a multiplier of the standard block trade fee (only when configured) */
                                 block_trade?: number;
+                                /** @description Fixed delivery/settlement fee rate (only when configured) */
+                                settlement?: number;
                             };
                         };
                     };
-                    /**
-                     * @description Affiliate promotion fee (if greater than 0.0)
-                     * @example 0
-                     */
-                    affiliate_promotion_fee?: number;
-                    /** @description Which trading products are enabled or can be overwritten for the account */
-                    trading_products_details?: Record<string, never>;
-                    /**
-                     * @description Whether the account receives notifications
-                     * @example false
-                     */
-                    receive_notifications?: boolean;
                 }[];
             };
         };
