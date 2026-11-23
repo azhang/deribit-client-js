@@ -1151,17 +1151,17 @@ export const methods = {
    "Account Management",
    "Private"
   ],
-  "summary": "Updates the display name (username) for a subaccount.",
-  "description": "Updates the display name (username) for a subaccount. The new name is used for identification purposes and does not affect the subaccount's functionality or access. Only the main account owner can change subaccount names. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` and mainaccount [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_subaccount_name)",
+  "summary": "Changes the display name (alias) of a subaccount, or of the authenticated main account itself (pass the main account's own id as `sid`).",
+  "description": "Changes the display name (alias) of a subaccount, or of the authenticated main account itself (pass the main account's own id as `sid`). The alias is returned as `username` in account responses; the system-generated name (`system_name`), login credentials and account functionality are not affected. **Access & Restrictions:** - Requires scope `account:read_write` and `mainaccount`, i.e. a main account token. - `sid` must be the main account itself or one of its own subaccounts. Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. - Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`). - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`). **Name rules** (applied after trimming leading and trailing whitespace): - 5 to 80 characters. - Only Latin-1 (ISO 8859-1) characters; control characters and the soft hyphen are rejected. - Must be unique among the main account and its active subaccounts. This includes the target's current name, so re-submitting it fails with `already_taken`. - Must not match the reserved auto-generated pattern ` _ ` (or ` _vault_ `). - Setting the name to the account's own `system_name` clears a previously set alias. **Errors:** an invalid name returns `12002` (`wrong_subaccount_name`) with `data` = `already_taken`, `wrong_format` (invalid characters or reserved pattern), or `{\"msg\": \"too_short\" | \"too_long\", \"size\": }`. `12002` may also be returned without `data`. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` and mainaccount [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fchange_subaccount_name)",
   "deprecated": false,
   "params": {
    "sid": {
     "type": "integer",
-    "description": "The user id for the subaccount"
+    "description": "The user id of the subaccount to rename, or the id of the authenticated main account to rename the main account itself"
    },
    "name": {
     "type": "string",
-    "description": "The new user name"
+    "description": "The new display name, 5-80 characters after trimming whitespace, unique within the main account and its subaccounts. See name rules above"
    }
   },
   "required": [
@@ -1386,7 +1386,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Creates a new subaccount under the authenticated main account.",
-  "description": "Creates a new subaccount under the authenticated main account. Subaccounts allow you to organize trading activities and manage risk separately from the main account. This method takes no parameters. The new subaccount will be created with default settings and can be configured using other subaccount management methods. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` and mainaccount [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fcreate_subaccount)",
+  "description": "Creates a new subaccount under the authenticated main account. Subaccounts allow you to organize trading activities and manage risk separately from the main account. This method takes no parameters. The new subaccount inherits the main account's email address and is created with direct login disabled (`login_enabled: false`). It is accessible through the main account; the response contains an empty `portfolio` entry for every currency. **Access & Restrictions:** - Requires scope `account:read_write` and `mainaccount`, i.e. a main account token. Tokens without `mainaccount` (for example subaccount tokens) are rejected with `13021` (`forbidden`). - Not available for accounts without subaccount management and for some partner account types (`13009`, `unauthorized`), nor for locked accounts (`11098`). **Limits & Errors:** - A main account can have up to 20 regular subaccounts by default (the limit can be configured per account by Deribit). Exceeding it returns `12001` (`too_many_subaccounts`). **Example:** values are illustrative. Only BTC and ETH portfolio entries are shown; the actual currency set depends on the service configuration. The example assumes the main account has no disabled trading products or subaccount consent requirements. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` and mainaccount [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fcreate_subaccount)",
   "deprecated": false,
   "params": {},
   "required": []
@@ -1859,17 +1859,24 @@ export const methods = {
    "Account Management",
    "Private"
   ],
-  "summary": "Retrieves a per-currency list of account summaries for the authenticated user.",
-  "description": "Retrieves a per-currency list of account summaries for the authenticated user. Each summary includes balance, equity, available funds, and margin information for each currency. To retrieve summaries for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included. Prefer this method over looping `private/get_account_summary` per currency. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summaries)",
+  "summary": "Retrieves account summaries for the authenticated user in a single call.",
+  "description": "Retrieves account summaries for the authenticated user in a single call. The result is an object: account-level fields (such as `id`, `username`, `email`, `type`, present when `extended` is `true`) are on the object itself, and the `summaries` array holds one summary per currency with balance, equity, available funds, and margin information. To retrieve summaries for a specific subaccount, use the `subaccount_id` parameter (a main account token is required to select another account, which must belong to the same main account; otherwise `-32602`, `Not allowed`). Use `currencies` to limit the result to selected currencies. The account's fee tier is returned in `fee_group` (with its rates in `fees`) only when `extended` is `true` and the account is on a non-default tier; when both are absent, standard fees apply. Prefer this method over looping `private/get_account_summary` per currency. **Examples:** responses are illustrative, not live account data. The extended default example abbreviates account metadata and fee configuration; it is not an exhaustive list of returned fields. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summaries)",
   "deprecated": false,
   "params": {
    "subaccount_id": {
     "type": "integer",
-    "description": "The user id for the subaccount"
+    "description": "The user id of the subaccount to summarize. Defaults to the authenticated account; another account requires a main account token (`mainaccount` scope) and must belong to the same main account"
    },
    "extended": {
     "type": "boolean",
-    "description": "Include additional fields"
+    "description": "Include additional account-level fields (`id`, `username`, `system_name`, `email`, `type`, `security_keys_enabled`, ...) and, for accounts on a non-default fee tier, `fee_group` and `fees`. `false` by default"
+   },
+   "currencies": {
+    "type": "array",
+    "items": {
+     "type": "string"
+    },
+    "description": "Optional list of currencies to return summaries for, e.g. `[\"BTC\", \"ETH\"]`. By default the summaries of all currencies held by the account's wallet type are returned. A currency that is invalid or not available for the account results in `-32602` (`Invalid params`)"
    }
   },
   "required": []
@@ -1881,7 +1888,7 @@ export const methods = {
    "Private"
   ],
   "summary": "Retrieves the account summary for a specific currency.",
-  "description": "Retrieves the account summary for a specific currency. The summary includes cash `balance`, `equity`, `margin_balance`, `available_funds`, `available_withdrawal_funds`, initial/maintenance margin, session and total PnL, options greeks, and related fields. Key relationships (standard margin): `equity = balance + futures session PnL + options_value`, `margin_balance = equity - options_value`, `available_funds = max(0, margin_balance - initial_margin)`. Under portfolio margin, `margin_balance` equals `equity`. Session PnL fields reset at daily settlement; `total_pl` does not. To retrieve the summary for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summary)",
+  "description": "Retrieves the account summary for a specific currency. The summary includes cash `balance`, `equity`, `margin_balance`, `available_funds`, `available_withdrawal_funds`, initial/maintenance margin, session and total PnL, options greeks, and related fields. Key relationships (standard margin): `equity = balance + futures session PnL + options_value`, `margin_balance = equity - options_value`, `available_funds = max(0, margin_balance - initial_margin)`. Under portfolio margin, `margin_balance` equals `equity`. Session PnL fields reset at daily settlement; `total_pl` does not. To retrieve the summary for a specific subaccount, use the `subaccount_id` parameter. When the `extended` parameter is set to `true`, additional account details such as account ID, username, email, and account type are included. The account's fee tier is returned in `fee_group` (with its rates in `fees`) only when `extended` is `true` and the account is on a non-default tier; when both are absent, standard fees apply. **Account selection (`subaccount_id`):** - If omitted (or equal to the caller's own id) the summary is for the authenticated account. - Another account can be requested only with a main account token (scope `mainaccount`), and it must belong to the same main account. Otherwise the call returns `-32602` (`Invalid params`, `Not allowed`). - A removed subaccount returns `13020` (`not_found`); a vault subaccount returns `14049` (`vault_subaccount_not_allowed`). **Currency:** `currency` is required and must be a currency held by the target account's wallet type; otherwise the call returns `-32602` (`Invalid params`, \"not supported for wallet type\" or an invalid currency). **Examples:** responses are illustrative, not live account data. The extended default example abbreviates account metadata and fee configuration; it is not an exhaustive list of returned fields. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_account_summary)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -1905,11 +1912,11 @@ export const methods = {
    },
    "subaccount_id": {
     "type": "integer",
-    "description": "The user id for the subaccount"
+    "description": "The user id of the subaccount to summarize. Defaults to the authenticated account; another account requires a main account token (`mainaccount` scope) and must belong to the same main account"
    },
    "extended": {
     "type": "boolean",
-    "description": "Include additional fields"
+    "description": "Include additional account-level fields (`id`, `username`, `system_name`, `email`, `type`, `security_keys_enabled`, ...) and, for accounts on a non-default fee tier, `fee_group` and `fees`. `false` by default"
    }
   },
   "required": [
@@ -3169,13 +3176,13 @@ export const methods = {
    "Account Management",
    "Private"
   ],
-  "summary": "Retrieves information about all subaccounts associated with the main account.",
-  "description": "Retrieves information about all subaccounts associated with the main account. Returns details such as subaccount IDs, names, and status. When called from a subaccount, the response includes limited details for the main account and full details for the subaccount initiating the request. Set the `with_portfolio` parameter to `true` to include portfolio information (balances, positions, etc.) in the response. By default, only subaccount metadata is returned. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts)",
+  "summary": "Retrieves the main account and its subaccounts, with identifiers, names, email, login and security status.",
+  "description": "Retrieves the main account and its subaccounts, with identifiers, names, email, login and security status. The list always includes the main account itself (`type: main`); removed subaccounts are not listed. **Visibility:** - Main account access is available when the authenticated account is the main account, or its token grants access to that main account (`mainaccount` scope or impersonated access). The response lists the main account and its eligible subaccounts. - Without main account access, a subaccount caller receives only the main account, with limited details (login, password and security-key related fields and `disabled_trading_products` are omitted), and the calling subaccount with full details. - Vault subaccounts are excluded from ordinary public listings. Isolated-margin subaccounts are not listed. - Not available for retail brokers (`14021`). **Portfolio:** set `with_portfolio` to `true` to include per-currency balance and margin summaries (equity, balance, available funds, margin; no positions or orders). With main account access, each returned account has a `portfolio` object. Without it, only the calling subaccount has `portfolio`; the main account entry omits it. The flag also adds `referrals_count` and, while an email change is awaiting confirmation, `not_confirmed_email`. By default only account metadata is returned. **Examples:** response values are illustrative, not live account data. The examples show all trading products enabled, with no subaccount consent requirements. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts)",
   "deprecated": false,
   "params": {
    "with_portfolio": {
     "type": "boolean",
-    "description": "Portfolio flag: `true` for portfolio information, `false` for subaccount information only. `false` by default"
+    "description": "Portfolio flag: `true` to include per-currency balance and margin summaries (no positions), `false` for account metadata only"
    }
   },
   "required": []
@@ -3186,8 +3193,8 @@ export const methods = {
    "Account Management",
    "Private"
   ],
-  "summary": "Retrieves position details for all subaccounts for a specific currency.",
-  "description": "Retrieves position details for all subaccounts for a specific currency. Returns positions aggregated across all subaccounts, including size, average entry price, mark price, and P&L information. Optionally include open orders for each subaccount by setting the `with_open_orders` parameter to `true`. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts_details)",
+  "summary": "Retrieves the positions in a given currency for the accounts visible to the caller.",
+  "description": "Retrieves the positions in a given currency for the accounts visible to the caller. The result has one entry per account (`uid`) with that account's own positions (size, average entry price, mark price, margin and P&L); positions are not aggregated across accounts. **Visibility:** - Main account access is available when the authenticated account is the main account, or its token grants access to that main account (`mainaccount` scope or impersonated access). The result covers the main account and its eligible subaccounts. - Without main account access, only the calling subaccount is returned. - Vault subaccounts are excluded from ordinary public listings. Isolated-margin subaccounts are not listed. - Not available for retail brokers (`14021`). **Open orders:** set `with_open_orders` to `true` to add an `open_orders` list to each entry. It is omitted by default. **Notes:** - `currency` must be available for the account's wallet type, otherwise `-32602` (`Invalid params`, \"not supported for wallet type\"). - Results are cached for 1 second. When the data cannot be collected in time the call fails with `13028` (`temporarily_unavailable`); retry the request. **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fget_subaccounts_details)",
   "deprecated": false,
   "params": {
    "currency": {
@@ -3195,9 +3202,17 @@ export const methods = {
     "enum": [
      "BTC",
      "ETH",
+     "STETH",
+     "ETHW",
      "USDC",
      "USDT",
-     "EURR"
+     "EURR",
+     "SOL",
+     "XRP",
+     "USYC",
+     "PAXG",
+     "BNB",
+     "USDE"
     ],
     "description": "The currency symbol. **📖 Related Article:** [Using the currency Parameter](https://docs.deribit.com/articles/currency-parameter)"
    },
@@ -4064,13 +4079,13 @@ export const methods = {
    "Account Management",
    "Private"
   ],
-  "summary": "Permanently removes a subaccount.",
-  "description": "Permanently removes a subaccount. The subaccount must be empty (no positions, no open orders, and zero balance) before it can be removed. This operation cannot be undone. All subaccount data will be permanently deleted. **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fremove_subaccount)",
+  "summary": "Removes a subaccount from the main account.",
+  "description": "Removes a subaccount from the main account. The subaccount must be empty before it can be removed. Removal cannot be undone through the API. The subaccount can no longer be used or logged in to, it disappears from `private/get_subaccounts`, all of its active sessions are terminated, and its deposit addresses are moved to the main account. **Access & Restrictions:** - Must be called by the main account that owns the subaccount. Any other account is rejected with `13009` (`unauthorized`); an already removed subaccount returns `13009` with `data.reason` = `already_removed`. - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`). - Vault subaccounts are rejected during access validation with `14049` (`vault_subaccount_not_allowed`). - Only one subaccount can be removed per main account every 5 minutes. A repeated call earlier returns `12006` (`remove_subaccount_over_limit`) with the remaining time in `data.wait` (seconds). **Removal is refused with `12007` (`subaccount_not_removable`)**; `data.reason` is one of: - `\"has not zero equity\"`: open positions, a position closed since the last daily settlement (08:00 UTC) whose realized profit/loss is not settled yet (the subaccount becomes removable after that settlement), non-zero initial or maintenance margin, or absolute equity or balance at or above the currency's minimum balance (only dust whose absolute value is below the threshold is allowed); - `\"has opened trigger orders\"`: untriggered trigger orders; - `\"has pending deposits\"`; - `\"is owner of app\"`: the subaccount owns an API application; - `\"has active block rfq\"` or `\"is part of block rfq allocation\"`; - `\"is linked to a voice broker\"`; - `\"is an LSP participant\"`; - `\"has a locked portfolio, reason: \"`, where ` ` is a comma-separated list such as `liquidation running`, `negative equity`, `locked by admin`, `locked on user request` or `legacy lock`. Other reason strings may be returned in rare cases. If the subaccount's portfolio could not be cleaned up or verified, or the change could not be saved, the call fails with `13008` (`request_failed`). **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fremove_subaccount)",
   "deprecated": false,
   "params": {
    "subaccount_id": {
     "type": "integer",
-    "description": "The user id for the subaccount"
+    "description": "The user id of the subaccount to remove (must belong to the authenticated main account)"
    }
   },
   "required": [
@@ -4507,16 +4522,16 @@ export const methods = {
    "Private"
   ],
   "summary": "Assigns an email address to a subaccount.",
-  "description": "Assigns an email address to a subaccount. This email can be used for direct login to the subaccount and for receiving notifications. The email address owner will receive a confirmation email with a link to verify the email address. The email must be confirmed before it can be used for login. **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fset_email_for_subaccount)",
+  "description": "Assigns an email address to a subaccount. This email is used for direct login to the subaccount and for receiving notifications. **Behavior:** - Normally the address is not applied immediately: a verification email with a confirmation link is sent to it, and it can be used for login only after it is confirmed. - Two changes are applied immediately, without a verification email: setting the main account's own email (the subaccount returns to the main email and its direct login is disabled), and setting the subaccount's current confirmed email while another change is pending (the pending change is cancelled). - Every successful change terminates all active sessions of the subaccount. - An address that is already registered to another account does not produce an error: the call returns `ok` without revealing whether the address exists, and the address is not assigned. - An address already used by another subaccount of the same main account returns `-32602` (`Invalid params`) with `data.subaccount_id` of that subaccount. **Access & Restrictions:** - Must be called by the main account that owns the subaccount (`sid`). Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. Vault subaccounts are rejected with `14049`. - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`). **Validation & Limits:** - Maximum email length is 64 characters; a longer address returns `-32602` with `max_length`. - `11043` (`bad_argument`) with `data` = `email_wrong_format`, `email_blocked`, `empty_email_address`, `invalid_email_domain` or `same_email` (the address equals the current email and no change is pending). - Changes are rate limited per subaccount: `10028` (`too_many_requests`) with the time to wait in `data.wait` (seconds). **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Fset_email_for_subaccount)",
   "deprecated": false,
   "params": {
    "sid": {
     "type": "integer",
-    "description": "The user id for the subaccount"
+    "description": "The user id of the subaccount (must belong to the authenticated main account)"
    },
    "email": {
     "type": "string",
-    "description": "The email address for the subaccount"
+    "description": "The new email address for the subaccount, up to 64 characters"
    }
   },
   "required": [
@@ -4914,17 +4929,17 @@ export const methods = {
    "Account Management",
    "Private"
   ],
-  "summary": "Enables or disables email and other notifications for a subaccount.",
-  "description": "Enables or disables email and other notifications for a subaccount. When notifications are disabled, the subaccount will not receive email alerts, trade confirmations, or other notification messages. This setting only affects notifications sent to the subaccount's email address. Notifications sent to the main account are not affected. **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_notifications_from_subaccount)",
+  "summary": "Saves a subaccount's preference for forwarding copies of its notification emails to the main account's email address.",
+  "description": "Saves a subaccount's preference for forwarding copies of its notification emails to the main account's email address. It does not stop the subaccount from receiving its own emails. When forwarding is active, forwarded copies exclude the registration welcome email and mask activation and password-change links. Their title is `Notification for subaccount: - `. **Known limitation:** changing this setting currently has no effect on forwarding, and `receive_notifications` (returned by `private/get_subaccounts`, `private/create_subaccount`, and by `private/get_account_summary` / `private/get_account_summaries` with `extended` = `true`) does not reflect it. A successful response only confirms that the request was accepted. **Access & Restrictions:** - Must be called by the main account that owns the subaccount (`sid`). The target must be an owned subaccount, not the main account itself. An invalid target is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. Vault subaccounts are rejected with `14049`. - Also rejected for accounts without subaccount management (`13009`) and locked accounts (`11098`). - Send `state` as a JSON boolean. Do not rely on rejection of other types: the current implementation may coerce them to a boolean. **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_notifications_from_subaccount)",
   "deprecated": false,
   "params": {
    "sid": {
     "type": "integer",
-    "description": "The user id for the subaccount"
+    "description": "The user id of the subaccount (must belong to the authenticated main account)"
    },
    "state": {
     "type": "boolean",
-    "description": "enable (`true`) or disable (`false`) notifications"
+    "description": "Forwarding preference: `true` to request copies at the main account email, `false` to request no copies. Currently has no effect; see the known limitation above"
    }
   },
   "required": [
@@ -4939,12 +4954,12 @@ export const methods = {
    "Private"
   ],
   "summary": "Enables or disables direct login access for a subaccount.",
-  "description": "Enables or disables direct login access for a subaccount. When login is disabled, the subaccount cannot be accessed directly using email and password authentication, but can still be accessed through the main account. If login is disabled while an active session exists for the subaccount, that session will be immediately terminated. **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_subaccount_login)",
+  "description": "Enables or disables direct login access for a subaccount. When login is disabled, the subaccount cannot be accessed directly using email and password authentication, but can still be accessed through the main account. If login is disabled while an active session exists for the subaccount, that session will be immediately terminated (all sessions of the subaccount are dropped). Requesting the state the subaccount already has is accepted and returns `ok`. **Access & Restrictions:** - Must be called by the main account that owns the subaccount (`sid`). Any other account is rejected with `13009` (`unauthorized`); a removed subaccount returns `13009` with `data.reason` = `already_removed`. - Vault subaccounts are rejected with `14049` (`vault_subaccount_not_allowed`). - Also rejected for accounts without subaccount management (`13009`), retail brokers (`14021`) and locked accounts (`11098`). - `state` must be `enable` or `disable`; any other value returns `11043` (`bad_argument`) with `data` = `state`. **Enabling login** additionally requires: - no email change pending for the subaccount; - an email address different from the main account's email; - a password configured for the subaccount. **Known limitation:** if one of these conditions is not met, the call currently returns `ok` but login stays disabled. Check `login_enabled` in `private/get_subaccounts` to confirm the change. **[TFA required](https://docs.deribit.com/articles/security-keys)** **📖 Related Article:** [Managing Subaccounts](https://docs.deribit.com/articles/managing-subaccounts-api) **Scope:** `account:read_write` [Try in API console](https://test.deribit.com/api_console?method=%2Fprivate%2Ftoggle_subaccount_login)",
   "deprecated": false,
   "params": {
    "sid": {
     "type": "integer",
-    "description": "The user id for the subaccount"
+    "description": "The user id of the subaccount (must belong to the authenticated main account)"
    },
    "state": {
     "type": "string",
@@ -4952,7 +4967,7 @@ export const methods = {
      "enable",
      "disable"
     ],
-    "description": "enable or disable login."
+    "description": "`enable` or `disable` direct login. Disabling terminates the subaccount's active sessions"
    }
   },
   "required": [
